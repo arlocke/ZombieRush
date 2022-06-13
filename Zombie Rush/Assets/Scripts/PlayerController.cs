@@ -24,17 +24,39 @@ public class PlayerController : MonoBehaviour
     {
         if(movementInput != Vector2.zero)
         {
-            int count = rb.Cast(
-                movementInput, // X and Y values between -1 and 1 that represent the direction from the body to look for collisions
+            bool success = TryToMove(movementInput);
+
+            //THIS CAN BE CODED BETTER
+            if (!success)
+            {
+                // Attempts to "slide" when colliding in the X direction
+                success = TryToMove(new Vector2(movementInput.x, 0));
+
+                if (!success)
+                {
+                    // Attempts to "slide" when colliding in the Y direction
+                    success = TryToMove(new Vector2(0, movementInput.y));
+                }
+            }
+        }
+    }
+
+    // Attempts to move based on input and returns a value
+    private bool TryToMove(Vector2 direction)
+    {
+        // Check for any collisions
+        int count = rb.Cast(
+                direction, // X and Y values between -1 and 1 that represent the direction from the body to look for collisions
                 movementFilter, // The settings that determine where a collision can happen on such layers to collide
                 castCollisions, // List of collisions where the found collisions after the cast has finished
                 moveSpeed * Time.fixedDeltaTime + collisionOffset); // Teh amount to cast equal to the movement plus an offset
 
-            if(count == 0)
-            {
-                rb.MovePosition(rb.position + movementInput * moveSpeed * Time.fixedDeltaTime);
-            }
-            
+        if (count == 0)
+        {
+            rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
+            return true;
+        } else {
+            return false;
         }
     }
 
