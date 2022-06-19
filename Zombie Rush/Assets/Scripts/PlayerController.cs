@@ -6,18 +6,20 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 1f;
-    public float collisionOffset = 0.05f;
+    public float collisionOffset = 0.05f; // Distance from rigidbody to check for collisions
     public ContactFilter2D movementFilter;
 
 
     Vector2 movementInput;
     Rigidbody2D rb;
+    Animator animator;
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -26,7 +28,6 @@ public class PlayerController : MonoBehaviour
         {
             bool success = TryToMove(movementInput);
 
-            //THIS CAN BE CODED BETTER
             if (!success)
             {
                 // Attempts to "slide" when colliding in the X direction
@@ -38,10 +39,18 @@ public class PlayerController : MonoBehaviour
                     success = TryToMove(new Vector2(0, movementInput.y));
                 }
             }
+
+            animator.SetBool("isMoving", true);
+        }
+        else
+        {
+            animator.SetBool("isMoving", false);
+
         }
     }
 
-    // Attempts to move based on input and returns a value
+    // Casts the rigidbody of the player character in the Vector2 direction the player inputs 
+    // and returns a bool if no collisions occur
     private bool TryToMove(Vector2 direction)
     {
         // Check for any collisions
