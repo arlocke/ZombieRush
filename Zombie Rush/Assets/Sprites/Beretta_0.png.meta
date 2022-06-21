@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 51fc00635b178aa409b58336faf6edc7
+guid: 3f51b61686db74a4e9aa74c860de1b9d
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -104,127 +104,64 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BusinessMan_Walk_0
+      name: Beretta_0_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        y: 36
+        width: 36
+        height: 36
+      alignment: 9
+      pivot: {x: 0.74414545, y: 0.4626308}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dce29b9518a83ac4e9349e8a6822c0df
-      internalID: -833450408
+      spriteID: 0a1a0da75e7d92b4998f724f1a652b08
+      internalID: 2128976537
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BusinessMan_Walk_1
+      name: Beretta_0_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 64
-        width: 32
-        height: 32
+        x: 36
+        y: 36
+        width: 36
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ef220ec3e4281ab46a314a1103cfcb24
-      internalID: 740384102
+      spriteID: 1215048e25f48e9449c88238f8e6c9a1
+      internalID: -1356312524
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BusinessMan_Walk_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e4b78cb9ce698ca46983baf37ee84975
-      internalID: 1466906131
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BusinessMan_Walk_3
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: de5f711aa66154947b5084400cd8d769
-      internalID: -411131344
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BusinessMan_Walk_4
+      name: Beretta_0_2
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 36
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8aa8bf33405ffdf4a8c77e17e557ca7e
-      internalID: 1163801024
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BusinessMan_Walk_5
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7975118e4e5004f49ab95935138b9670
-      internalID: -438013549
+      spriteID: 58a702e06cd578346823bc5cc0352723
+      internalID: 1784905141
       vertices: []
       indices: 
       edges: []
@@ -240,12 +177,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BusinessMan_Walk_3: -411131344
-      BusinessMan_Walk_2: 1466906131
-      BusinessMan_Walk_5: -438013549
-      BusinessMan_Walk_4: 1163801024
-      BusinessMan_Walk_0: -833450408
-      BusinessMan_Walk_1: 740384102
+      Beretta_0_2: 1784905141
+      Beretta_0_1: -1356312524
+      Beretta_0_0: 2128976537
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

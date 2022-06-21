@@ -5,9 +5,21 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    //Movement variables
     public float moveSpeed = 1f;
     public float collisionOffset = 0.05f; // Distance from rigidbody to check for collisions
     public ContactFilter2D movementFilter;
+
+    //Character Data
+    public bool isHolding = false;
+
+    /*
+     * public GameObject<Gun> heldGun;
+     * public GameObject<Melee> heldMelee;
+     * public GameObject<Util> heldUtil;
+     * 
+     * List<GameObject> bag = new List<GameObject>(9);
+     */
 
 
     Vector2 movementInput;
