@@ -5,38 +5,62 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    //Character Data
+    public bool isHolding = false;
+
     //Movement variables
     public float moveSpeed = 1f;
     public float collisionOffset = 0.05f; // Distance from rigidbody to check for collisions
     public ContactFilter2D movementFilter;
 
-    //Character Data
-    public bool isHolding = false;
+    //Children
+    public GameObject arm;
+    public GameObject gun;
 
-    /*
-     * public GameObject<Gun> heldGun;
-     * public GameObject<Melee> heldMelee;
-     * public GameObject<Util> heldUtil;
-     * 
-     * List<GameObject> bag = new List<GameObject>(9);
-     */
-
-
+    PlayerInputActions controls;
+   
     Vector2 movementInput;
+    SpriteRenderer spriteRenderer;
     Rigidbody2D rb;
     Animator animator;
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
+
+
+    private void Awake()
+    {
+        controls = new PlayerInputActions();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        
+
+        //controls.Player.Look.performed += _ => Look();
+
+    }
+
+    private void OnEnable()
+    {
+        controls.Enable();
+
+        controls.Player.Move.performed += OnMove;
+        controls.Player.Move.canceled += OnMove;
+
+    }
+
+    private void OnDisable()
+    {
+        controls.Disable();
     }
 
     private void FixedUpdate()
     {
-        if(movementInput != Vector2.zero)
+        if (movementInput != Vector2.zero)
         {
             bool success = TryToMove(movementInput);
 
@@ -51,14 +75,47 @@ public class PlayerController : MonoBehaviour
                     success = TryToMove(new Vector2(0, movementInput.y));
                 }
             }
+           
+           animator.SetBool("isMoving", true);
 
-            animator.SetBool("isMoving", true);
+            //Changing direction of walk anim when unequipped
+            if (!isHolding && movementInput.x > 0)
+            {
+                spriteRenderer.flipX = false;
+            }
+            if (!isHolding && movementInput.x < 0)
+            {
+                spriteRenderer.flipX = true;
+            }
+        
+
+            //Changing walk anim when equipped
+            if (isHolding && movementInput != Vector2.zero)
+            {
+                animator.SetFloat("xDirection", movementInput.x);
+                animator.SetBool("isMoving", true);
+            }
         }
         else
         {
             animator.SetBool("isMoving", false);
-
         }
+
+
+
+        if(isHolding)
+        {
+            animator.SetBool("isHolding", true);
+            arm.SetActive(true);
+            
+        }
+        if (!isHolding)
+        {
+            animator.SetBool("isHolding", false);
+            arm.SetActive(false);
+        }
+        Debug.Log(movementInput.x);
+
     }
 
     // Casts the rigidbody of the player character in the Vector2 direction the player inputs 
@@ -72,17 +129,24 @@ public class PlayerController : MonoBehaviour
                 castCollisions, // List of collisions where the found collisions after the cast has finished
                 moveSpeed * Time.fixedDeltaTime + collisionOffset); // Teh amount to cast equal to the movement plus an offset
 
-        if (count == 0)
+        if (count == 0) 
         {
             rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
             return true;
-        } else {
+        }
+        else 
+        {
             return false;
         }
     }
 
-    void OnMove(InputValue movementValue)
+   /* void OnMove(InputValue movementValue)
     {
         movementInput = movementValue.Get<Vector2>();
+    }*/
+
+    void OnMove(InputAction.CallbackContext context)
+    {
+        movementInput = context.ReadValue<Vector2>();
     }
 }
