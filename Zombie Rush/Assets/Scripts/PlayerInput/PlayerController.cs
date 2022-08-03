@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
+
 public class PlayerController : MonoBehaviour {
     //Character Data
     public bool isHolding = false;
@@ -14,7 +16,7 @@ public class PlayerController : MonoBehaviour {
 
     //Children
     public GameObject arm;
-    public GameObject gun;
+    public GunBase gun;
 
     PlayerInputActions controls;
 
@@ -49,6 +51,8 @@ public class PlayerController : MonoBehaviour {
 
         controls.Player.Look.performed += OnLook;
         controls.Player.Look.canceled += OnLook;
+
+        controls.Player.Shoot.performed += OnShoot;
     }
 
     private void OnDisable() {
@@ -127,12 +131,15 @@ public class PlayerController : MonoBehaviour {
         movementInput = context.ReadValue<Vector2>();
     }
 
+    //
     void OnLook(InputAction.CallbackContext context) {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        Debug.Log(Input.mousePosition);
-
         float angle = Mathf.Rad2Deg * Mathf.Atan((mousePos.y - arm.transform.position.y) / (mousePos.x - arm.transform.position.x)) + (mousePos.x < arm.transform.position.x ? 180:0);
         arm.transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
+
+    void OnShoot(InputAction.CallbackContext context) {
+        gun.Shoot();
     }
 }
