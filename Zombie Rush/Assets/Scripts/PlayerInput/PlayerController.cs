@@ -139,28 +139,25 @@ public class PlayerController : MonoBehaviour {
     // and returns a bool if no collisions occur
     private bool TryToMove(Vector2 direction) {
         // Check for any collisions
-        int count = rb.Cast(
+        int count = GetComponent<BoxCollider2D>().Cast(
                 direction, // X and Y values between -1 and 1 that represent the direction from the body to look for collisions
                 movementFilter, // The settings that determine where a collision can happen on such layers to collide
                 castCollisions, // List of collisions where the found collisions after the cast has finished
                 moveSpeed * Time.fixedDeltaTime + collisionOffset); // The amount to cast equal to the movement plus an offset
-        foreach (RaycastHit2D hit in castCollisions) {
-            Debug.Log(hit.collider.gameObject.layer);
-        }
         if (count == 0) {
-            rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
+            transform.position = rb.position + direction * moveSpeed * Time.fixedDeltaTime;
             return true;
         } else {
             return false;
         }
     }
 
-    void OnMove(InputAction.CallbackContext context) {
+    public void OnMove(InputAction.CallbackContext context) {
         movementInput = context.ReadValue<Vector2>();
     }
 
     //
-    void OnLook(InputAction.CallbackContext context) {
+    public void OnLook(InputAction.CallbackContext context) {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         float angle = Mathf.Rad2Deg * Mathf.Atan((mousePos.y - arm.transform.position.y) / (mousePos.x - arm.transform.position.x)) + (mousePos.x < arm.transform.position.x ? 180:0);
