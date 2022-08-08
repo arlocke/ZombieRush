@@ -2,12 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 
 
 public class PlayerController : MonoBehaviour {
-    //Character Data
-    public bool isHolding = false;
+    //Interaction Data
+    public List<Interactable> currentInteractables;
+    public Text interactableText;
+
+
+    //Animation Data
+    public bool isHolding = false; //all this affects is idle animation
 
     //Movement variables
     public float moveSpeed = 1f;
@@ -22,7 +28,7 @@ public class PlayerController : MonoBehaviour {
 
     Vector2 movementInput;
     SpriteRenderer spriteRenderer;
-    Rigidbody2D rb;
+    public Rigidbody2D rb;
     Animator animator;
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
 
@@ -52,7 +58,8 @@ public class PlayerController : MonoBehaviour {
         controls.Player.Look.performed += OnLook;
         controls.Player.Look.canceled += OnLook;
 
-        controls.Player.Shoot.performed += OnShoot;
+        controls.Player.Shoot.performed += OnPullTrigger;
+        controls.Player.Shoot.canceled += OnReleaseTrigger;
     }
 
     private void OnDisable() {
@@ -102,6 +109,30 @@ public class PlayerController : MonoBehaviour {
             animator.SetBool("isHolding", false);
             arm.SetActive(false);
         }
+
+        if (currentInteractables.Count > 0) {
+            Interactable closestInteractable = currentInteractables[0];
+            float closestDst = Vector2.Distance(transform.position, closestInteractable.transform.position);
+            closestInteractable.canInteract = true;
+
+            for (int i = 1; i < currentInteractables.Count; i++) {
+                float dst = Vector2.Distance(transform.position, currentInteractables[i].transform.position);
+
+                if (dst < closestDst) {
+                    closestDst = dst;
+                    closestInteractable.canInteract = false;
+                    closestInteractable = currentInteractables[i];
+                    closestInteractable.canInteract = true;
+                } else {
+                    currentInteractables[i].canInteract = false;
+                }
+            }
+            interactableText.enabled = true;
+            interactableText.text = "Press E to pickup " + closestInteractable.name;
+
+        } else {
+            interactableText.enabled = false;
+        } 
     }
 
     // Casts the rigidbody of the player character in the Vector2 direction the player inputs 
@@ -112,8 +143,10 @@ public class PlayerController : MonoBehaviour {
                 direction, // X and Y values between -1 and 1 that represent the direction from the body to look for collisions
                 movementFilter, // The settings that determine where a collision can happen on such layers to collide
                 castCollisions, // List of collisions where the found collisions after the cast has finished
-                moveSpeed * Time.fixedDeltaTime + collisionOffset); // Teh amount to cast equal to the movement plus an offset
-
+                moveSpeed * Time.fixedDeltaTime + collisionOffset); // The amount to cast equal to the movement plus an offset
+        foreach (RaycastHit2D hit in castCollisions) {
+            Debug.Log(hit.collider.gameObject.layer);
+        }
         if (count == 0) {
             rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
             return true;
@@ -121,11 +154,6 @@ public class PlayerController : MonoBehaviour {
             return false;
         }
     }
-
-    /* void OnMove(InputValue movementValue)
-     {
-         movementInput = movementValue.Get<Vector2>();
-     }*/
 
     void OnMove(InputAction.CallbackContext context) {
         movementInput = context.ReadValue<Vector2>();
@@ -139,7 +167,11 @@ public class PlayerController : MonoBehaviour {
         arm.transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
-    void OnShoot(InputAction.CallbackContext context) {
-        gun.Shoot();
+    void OnPullTrigger(InputAction.CallbackContext context) {
+        gun.PullTrigger();
+    }
+
+    void OnReleaseTrigger(InputAction.CallbackContext context) {
+        gun.ReleaseTrigger();
     }
 }
