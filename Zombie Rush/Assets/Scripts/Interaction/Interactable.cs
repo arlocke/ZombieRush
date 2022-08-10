@@ -2,21 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactable : MonoBehaviour
-{
+public class Interactable : MonoBehaviour {
     public bool canInteract;
 
-    private void OnTriggerEnter(Collider other) {
+    public virtual void Interact(PlayerController pc) {
+        //Do nothing overriding children
+    }
 
-        Debug.Log("interactable entered");
+  
 
+    void OnTriggerEnter2D(Collider2D other) {
         if (other.transform.parent.gameObject.CompareTag("Player")) {
             other.transform.parent.gameObject.GetComponent<PlayerController>().currentInteractables.Add(this);
         }
     }
-    private void OnTriggerExit(Collider other) {
+    void OnTriggerExit2D(Collider2D other) {
         if (other.transform.parent.gameObject.CompareTag("Player")) {
             other.transform.parent.gameObject.GetComponent<PlayerController>().currentInteractables.Remove(this);
+            canInteract = false;
         }
     }
 }
