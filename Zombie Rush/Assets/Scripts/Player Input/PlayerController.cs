@@ -9,11 +9,12 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour {
     //Interaction Data
     public List<Interactable> currentInteractables;
+    public Interactable closestInteractable;
     public Text interactableText;
 
 
     //Animation Data
-    public bool isHolding = false; //all this affects is idle animation
+    public bool holding = false; //all this affects is idle animation
 
     //Movement variables
     public float moveSpeed = 1f;
@@ -22,12 +23,13 @@ public class PlayerController : MonoBehaviour {
 
     //Children
     public GameObject arm;
-    public GunBase gun;
+    public Transform hand1Point;
+    public GunBase heldGun;
 
     PlayerInputActions controls;
 
     Vector2 movementInput;
-    SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRenderer;
     public Rigidbody2D rb;
     Animator animator;
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
@@ -46,20 +48,26 @@ public class PlayerController : MonoBehaviour {
 
         arm = transform.Find("Arm").gameObject;
 
+        
+        //holding = heldGun;
+
         //controls.Player.Look.performed += _ => Look();
     }
 
     private void OnEnable() {
         controls.Enable();
 
-        controls.Player.Move.performed += OnMove;
-        controls.Player.Move.canceled += OnMove;
+        controls.Player.Move.performed += OnMoveInput;
+        controls.Player.Move.canceled += OnMoveInput;
 
-        controls.Player.Look.performed += OnLook;
-        controls.Player.Look.canceled += OnLook;
+        controls.Player.Look.performed += OnLookInput;
+        controls.Player.Look.canceled += OnLookInput;
 
         controls.Player.Shoot.performed += OnPullTrigger;
         controls.Player.Shoot.canceled += OnReleaseTrigger;
+
+        controls.Player.Interact.performed += OnInteractInput;
+        controls.Player.Interact.canceled += OnInteractInput;
     }
 
     private void OnDisable() {
@@ -72,46 +80,37 @@ public class PlayerController : MonoBehaviour {
 
             if (!success) {
                 // Attempts to "slide" when colliding in the X direction
-                success = TryToMove(new Vector2(movementInput.x, 0));
+                if(movementInput.x != 0) {
+                    success = TryToMove(new Vector2(movementInput.x, 0));
+                }
+                
 
-                if (!success) {
+                if (!success && movementInput.y != 0) {
                     // Attempts to "slide" when colliding in the Y direction
                     success = TryToMove(new Vector2(0, movementInput.y));
                 }
             }
 
-            animator.SetBool("isMoving", true);
+            animator.SetBool("isMoving", success);
 
             //Changing direction of walk anim when unequipped
-            if (!isHolding && movementInput.x > 0) {
+            if (!holding && movementInput.x > 0) {
                 spriteRenderer.flipX = false;
             }
-            if (!isHolding && movementInput.x < 0) {
+            if (!holding && movementInput.x < 0) {
                 spriteRenderer.flipX = true;
             }
 
-
-            //Changing walk anim when equipped
-            if (isHolding && movementInput != Vector2.zero) {
-                animator.SetFloat("xDirection", movementInput.x);
-                animator.SetBool("isMoving", true);
-            }
         } else {
             animator.SetBool("isMoving", false);
         }
 
-        if (isHolding) {
-            animator.SetBool("isHolding", true);
-            arm.SetActive(true);
+        animator.SetBool("isHolding", holding);
+        arm.SetActive(holding);
 
-        }
-        if (!isHolding) {
-            animator.SetBool("isHolding", false);
-            arm.SetActive(false);
-        }
 
         if (currentInteractables.Count > 0) {
-            Interactable closestInteractable = currentInteractables[0];
+            closestInteractable = currentInteractables[0];
             float closestDst = Vector2.Distance(transform.position, closestInteractable.transform.position);
             closestInteractable.canInteract = true;
 
@@ -132,6 +131,7 @@ public class PlayerController : MonoBehaviour {
 
         } else {
             interactableText.enabled = false;
+            closestInteractable = null;
         } 
     }
 
@@ -152,23 +152,47 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    public void OnMove(InputAction.CallbackContext context) {
+    public void OnMoveInput(InputAction.CallbackContext context) {
         movementInput = context.ReadValue<Vector2>();
+        //animator.SetBool("isMoving", movementInput.sqrMagnitude < .1);
     }
 
-    //
-    public void OnLook(InputAction.CallbackContext context) {
+    
+    public void OnLookInput(InputAction.CallbackContext context) {
+      
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         float angle = Mathf.Rad2Deg * Mathf.Atan((mousePos.y - arm.transform.position.y) / (mousePos.x - arm.transform.position.x)) + (mousePos.x < arm.transform.position.x ? 180:0);
         arm.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        bool facingRight = angle > -90 && angle < 90;
+        arm.GetComponent<SpriteRenderer>().sortingOrder = facingRight ? 2:-2;
+        if (heldGun) {
+            heldGun.GetComponent<SpriteRenderer>().sortingOrder = facingRight ? 1 : -1;
+            heldGun.GetComponent<SpriteRenderer>().flipY = !facingRight;
+            //heldGun.transform.localPosition = new Vector3(heldGun.transform.localPosition.x, heldGun.transform.localPosition.y * -1);
+        }
+
+        //Changing walk anim when equipped
+        animator.SetBool("facingRight", facingRight);
+        
     }
 
     void OnPullTrigger(InputAction.CallbackContext context) {
-        gun.PullTrigger();
+        if (heldGun) { 
+            heldGun.PullTrigger(); 
+        }  
     }
 
     void OnReleaseTrigger(InputAction.CallbackContext context) {
-        gun.ReleaseTrigger();
+        if (heldGun) {
+            heldGun.ReleaseTrigger();
+        }
+    }
+
+    void OnInteractInput(InputAction.CallbackContext context) {
+        if (closestInteractable) {
+            closestInteractable.Interact(this);
+        }
     }
 }
