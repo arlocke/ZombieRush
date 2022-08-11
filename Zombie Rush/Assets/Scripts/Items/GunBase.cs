@@ -25,7 +25,7 @@ public class GunBase : MonoBehaviour
     public Transform bulletSpawnPoint;
     public Transform hand1Point;
     public Transform hand2Point;
-
+    public int itemSize;
     
     public void FixedUpdate() {
         if(fireTimer > 0){
@@ -36,7 +36,8 @@ public class GunBase : MonoBehaviour
                 fireTimer += fireRate;
 
                 BulletBase newBullet = Instantiate(bulletRef, bulletSpawnPoint.position, bulletSpawnPoint.rotation).GetComponent<BulletBase>();
-
+                if(transform.lossyScale.x < 0)
+                    newBullet.transform.Rotate(new Vector3(0,0,180),Space.World);
                 newBullet.speed = bulletSpeed;
                 newBullet.distanceRemaining = range;
                 newBullet.damage = damage;

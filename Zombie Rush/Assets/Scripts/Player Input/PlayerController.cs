@@ -34,6 +34,9 @@ public class PlayerController : MonoBehaviour {
     Animator animator;
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
 
+    //Prefabs
+    public GameObject pickupGunRef;
+
 
     private void Awake() {
         controls = new PlayerInputActions();
@@ -61,13 +64,12 @@ public class PlayerController : MonoBehaviour {
         controls.Player.Move.canceled += OnMoveInput;
 
         controls.Player.Look.performed += OnLookInput;
-        controls.Player.Look.canceled += OnLookInput;
+        //controls.Player.Look.canceled += OnLookInput;
 
         controls.Player.Shoot.performed += OnPullTrigger;
         controls.Player.Shoot.canceled += OnReleaseTrigger;
 
         controls.Player.Interact.performed += OnInteractInput;
-        controls.Player.Interact.canceled += OnInteractInput;
     }
 
     private void OnDisable() {
@@ -152,6 +154,38 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    public void EquipGun(GunBase g){
+        if(g){
+            if(heldGun){
+                g.GetComponent<SpriteRenderer>().flipY = heldGun.GetComponent<SpriteRenderer>().flipY;
+                g.GetComponent<SpriteRenderer>().flipX = heldGun.GetComponent<SpriteRenderer>().flipX;
+                g.GetComponent<SpriteRenderer>().sortingOrder = heldGun.GetComponent<SpriteRenderer>().sortingOrder;
+                DropGun(heldGun);
+            }
+            heldGun = g;
+            heldGun.transform.SetParent(arm.transform, false);
+            heldGun.transform.localPosition = hand1Point.localPosition + heldGun.hand1Point.localPosition * -1;
+            heldGun.transform.localRotation = Quaternion.identity;
+            //something for 2 handed guns
+            holding = true;
+            spriteRenderer.flipX = false;
+        }
+    }
+
+    public void DropGun(GunBase g){
+        PickupGun newGunPickup = Instantiate(pickupGunRef, g.transform.position, Quaternion.identity).GetComponent<PickupGun>();
+        g.transform.SetParent(newGunPickup.transform, false);
+        g.transform.localPosition = Vector3.zero;
+        g.transform.localRotation = arm.transform.localRotation;
+        if(arm.transform.localScale.x < 0)
+            g.GetComponent<SpriteRenderer>().flipX = true;
+        g.triggerHeld = false;
+        newGunPickup.payload = g.transform;
+        newGunPickup.name = g.name;
+        newGunPickup.DropRandomDirection();
+        holding = false;
+    }
+
     public void OnMoveInput(InputAction.CallbackContext context) {
         movementInput = context.ReadValue<Vector2>();
         //animator.SetBool("isMoving", movementInput.sqrMagnitude < .1);
@@ -162,14 +196,15 @@ public class PlayerController : MonoBehaviour {
       
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        float angle = Mathf.Rad2Deg * Mathf.Atan((mousePos.y - arm.transform.position.y) / (mousePos.x - arm.transform.position.x)) + (mousePos.x < arm.transform.position.x ? 180:0);
+        float angle = Mathf.Rad2Deg * Mathf.Atan((mousePos.y - arm.transform.position.y) / (mousePos.x - arm.transform.position.x));
         arm.transform.rotation = Quaternion.Euler(0, 0, angle);
-
-        bool facingRight = angle > -90 && angle < 90;
+        arm.transform.localScale = new Vector3((mousePos.x > arm.transform.position.x ? 1 : -1),1,1);
+        //(mousePos.x < arm.transform.position.x ? 180 : 0)
+        bool facingRight = mousePos.x > arm.transform.position.x;
         arm.GetComponent<SpriteRenderer>().sortingOrder = facingRight ? 2:-2;
         if (heldGun) {
             heldGun.GetComponent<SpriteRenderer>().sortingOrder = facingRight ? 1 : -1;
-            heldGun.GetComponent<SpriteRenderer>().flipY = !facingRight;
+            //heldGun.GetComponent<SpriteRenderer>().flipY = !facingRight;
             //heldGun.transform.localPosition = new Vector3(heldGun.transform.localPosition.x, heldGun.transform.localPosition.y * -1);
         }
 
