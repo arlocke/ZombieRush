@@ -100,3 +100,4 @@ MonoBehaviour:
   damage: 0
   speed: 0
   distanceRemaining: 0
+  ammoType: 2
