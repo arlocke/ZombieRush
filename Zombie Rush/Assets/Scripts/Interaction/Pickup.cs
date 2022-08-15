@@ -42,7 +42,7 @@ public class Pickup : Interactable{
                     height = 0;
                 }else{
                     moving = false;
-                    vel.z = 1;
+                    vel = new Vector3(0,0,1);
                     height = 0;
                     payload.rotation = targetRot;
                     startingHeight *= 0.25f;
@@ -72,16 +72,18 @@ public class Pickup : Interactable{
         float maxShadowSize = (float)itemSize/(float)itemSizeMaxShadowFactor;
         animator.SetFloat("Time", Mathf.Lerp(0,maxShadowSize,1-Mathf.Clamp(height/shadowCastMaxHeight,0,1)));
     }
-    public void DropRandomDirection(){
+    public void DropRandomDirection(bool onGround){
         moving = true;
-        startingHeight = 0.5f;
-        height = startingHeight;
-        Vector3 heightOffset = new Vector3(0, height, 0);
-        transform.position -= heightOffset;
+        startingHeight = 0.5f;//onGround ? 0.125f : 0.5f;
+        if (!onGround) {
+            height = startingHeight;
+            Vector3 heightOffset = new Vector3(0, height, 0);
+            transform.position -= heightOffset;
+        }
         SetPayloadOffset();
         payload.localPosition = payloadOffset;
         float a = Random.Range(0,6.28318530718f);   //6.28318530718 is 2 * pi, which is the number of radians in a circle
-        vel = new Vector3(Mathf.Sin(a)*startingHVel,Mathf.Cos(a)*startingHVel/1.41421356f,startingZVel);    //1.41421356 is the square root of 2 which makes up for the 45 degree angle perspective
+        vel = new Vector3(Mathf.Sin(a)*startingHVel,Mathf.Cos(a)*startingHVel/1.41421356f,onGround ? startingZVel * 1.5f : startingZVel );    //1.41421356 is the square root of 2 which makes up for the 45 degree angle perspective
     }
 
     void SetPayloadOffset(){

@@ -194,17 +194,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireMode: 0
+  currentState: 0
   tier: 0
   damage: 2
   fireRate: 0.5
   fireTimer: 0
-  triggerHeld: 0
   range: 500
   bulletSpeed: 0.47
   magMaxSize: 7
   currentMagSize: 7
   bulletRef: {fileID: 3367451236925185027, guid: d5a5e00e02446824c8a84f63a2f25776,
     type: 3}
+  ammoType: 2
   bulletSpawnPoint: {fileID: 5406424718419923257}
   hand1Point: {fileID: 419350792499837409}
   hand2Point: {fileID: 7867732158171481355}

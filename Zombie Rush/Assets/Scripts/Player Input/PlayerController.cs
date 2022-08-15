@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour {
     public Interactable closestInteractable;
     public Text interactableText;
 
-
     //Animation Data
     public bool holding = false; //all this affects is idle animation
 
@@ -26,6 +25,11 @@ public class PlayerController : MonoBehaviour {
     public Transform hand1Point;
     public GunBase heldGun;
 
+    //Inventory
+    public Dictionary<AmmoType, int> heldAmmo;
+    public Dictionary<AmmoType, int> maxAmmo;
+    public List<int> heldAmmoList;
+
     PlayerInputActions controls;
 
     Vector2 movementInput;
@@ -37,14 +41,25 @@ public class PlayerController : MonoBehaviour {
     //Prefabs
     public GameObject pickupGunRef;
 
-
     private void Awake() {
         controls = new PlayerInputActions();
-
     }
 
     // Start is called before the first frame update
     void Start() {
+        heldAmmo = new Dictionary<AmmoType, int>() {
+            { AmmoType.cal50ae, 10 },
+            { AmmoType.cal762, 100 },
+            { AmmoType.cal9mm, 30 },
+        };
+        maxAmmo = new Dictionary<AmmoType, int>() {
+            { AmmoType.cal50ae, 50 },
+            { AmmoType.cal762, 100 },
+            { AmmoType.cal9mm, 150 },
+        };
+
+        heldAmmoList = new List<int>(heldAmmo.Values);
+
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -70,6 +85,8 @@ public class PlayerController : MonoBehaviour {
         controls.Player.Shoot.canceled += OnReleaseTrigger;
 
         controls.Player.Interact.performed += OnInteractInput;
+
+        controls.Player.Reload.performed += OnReloadInput;
     }
 
     private void OnDisable() {
@@ -175,15 +192,34 @@ public class PlayerController : MonoBehaviour {
     public void DropGun(GunBase g){
         PickupGun newGunPickup = Instantiate(pickupGunRef, g.transform.position, Quaternion.identity).GetComponent<PickupGun>();
         g.transform.SetParent(newGunPickup.transform, false);
-        g.transform.localPosition = Vector3.zero;
+        //g.transform.localPosition = Vector3.zero;
         g.transform.localRotation = arm.transform.localRotation;
         if(arm.transform.localScale.x < 0)
             g.GetComponent<SpriteRenderer>().flipX = true;
-        g.triggerHeld = false;
+        g.ReleaseTrigger();
         newGunPickup.payload = g.transform;
         newGunPickup.name = g.name;
-        newGunPickup.DropRandomDirection();
+        newGunPickup.DropRandomDirection(false);
         holding = false;
+    }
+    public int AddAmmo(AmmoType t, int amount) {
+        int remainder = Mathf.Max(amount - (maxAmmo[t] - heldAmmo[t]), 0);
+
+        if(remainder < amount) {
+            heldAmmo[t] += amount - remainder;
+        }
+        heldAmmoList = new List<int>(heldAmmo.Values);
+        return remainder;
+    }
+    public int RemoveAmmo(AmmoType t, int amount) {
+        int amtRemoved = Mathf.Min(amount , heldAmmo[t]);
+        heldAmmo[t] -= amtRemoved;
+        heldAmmoList = new List<int>(heldAmmo.Values);
+        return amtRemoved;
+    }
+
+    public int CheckAmmo(AmmoType t) {
+        return heldAmmo[t];
     }
 
     public void OnMoveInput(InputAction.CallbackContext context) {
@@ -216,7 +252,8 @@ public class PlayerController : MonoBehaviour {
     void OnPullTrigger(InputAction.CallbackContext context) {
         if (heldGun) { 
             heldGun.PullTrigger(); 
-        }  
+        } 
+        //reload when empty
     }
 
     void OnReleaseTrigger(InputAction.CallbackContext context) {
@@ -228,6 +265,15 @@ public class PlayerController : MonoBehaviour {
     void OnInteractInput(InputAction.CallbackContext context) {
         if (closestInteractable) {
             closestInteractable.Interact(this);
+        }
+    }
+
+    void OnReloadInput(InputAction.CallbackContext context) {
+        if (heldGun && heldGun.currentMagSize < heldGun.magMaxSize) {
+            int amt = RemoveAmmo(heldGun.ammoType, heldGun.magMaxSize - heldGun.currentMagSize);
+            //reload animation
+
+            heldGun.FinishReload(heldGun.currentMagSize + amt); //implement ammo at some point
         }
     }
 }
