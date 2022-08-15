@@ -209,4 +209,4 @@ MonoBehaviour:
   bulletSpawnPoint: {fileID: 5406424718419923257}
   hand1Point: {fileID: 419350792499837409}
   hand2Point: {fileID: 7867732158171481355}
-  itemSize: 2
+  itemSize: 1

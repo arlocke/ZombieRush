@@ -22,7 +22,7 @@ public class Pickup : Interactable{
     public int itemSize = 1;
     public Animator animator;
 
-    private void Start() {
+    public void Start() {
         animator = GetComponent<Animator>();
         if(transform.childCount > 0)
             payload = transform.GetChild(0);

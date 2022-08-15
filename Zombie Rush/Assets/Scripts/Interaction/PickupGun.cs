@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PickupGun : Pickup{
-    private void Start() {
+
+    public new void Start() {
+        base.Start();
         if(payload)
             itemSize = payload.GetComponent<GunBase>().itemSize;
     }
