@@ -8,31 +8,45 @@ public enum FireMode {
     Burst,
 }
 
+public enum GunState {
+    Idle,
+    TriggerHeld,
+    Reloading,
+    Empty,
+    //cancelling
+}
+
 public class GunBase : MonoBehaviour
 {
     //public string name;
     public FireMode fireMode;
+    public GunState currentState;
     public int tier;
     public float damage;
     public float fireRate;
     public float fireTimer;
-    public bool triggerHeld; //Placeholder, research into interactions in PlayerInputActions
+    //public bool triggerHeld; //Placeholder, research into interactions in PlayerInputActions
     public float range;
     public float bulletSpeed;
     public int magMaxSize;
     public int currentMagSize;
     public GameObject bulletRef;
+    public AmmoType ammoType; // enum in BulletBase
     public Transform bulletSpawnPoint;
     public Transform hand1Point;
     public Transform hand2Point;
     public int itemSize;
-    
+
+    private void Start() {
+        ammoType = bulletRef.GetComponent<BulletBase>().ammoType;
+    }
+
     public void FixedUpdate() {
         if(fireTimer > 0){
         fireTimer -= Time.deltaTime;
         }
         if (fireTimer <= 0) {
-            if (triggerHeld && currentMagSize > 0) {
+            if (currentState == GunState.TriggerHeld && currentMagSize > 0) {
                 fireTimer += fireRate;
 
                 BulletBase newBullet = Instantiate(bulletRef, bulletSpawnPoint.position, bulletSpawnPoint.rotation).GetComponent<BulletBase>();
@@ -41,12 +55,15 @@ public class GunBase : MonoBehaviour
                 newBullet.speed = bulletSpeed;
                 newBullet.distanceRemaining = range;
                 newBullet.damage = damage;
+                currentMagSize--;
 
-                if(fireMode == FireMode.Single || fireMode == FireMode.Burst) {
-                    triggerHeld = false;
+                if (currentMagSize <= 0) {
+                    currentState = GunState.Empty;
+                } else if(fireMode == FireMode.Single || fireMode == FireMode.Burst) {
+                    currentState = GunState.Idle;
                 }
 
-                currentMagSize--;
+                
             } else {
                 fireTimer = 0;
             }
@@ -54,10 +71,24 @@ public class GunBase : MonoBehaviour
     }
 
     public void PullTrigger() {
-        triggerHeld = true;
+        if(currentState == GunState.Idle) {
+            currentState = GunState.TriggerHeld;
+        }
     }
 
     public void ReleaseTrigger() {
-        triggerHeld = false;
+        if (currentState == GunState.TriggerHeld && currentMagSize > 0) {
+            currentState = GunState.Idle;
+        }
+    }
+
+    public void StartReload() {
+        currentState = GunState.Reloading;
+    }
+
+    public void FinishReload(int ammoToAdd) {
+        currentState = GunState.Idle;
+
+        currentMagSize = ammoToAdd;
     }
 }

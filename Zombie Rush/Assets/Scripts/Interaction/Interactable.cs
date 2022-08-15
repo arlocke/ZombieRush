@@ -9,8 +9,6 @@ public class Interactable : MonoBehaviour {
         //Do nothing overriding children
     }
 
-  
-
     void OnTriggerEnter2D(Collider2D other) {
         if (other.transform.parent.gameObject.CompareTag("Player")) {
             other.transform.parent.gameObject.GetComponent<PlayerController>().currentInteractables.Add(this);
