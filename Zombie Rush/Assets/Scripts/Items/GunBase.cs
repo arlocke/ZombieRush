@@ -36,6 +36,7 @@ public class GunBase : MonoBehaviour
     public Transform hand1Point;
     public Transform hand2Point;
     public int itemSize;
+    public CreatureBase owner;
 
     private void Start() {
         ammoType = bulletRef.GetComponent<BulletBase>().ammoType;
@@ -55,6 +56,7 @@ public class GunBase : MonoBehaviour
                 newBullet.speed = bulletSpeed;
                 newBullet.distanceRemaining = range;
                 newBullet.damage = damage;
+                newBullet.owner = owner; //sets bullet owner to this gun owner
                 currentMagSize--;
 
                 if (currentMagSize <= 0) {

@@ -14,7 +14,6 @@ public class AutoPickup : Pickup
     }
 
     void OnTriggerStay2D(Collider2D other) {
-        Debug.Log("inside my ass");
         if (other.transform.parent.gameObject.CompareTag("Player")) {
             Interact(other.transform.parent.GetComponent<PlayerController>());
         }
