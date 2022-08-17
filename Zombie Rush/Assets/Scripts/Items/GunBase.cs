@@ -36,6 +36,7 @@ public class GunBase : MonoBehaviour
     public Transform hand1Point;
     public Transform hand2Point;
     public int itemSize;
+    public CreatureBase owner;
 
     private void Start() {
         ammoType = bulletRef.GetComponent<BulletBase>().ammoType;
@@ -46,7 +47,7 @@ public class GunBase : MonoBehaviour
         fireTimer -= Time.deltaTime;
         }
         if (fireTimer <= 0) {
-            if (currentState == GunState.TriggerHeld && currentMagSize > 0) {
+            if(currentState == GunState.TriggerHeld && currentMagSize > 0) {
                 fireTimer += fireRate;
 
                 BulletBase newBullet = Instantiate(bulletRef, bulletSpawnPoint.position, bulletSpawnPoint.rotation).GetComponent<BulletBase>();
@@ -55,6 +56,7 @@ public class GunBase : MonoBehaviour
                 newBullet.speed = bulletSpeed;
                 newBullet.distanceRemaining = range;
                 newBullet.damage = damage;
+                newBullet.owner = owner; //sets bullet owner to this gun owner
                 currentMagSize--;
 
                 if (currentMagSize <= 0) {
@@ -62,7 +64,6 @@ public class GunBase : MonoBehaviour
                 } else if(fireMode == FireMode.Single || fireMode == FireMode.Burst) {
                     currentState = GunState.Idle;
                 }
-
                 
             } else {
                 fireTimer = 0;

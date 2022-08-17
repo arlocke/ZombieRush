@@ -5,8 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 
-
-public class PlayerController : MonoBehaviour {
+public class PlayerController : CreatureBase {
     //Interaction Data
     public List<Interactable> currentInteractables;
     public Interactable closestInteractable;
@@ -16,7 +15,7 @@ public class PlayerController : MonoBehaviour {
     public bool holding = false; //all this affects is idle animation
 
     //Movement variables
-    public float moveSpeed = 1f;
+    //public float moveSpeed = 1f;
     public float collisionOffset = 0.05f; // Distance from rigidbody to check for collisions
     public ContactFilter2D movementFilter;
 
@@ -33,9 +32,9 @@ public class PlayerController : MonoBehaviour {
     PlayerInputActions controls;
 
     Vector2 movementInput;
-    public SpriteRenderer spriteRenderer;
-    public Rigidbody2D rb;
-    Animator animator;
+    //public SpriteRenderer spriteRenderer;
+    //public Rigidbody2D rb;
+    //Animator animator;
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
 
     //Prefabs
@@ -48,14 +47,14 @@ public class PlayerController : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         heldAmmo = new Dictionary<AmmoType, int>() {
-            { AmmoType.cal50ae, 10 },
-            { AmmoType.cal762, 100 },
-            { AmmoType.cal9mm, 30 },
+            { AmmoType.Cal50ae, 10 },
+            { AmmoType.Cal762, 100 },
+            { AmmoType.Cal9mm, 30 },
         };
         maxAmmo = new Dictionary<AmmoType, int>() {
-            { AmmoType.cal50ae, 50 },
-            { AmmoType.cal762, 100 },
-            { AmmoType.cal9mm, 150 },
+            { AmmoType.Cal50ae, 50 },
+            { AmmoType.Cal762, 100 },
+            { AmmoType.Cal9mm, 150 },
         };
 
         heldAmmoList = new List<int>(heldAmmo.Values);
@@ -163,7 +162,7 @@ public class PlayerController : MonoBehaviour {
                 movementFilter, // The settings that determine where a collision can happen on such layers to collide
                 castCollisions, // List of collisions where the found collisions after the cast has finished
                 moveSpeed * Time.fixedDeltaTime + collisionOffset); // The amount to cast equal to the movement plus an offset
-        if (count == 0) {
+        if(count == 0) {
             transform.position = rb.position + direction * moveSpeed * Time.fixedDeltaTime;
             return true;
         } else {
@@ -180,6 +179,7 @@ public class PlayerController : MonoBehaviour {
                 DropGun(heldGun);
             }
             heldGun = g;
+            heldGun.owner = this;
             heldGun.transform.SetParent(arm.transform, false);
             heldGun.transform.localPosition = hand1Point.localPosition + heldGun.hand1Point.localPosition * -1;
             heldGun.transform.localRotation = Quaternion.identity;
@@ -197,6 +197,7 @@ public class PlayerController : MonoBehaviour {
         if(arm.transform.localScale.x < 0)
             g.GetComponent<SpriteRenderer>().flipX = true;
         g.ReleaseTrigger();
+        g.owner = null;
         newGunPickup.payload = g.transform;
         newGunPickup.name = g.name;
         newGunPickup.DropRandomDirection(false);
@@ -238,7 +239,7 @@ public class PlayerController : MonoBehaviour {
         //(mousePos.x < arm.transform.position.x ? 180 : 0)
         bool facingRight = mousePos.x > arm.transform.position.x;
         arm.GetComponent<SpriteRenderer>().sortingOrder = facingRight ? 2:-2;
-        if (heldGun) {
+        if(heldGun) {
             heldGun.GetComponent<SpriteRenderer>().sortingOrder = facingRight ? 1 : -1;
             //heldGun.GetComponent<SpriteRenderer>().flipY = !facingRight;
             //heldGun.transform.localPosition = new Vector3(heldGun.transform.localPosition.x, heldGun.transform.localPosition.y * -1);
@@ -250,26 +251,26 @@ public class PlayerController : MonoBehaviour {
     }
 
     void OnPullTrigger(InputAction.CallbackContext context) {
-        if (heldGun) { 
+        if(heldGun) { 
             heldGun.PullTrigger(); 
         } 
         //reload when empty
     }
 
     void OnReleaseTrigger(InputAction.CallbackContext context) {
-        if (heldGun) {
+        if(heldGun) {
             heldGun.ReleaseTrigger();
         }
     }
 
     void OnInteractInput(InputAction.CallbackContext context) {
-        if (closestInteractable) {
+        if(closestInteractable) {
             closestInteractable.Interact(this);
         }
     }
 
     void OnReloadInput(InputAction.CallbackContext context) {
-        if (heldGun && heldGun.currentMagSize < heldGun.magMaxSize) {
+        if(heldGun && heldGun.currentMagSize < heldGun.magMaxSize) {
             int amt = RemoveAmmo(heldGun.ammoType, heldGun.magMaxSize - heldGun.currentMagSize);
             //reload animation
 
