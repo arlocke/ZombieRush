@@ -25,9 +25,9 @@ public class CreatureBase : MonoBehaviour
     public Animator animator;
 
     public void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.CompareTag("Projectile") ) {
+        if(other.gameObject.CompareTag("Projectile")) {
             ProjectileBase proj = other.gameObject.GetComponent<ProjectileBase>();
-            if(proj.owner != this) {
+            if(proj.owner != this && proj.damage > 0) { //BANDAID
                 float startingHp = hp; 
                 TakeDamage(proj.damage); //Need to add team dynamic shit
                 proj.RemoveDamage(startingHp);

@@ -10,8 +10,8 @@ public class PickupAmmo : AutoPickup
     public override void Interact(PlayerController pc) {
 
         int remainder = pc.AddAmmo(ammoType, amt);
-        if (remainder < amt) {
-            if (remainder > 0) {
+        if(remainder < amt) {
+            if(remainder > 0) {
                 DropRandomDirection(true);
                 amt = remainder;
             } else {

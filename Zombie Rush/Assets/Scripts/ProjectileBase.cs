@@ -22,7 +22,7 @@ public class ProjectileBase : MonoBehaviour {
         transform.position += transform.right * speed; //right is the x axis, negative value for left
         distanceRemaining -= speed;
 
-        if (distanceRemaining <= 0) {
+        if(distanceRemaining <= 0) {
             Destroy(gameObject);
         }
     }
@@ -30,6 +30,7 @@ public class ProjectileBase : MonoBehaviour {
     public void RemoveDamage(float dmg) {
         damage -= dmg;
         if(damage <= 0) {
+            GetComponent<BoxCollider2D>().enabled = false; //disables projectile box collider to avoid negative numbers
             Destroy(gameObject);
         }
     }

@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 2276196062806114971}
   - component: {fileID: 1459216208}
   - component: {fileID: 4719434830013410778}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -407,11 +407,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bec6ced66193a81409792f267d407982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 0
+  moveSpeed: 3
+  meleeAttack: 0
+  rangedAttack: 0
+  teamType: 1
+  teamFaction: 0
+  spriteRenderer: {fileID: 0}
+  rb: {fileID: 0}
+  animator: {fileID: 0}
   currentInteractables: []
   closestInteractable: {fileID: 0}
   interactableText: {fileID: 5434388637378834833}
   holding: 0
-  moveSpeed: 3
   collisionOffset: 0.01
   movementFilter:
     useTriggers: 0
@@ -430,8 +438,7 @@ MonoBehaviour:
   arm: {fileID: 2081771631}
   hand1Point: {fileID: 1917631115057766090}
   heldGun: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  rb: {fileID: 0}
+  heldAmmoList: 
   pickupGunRef: {fileID: 0}
 --- !u!95 &2276196062806114971
 Animator:

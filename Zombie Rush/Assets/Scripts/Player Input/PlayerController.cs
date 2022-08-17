@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 
-
 public class PlayerController : CreatureBase {
     //Interaction Data
     public List<Interactable> currentInteractables;
@@ -163,7 +162,7 @@ public class PlayerController : CreatureBase {
                 movementFilter, // The settings that determine where a collision can happen on such layers to collide
                 castCollisions, // List of collisions where the found collisions after the cast has finished
                 moveSpeed * Time.fixedDeltaTime + collisionOffset); // The amount to cast equal to the movement plus an offset
-        if (count == 0) {
+        if(count == 0) {
             transform.position = rb.position + direction * moveSpeed * Time.fixedDeltaTime;
             return true;
         } else {
@@ -240,7 +239,7 @@ public class PlayerController : CreatureBase {
         //(mousePos.x < arm.transform.position.x ? 180 : 0)
         bool facingRight = mousePos.x > arm.transform.position.x;
         arm.GetComponent<SpriteRenderer>().sortingOrder = facingRight ? 2:-2;
-        if (heldGun) {
+        if(heldGun) {
             heldGun.GetComponent<SpriteRenderer>().sortingOrder = facingRight ? 1 : -1;
             //heldGun.GetComponent<SpriteRenderer>().flipY = !facingRight;
             //heldGun.transform.localPosition = new Vector3(heldGun.transform.localPosition.x, heldGun.transform.localPosition.y * -1);
@@ -252,26 +251,26 @@ public class PlayerController : CreatureBase {
     }
 
     void OnPullTrigger(InputAction.CallbackContext context) {
-        if (heldGun) { 
+        if(heldGun) { 
             heldGun.PullTrigger(); 
         } 
         //reload when empty
     }
 
     void OnReleaseTrigger(InputAction.CallbackContext context) {
-        if (heldGun) {
+        if(heldGun) {
             heldGun.ReleaseTrigger();
         }
     }
 
     void OnInteractInput(InputAction.CallbackContext context) {
-        if (closestInteractable) {
+        if(closestInteractable) {
             closestInteractable.Interact(this);
         }
     }
 
     void OnReloadInput(InputAction.CallbackContext context) {
-        if (heldGun && heldGun.currentMagSize < heldGun.magMaxSize) {
+        if(heldGun && heldGun.currentMagSize < heldGun.magMaxSize) {
             int amt = RemoveAmmo(heldGun.ammoType, heldGun.magMaxSize - heldGun.currentMagSize);
             //reload animation
 

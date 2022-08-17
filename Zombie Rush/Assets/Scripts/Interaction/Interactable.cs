@@ -10,12 +10,12 @@ public class Interactable : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-        if (other.transform.parent.gameObject.CompareTag("Player")) {
+        if(other.transform.parent.gameObject.CompareTag("Player")) {
             other.transform.parent.gameObject.GetComponent<PlayerController>().currentInteractables.Add(this);
         }
     }
     void OnTriggerExit2D(Collider2D other) {
-        if (other.transform.parent.gameObject.CompareTag("Player")) {
+        if(other.transform.parent.gameObject.CompareTag("Player")) {
             other.transform.parent.gameObject.GetComponent<PlayerController>().currentInteractables.Remove(this);
             canInteract = false;
         }

@@ -75,7 +75,7 @@ public class Pickup : Interactable{
     public void DropRandomDirection(bool onGround){
         moving = true;
         startingHeight = 0.5f;//onGround ? 0.125f : 0.5f;
-        if (!onGround) {
+        if(!onGround) {
             height = startingHeight;
             Vector3 heightOffset = new Vector3(0, height, 0);
             transform.position -= heightOffset;
