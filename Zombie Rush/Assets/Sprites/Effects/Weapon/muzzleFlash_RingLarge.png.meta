@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ab474a2d316642c4c9df8bb46a3e517f
+guid: 4f7d687c792dee447bbb0148c95f4d2c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -106,127 +106,169 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: deagle_Default_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 12
-        width: 20
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 455ba412f2bddd243be41584e5fae945
-      internalID: -1762690318
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: deagle_Default_1
-      rect:
-        serializedVersion: 2
-        x: 20
-        y: 12
-        width: 20
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7987cb1aa56eeb84aafadca4953eee2c
-      internalID: -857864846
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: deagle_Default_2
-      rect:
-        serializedVersion: 2
-        x: 40
-        y: 12
-        width: 20
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8fca8676abb6a2b48b1be085c4a37a04
-      internalID: 112452438
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: deagle_Default_3
+      name: gunFlash_RingLarge_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 20
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 30
+        height: 15
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 458cdf75077a485468d56946fee8f9e4
-      internalID: 880182869
+      spriteID: 0013f953196f2f7418687ade8bb01380
+      internalID: 682911764
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: deagle_Default_4
+      name: gunFlash_RingLarge_1
       rect:
         serializedVersion: 2
-        x: 20
+        x: 30
         y: 0
-        width: 20
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 30
+        height: 15
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0e33481d7a12cfd43a561dcf25e37b7f
-      internalID: 1085518474
+      spriteID: 88f2c88226b849642b23d60db7fa1fea
+      internalID: -184473205
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: deagle_Default_5
+      name: gunFlash_RingLarge_2
       rect:
         serializedVersion: 2
-        x: 40
+        x: 60
         y: 0
-        width: 20
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 30
+        height: 15
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2f90223c55d1e2542b80a18638969d8d
-      internalID: -1340804306
+      spriteID: 2120b6a0dcad8dd4886306fde03b00c2
+      internalID: 382631641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gunFlash_RingLarge_3
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 0
+        width: 30
+        height: 15
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4ff0ae78c6060d40b3bf1dd35375594
+      internalID: 1872873898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gunFlash_RingLarge_4
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 0
+        width: 30
+        height: 15
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28eb9aa750eeda34aad282ed6c2aa8a2
+      internalID: -269022045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gunFlash_RingLarge_5
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 0
+        width: 30
+        height: 15
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 242afd13be5f4ff4a99b6b457a23a7d3
+      internalID: 87476892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gunFlash_RingLarge_6
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 0
+        width: 30
+        height: 15
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4403099717af3a94ab7bb205c8356aa3
+      internalID: 1440002099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gunFlash_RingLarge_7
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 0
+        width: 30
+        height: 15
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59c352e1cdf6016438926664b46884db
+      internalID: 1026236969
       vertices: []
       indices: 
       edges: []
@@ -242,12 +284,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      deagle_Default_3: 880182869
-      deagle_Default_5: -1340804306
-      deagle_Default_0: -1762690318
-      deagle_Default_1: -857864846
-      deagle_Default_4: 1085518474
-      deagle_Default_2: 112452438
+      gunFlash_RingLarge_7: 1026236969
+      gunFlash_RingLarge_5: 87476892
+      gunFlash_RingLarge_6: 1440002099
+      gunFlash_RingLarge_3: 1872873898
+      gunFlash_RingLarge_1: -184473205
+      gunFlash_RingLarge_2: 382631641
+      gunFlash_RingLarge_0: 682911764
+      gunFlash_RingLarge_4: -269022045
   spritePackingTag: 
   pSDRemoveMatte: 0
   userData: 

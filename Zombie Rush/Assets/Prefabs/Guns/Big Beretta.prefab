@@ -11,17 +11,17 @@ PrefabInstance:
     - target: {fileID: -6760344969339913743, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
         type: 3}
       propertyPath: range
-      value: 500
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: -6760344969339913743, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
         type: 3}
       propertyPath: damage
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -6760344969339913743, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
         type: 3}
       propertyPath: ammoType
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -6760344969339913743, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
         type: 3}
@@ -31,33 +31,43 @@ PrefabInstance:
     - target: {fileID: -6760344969339913743, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
         type: 3}
       propertyPath: fireRate
-      value: 0.5
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: -6760344969339913743, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
         type: 3}
       propertyPath: itemSize
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -6760344969339913743, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
         type: 3}
       propertyPath: bulletRef
       value: 
-      objectReference: {fileID: 7049447462516332095, guid: 9b04dcf064f64ea46b338793b03a97ef,
+      objectReference: {fileID: 7049447462516332095, guid: 86aec486e7bccb14ea11080a21f237da,
         type: 3}
     - target: {fileID: -6760344969339913743, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
         type: 3}
+      propertyPath: hand1Point
+      value: 
+      objectReference: {fileID: 6465880766404440940}
+    - target: {fileID: -6760344969339913743, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
+        type: 3}
+      propertyPath: hand2Point
+      value: 
+      objectReference: {fileID: 3550373246556737414}
+    - target: {fileID: -6760344969339913743, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
+        type: 3}
       propertyPath: magMaxSize
-      value: 7
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: -6760344969339913743, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
         type: 3}
       propertyPath: bulletSpeed
-      value: 0.47
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -6760344969339913743, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
         type: 3}
       propertyPath: currentMagSize
-      value: 7
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: -6760344969339913743, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
         type: 3}
@@ -65,20 +75,30 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4626554007620678799, guid: e30a3b20fdd2d88429f2c0e1eb04abee,
         type: 3}
+    - target: {fileID: -6760344969339913743, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
+        type: 3}
+      propertyPath: bulletSpawnPoint
+      value: 
+      objectReference: {fileID: 1688220652938828724}
+    - target: {fileID: 419350792499837409, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.304
+      objectReference: {fileID: 0}
     - target: {fileID: 419350792499837409, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0625
+      value: -0.027
       objectReference: {fileID: 0}
     - target: {fileID: 5406424718419923257, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.3125
+      value: 0.44
       objectReference: {fileID: 0}
     - target: {fileID: 5406424718419923257, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0625
+      value: 0.173
       objectReference: {fileID: 0}
     - target: {fileID: 5840584494904864533, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
         type: 3}
@@ -139,29 +159,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -1762690318, guid: ab474a2d316642c4c9df8bb46a3e517f,
+      objectReference: {fileID: -982662866, guid: 3f51b61686db74a4e9aa74c860de1b9d,
         type: 3}
     - target: {fileID: 7867732158171481355, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0625
+      value: -0.247
       objectReference: {fileID: 0}
     - target: {fileID: 7867732158171481355, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.15625
+      value: -0.159
       objectReference: {fileID: 0}
-    - target: {fileID: 8266655038702514319, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 22100000, guid: 07666f05e6f776442abbd2a76d32ec52,
-        type: 2}
     - target: {fileID: 8625887452757672169, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
         type: 3}
       propertyPath: m_Name
-      value: Desert Eagle
+      value: Big Beretta
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: a2bb1df752f9f6243aa67b3ea59f5f5d, type: 3}
+--- !u!4 &1688220652938828724 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5406424718419923257, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
+    type: 3}
+  m_PrefabInstance: {fileID: 6659338538840623757}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3550373246556737414 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7867732158171481355, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
+    type: 3}
+  m_PrefabInstance: {fileID: 6659338538840623757}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6465880766404440940 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 419350792499837409, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
+    type: 3}
+  m_PrefabInstance: {fileID: 6659338538840623757}
+  m_PrefabAsset: {fileID: 0}

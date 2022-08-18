@@ -110,9 +110,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 16
-        height: 10
+        y: 9
+        width: 14
+        height: 9
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,10 +130,10 @@ TextureImporter:
       name: glock18_Gray_1
       rect:
         serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
-        height: 10
+        x: 14
+        y: 9
+        width: 14
+        height: 9
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,6 +143,90 @@ TextureImporter:
       bones: []
       spriteID: 83599779a34c51044839acdf6246aba0
       internalID: -752180288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: glock18_Gray_2
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 9
+        width: 14
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e5aac59919f1f44588541f7d863ed59
+      internalID: 1509488776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: glock18_Gray_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 14
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c7896356f11bea40b883f00f773a818
+      internalID: 1481909961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: glock18_Gray_4
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 0
+        width: 14
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54f6b666b1fc138488a8d0f391eb45d4
+      internalID: -1383990517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: glock18_Gray_5
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 0
+        width: 14
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a322afaba21e834f84d56c95557a34c
+      internalID: -1507455802
       vertices: []
       indices: 
       edges: []
@@ -158,8 +242,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      glock18_Gray_3: 1481909961
+      glock18_Gray_2: 1509488776
       glock18_Gray_0: 655307131
       glock18_Gray_1: -752180288
+      glock18_Gray_5: -1507455802
+      glock18_Gray_4: -1383990517
   spritePackingTag: 
   pSDRemoveMatte: 0
   userData: 

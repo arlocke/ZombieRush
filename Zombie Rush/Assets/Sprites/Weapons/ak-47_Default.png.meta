@@ -110,7 +110,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 16
         width: 48
         height: 16
       alignment: 0
@@ -131,6 +131,69 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
+        y: 16
+        width: 48
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb903192226632544ba02050bfbf6426
+      internalID: -426960807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ak-47_Default_2
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 16
+        width: 48
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 368ac0c8e7aed52429a36739fa15300b
+      internalID: 1846434660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ak-47_Default_3
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 16
+        width: 48
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae9bb8de28dc0ff4e80bb87713992d11
+      internalID: 1933650343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ak-47_Default_4
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 0
         width: 48
         height: 16
@@ -141,8 +204,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 777d105ceade2554a884933a63fbd9af
-      internalID: -426960807
+      spriteID: 21affa3bf8bcd724db4397efd6fc4426
+      internalID: -588136959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ak-47_Default_5
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 48
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eec10ecf237f16345b3edf1e15b08353
+      internalID: 1700004668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ak-47_Default_6
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 48
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b14885c4c46036c4591703e8519f9759
+      internalID: -1382705169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ak-47_Default_7
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 48
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e696ef3ccbaa25942aef785e6111dc76
+      internalID: -2014096490
       vertices: []
       indices: 
       edges: []
@@ -158,8 +284,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      ak-47_Default_2: 1846434660
+      ak-47_Default_3: 1933650343
       ak-47_Default_0: 1479527502
+      ak-47_Default_6: -1382705169
+      ak-47_Default_4: -588136959
+      ak-47_Default_7: -2014096490
       ak-47_Default_1: -426960807
+      ak-47_Default_5: 1700004668
   spritePackingTag: 
   pSDRemoveMatte: 0
   userData: 

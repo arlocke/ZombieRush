@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3237741950658256793}
   - component: {fileID: -571817560640957142}
   m_Layer: 0
-  m_Name: 9mmBullet
+  m_Name: BulletBase
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
