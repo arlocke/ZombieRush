@@ -13,6 +13,7 @@ public class PlayerController : CreatureBase {
 
     //Animation Data
     public bool holding = false; //all this affects is idle animation
+    public bool facingRight;
 
     //Movement variables
     //public float moveSpeed = 1f;
@@ -178,11 +179,13 @@ public class PlayerController : CreatureBase {
                 g.GetComponent<SpriteRenderer>().sortingOrder = heldGun.GetComponent<SpriteRenderer>().sortingOrder;
                 DropGun(heldGun);
             }
+            arm.SetActive(true);
             heldGun = g;
             heldGun.owner = this;
             heldGun.transform.SetParent(arm.transform, false);
             heldGun.transform.localPosition = hand1Point.localPosition + heldGun.hand1Point.localPosition * -1;
             heldGun.transform.localRotation = Quaternion.identity;
+            heldGun.SetFacingRight(facingRight);
             //something for 2 handed guns
             holding = true;
             spriteRenderer.flipX = false;
@@ -237,10 +240,10 @@ public class PlayerController : CreatureBase {
         arm.transform.rotation = Quaternion.Euler(0, 0, angle);
         arm.transform.localScale = new Vector3((mousePos.x > arm.transform.position.x ? 1 : -1),1,1);
         //(mousePos.x < arm.transform.position.x ? 180 : 0)
-        bool facingRight = mousePos.x > arm.transform.position.x;
+        facingRight = mousePos.x > arm.transform.position.x;
         arm.GetComponent<SpriteRenderer>().sortingOrder = facingRight ? 2:-2;
         if(heldGun) {
-            heldGun.GetComponent<SpriteRenderer>().sortingOrder = facingRight ? 1 : -1;
+            heldGun.SetFacingRight(facingRight);
             //heldGun.GetComponent<SpriteRenderer>().flipY = !facingRight;
             //heldGun.transform.localPosition = new Vector3(heldGun.transform.localPosition.x, heldGun.transform.localPosition.y * -1);
         }

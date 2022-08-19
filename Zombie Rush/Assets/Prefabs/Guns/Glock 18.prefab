@@ -63,10 +63,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6566230496544878153, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1481909961, guid: 736fa7a2a7ae721419076881d7a9add7,
+        type: 3}
+    - target: {fileID: 7721058194353519553, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
+        type: 3}
+      propertyPath: m_SpriteHash
+      value: 897919229
+      objectReference: {fileID: 0}
     - target: {fileID: 8625887452757672169, guid: a2bb1df752f9f6243aa67b3ea59f5f5d,
         type: 3}
       propertyPath: m_Name
-      value: GunBase
+      value: Glock 18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

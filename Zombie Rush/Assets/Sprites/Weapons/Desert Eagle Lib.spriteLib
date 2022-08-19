@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e6fedc2472449cead18ef23b5cb30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library:
+  - m_Name: Sprites
+    m_Hash: 53564763
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: glock18_Gray_0
+      m_Hash: 1055260094
+      m_Sprite: {fileID: -1762690318, guid: ab474a2d316642c4c9df8bb46a3e517f, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1762690318, guid: ab474a2d316642c4c9df8bb46a3e517f,
+        type: 3}
+    - m_Name: glock18_Gray_1
+      m_Hash: 165858600
+      m_Sprite: {fileID: -857864846, guid: ab474a2d316642c4c9df8bb46a3e517f, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -857864846, guid: ab474a2d316642c4c9df8bb46a3e517f,
+        type: 3}
+    - m_Name: glock18_Gray_2
+      m_Hash: 283876498
+      m_Sprite: {fileID: 112452438, guid: ab474a2d316642c4c9df8bb46a3e517f, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 112452438, guid: ab474a2d316642c4c9df8bb46a3e517f,
+        type: 3}
+    - m_Name: glock18_Gray_3
+      m_Hash: 669821956
+      m_Sprite: {fileID: 880182869, guid: ab474a2d316642c4c9df8bb46a3e517f, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 880182869, guid: ab474a2d316642c4c9df8bb46a3e517f,
+        type: 3}
+    - m_Name: glock18_Gray_4
+      m_Hash: 965228967
+      m_Sprite: {fileID: 1085518474, guid: ab474a2d316642c4c9df8bb46a3e517f, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1085518474, guid: ab474a2d316642c4c9df8bb46a3e517f,
+        type: 3}
+    - m_Name: glock18_Gray_5
+      m_Hash: 244255025
+      m_Sprite: {fileID: -1340804306, guid: ab474a2d316642c4c9df8bb46a3e517f, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1340804306, guid: ab474a2d316642c4c9df8bb46a3e517f,
+        type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 6
+  m_PrimaryLibraryGUID: 
+  m_ModificationHash: 0
+  m_Version: 1

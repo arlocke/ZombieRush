@@ -20,7 +20,8 @@ public class GunBase : MonoBehaviour
 {
     //public string name;
     public FireMode fireMode;
-    public GunState currentState;
+    public GunState state;
+    public bool facingRight = true;
     public int tier;
     public float damage;
     public float fireRate;
@@ -47,13 +48,15 @@ public class GunBase : MonoBehaviour
     private void Start() {
         ammoType = bulletRef.GetComponent<BulletBase>().ammoType;
         animator = GetComponent<Animator>();
+        UpdateAnimator();
+        SetFacingRight(true);
     }
     public void FixedUpdate() {
         if(fireTimer > 0){
         fireTimer -= Time.deltaTime;
         }
         if (fireTimer <= 0) {
-            if(currentState == GunState.TriggerHeld && currentMagSize > 0) {
+            if(state == GunState.TriggerHeld && currentMagSize > 0) {
                 Shoot();
             } else {
                 fireTimer = 0;
@@ -61,13 +64,13 @@ public class GunBase : MonoBehaviour
         }
     }
     public void PullTrigger() {
-        if(currentState == GunState.Idle) {
-            currentState = GunState.TriggerHeld;
+        if(state == GunState.Idle) {
+            state = GunState.TriggerHeld;
         }
     }
     public void ReleaseTrigger() {
-        if (currentState == GunState.TriggerHeld && currentMagSize > 0) {
-            currentState = GunState.Idle;
+        if (state == GunState.TriggerHeld && currentMagSize > 0) {
+            state = GunState.Idle;
         }
     }
     public void Shoot(){
@@ -88,20 +91,40 @@ public class GunBase : MonoBehaviour
 
         currentMagSize--;
         if (currentMagSize <= 0) {
-            currentState = GunState.Empty;
+            state = GunState.Empty;
         } else if (fireMode == FireMode.Single || fireMode == FireMode.Burst) {
-            currentState = GunState.Idle;
+            state = GunState.Idle;
         }
-        animator.Play("PinBackR",0);
+        animator.Play("ActionBackR",0);
         animator.SetBool("Loaded",currentMagSize > 0);
     }
     public void StartReload() {
-        currentState = GunState.Reloading;
+        state = GunState.Reloading;
     }
     public void FinishReload(int ammoToAdd) {
-        currentState = GunState.Idle;
+        state = GunState.Idle;
 
         currentMagSize = ammoToAdd;
         animator.SetBool("Loaded", currentMagSize > 0);
+    }
+    public void SetFacingRight(bool r){
+        if(r != facingRight){
+            facingRight = r;
+            GetComponent<SpriteRenderer>().sortingOrder = facingRight ? 1 : -1;
+            animator.SetBool("FacingRight",facingRight);
+        }
+    }
+    public void UpdateAnimator(){
+        if (animator && animator.runtimeAnimatorController) {
+            animator.SetFloat("ActionSpeedFactor", Mathf.Max(1 / fireRate,5));
+        }
+    }
+    public void UpdateAnimFacingRight(){
+        switch(state){
+            case GunState.Empty:
+                AnimatorStateInfo si = animator.GetCurrentAnimatorStateInfo(0);
+                animator.Play("",0,si.normalizedTime);
+                break;
+        }
     }
 }
