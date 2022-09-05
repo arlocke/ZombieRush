@@ -1,0 +1,9 @@
+D:\Documents\GitProjects\ZombieRushGodot\.mono\temp\obj\Debug\Zombie Rush.csproj.AssemblyReference.cache
+D:\Documents\GitProjects\ZombieRushGodot\.mono\temp\obj\Debug\Zombie Rush.GeneratedMSBuildEditorConfig.editorconfig
+D:\Documents\GitProjects\ZombieRushGodot\.mono\temp\obj\Debug\Zombie Rush.AssemblyInfoInputs.cache
+D:\Documents\GitProjects\ZombieRushGodot\.mono\temp\obj\Debug\Zombie Rush.AssemblyInfo.cs
+D:\Documents\GitProjects\ZombieRushGodot\.mono\temp\obj\Debug\Zombie Rush.csproj.CoreCompileInputs.cache
+D:\Documents\GitProjects\ZombieRushGodot\.mono\temp\bin\Debug\Zombie Rush.dll
+D:\Documents\GitProjects\ZombieRushGodot\.mono\temp\bin\Debug\Zombie Rush.pdb
+D:\Documents\GitProjects\ZombieRushGodot\.mono\temp\obj\Debug\Zombie Rush.dll
+D:\Documents\GitProjects\ZombieRushGodot\.mono\temp\obj\Debug\Zombie Rush.pdb
