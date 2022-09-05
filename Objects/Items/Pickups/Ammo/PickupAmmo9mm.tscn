@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Objects/Items/Pickups/Ammo/PickupAmmo.tscn" type="PackedScene" id=1]
+
+[node name="PickupAmmo9mm" instance=ExtResource( 1 )]
+startingHVel = 0.15
+startingHeight = 8.0
