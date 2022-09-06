@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Objects/Creatures/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Items/Pickups/PickupGun.tscn" type="PackedScene" id=2]
@@ -11,6 +11,10 @@
 [ext_resource path="res://Misc/MainTheme.tres" type="Theme" id=9]
 [ext_resource path="res://Scripts/DEV/FPSCounter.cs" type="Script" id=10]
 [ext_resource path="res://Objects/Items/Weapons/Guns/GunAk-47.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Sprites/Environment/Tilesets/Road_SpriteMap.png" type="Texture" id=12]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 9.4, 3.5 )
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 163, 70, 922, 65, 945, 535, 122, 516 )
@@ -68,6 +72,9 @@ position = Vector2( 688, 350 )
 
 [node name="Player" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 1 )]
 position = Vector2( 389, 331 )
+movementFriction = 400.0
+dashSpeed = 300.0
+maxCancelDashSpeed = 100.0
 
 [node name="Camera2D" type="Camera2D" parent="Navigation2D/MasterYSort/Players/Player"]
 offset = Vector2( 0, -16 )
@@ -135,6 +142,21 @@ startingHVel = 0.15
 [node name="PickupAmmo764" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 7 )]
 position = Vector2( 280, 339 )
 startingHVel = 0.15
+
+[node name="Sprite" type="Sprite" parent="Navigation2D/MasterYSort"]
+position = Vector2( 389, 241 )
+texture = ExtResource( 12 )
+offset = Vector2( -0.5, -11 )
+region_enabled = true
+region_rect = Rect2( 0, 32, 32, 32 )
+region_filter_clip = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Navigation2D/MasterYSort/Sprite"]
+scale = Vector2( 0.48, 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Navigation2D/MasterYSort/Sprite/StaticBody2D"]
+position = Vector2( 0, -0.5 )
+shape = SubResource( 2 )
 
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
 visible = false

@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Documents\\GitProjects\\ZombieRushGodot\\Zombie Rush.csproj": {}
+    "C:\\Users\\alock\\Desktop\\GitHub Projects\\ZombieRushGodot\\Zombie Rush.csproj": {}
   },
   "projects": {
-    "D:\\Documents\\GitProjects\\ZombieRushGodot\\Zombie Rush.csproj": {
+    "C:\\Users\\alock\\Desktop\\GitHub Projects\\ZombieRushGodot\\Zombie Rush.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Documents\\GitProjects\\ZombieRushGodot\\Zombie Rush.csproj",
+        "projectUniqueName": "C:\\Users\\alock\\Desktop\\GitHub Projects\\ZombieRushGodot\\Zombie Rush.csproj",
         "projectName": "Zombie Rush",
-        "projectPath": "D:\\Documents\\GitProjects\\ZombieRushGodot\\Zombie Rush.csproj",
-        "packagesPath": "C:\\Users\\Matt\\.nuget\\packages\\",
-        "outputPath": "D:\\Documents\\GitProjects\\ZombieRushGodot\\.mono\\temp\\obj\\",
+        "projectPath": "C:\\Users\\alock\\Desktop\\GitHub Projects\\ZombieRushGodot\\Zombie Rush.csproj",
+        "packagesPath": "C:\\Users\\alock\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\alock\\Desktop\\GitHub Projects\\ZombieRushGodot\\.mono\\temp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Matt\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\alock\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net472"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -37,7 +39,7 @@
       "frameworks": {
         "net472": {
           "targetAlias": "net472",
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.405\\RuntimeIdentifierGraph.json"
         }
       }
     }
