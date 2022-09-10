@@ -1,0 +1,79 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Objects/Creatures/Creature.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scripts/Creatures/Player.cs" type="Script" id=2]
+[ext_resource path="res://Animation/Creatures/PlayerIdle.tres" type="Animation" id=3]
+[ext_resource path="res://Animation/Creatures/PlayerWalk.tres" type="Animation" id=4]
+[ext_resource path="res://Sprites/Creatures/Characters/Char0.png" type="Texture" id=5]
+[ext_resource path="res://Animation/Creatures/PlayerIdleHoldingL.tres" type="Animation" id=6]
+[ext_resource path="res://Animation/Creatures/PlayerWalkHoldingR.tres" type="Animation" id=7]
+[ext_resource path="res://Animation/Creatures/PlayerWalkHoldingL.tres" type="Animation" id=8]
+[ext_resource path="res://Animation/Creatures/PlayerIdleHoldingR.tres" type="Animation" id=9]
+[ext_resource path="res://Objects/Items/Pickups/PickupGun.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Misc/MainTheme.tres" type="Theme" id=11]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=1]
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/BodySprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+
+[node name="Player" groups=["Players"] instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+moveSpeed = 130.0
+teamType = 1
+holding = false
+maxAmmo = null
+movementInput = Vector2( 0, 0 )
+pickupGunRef = ExtResource( 10 )
+
+[node name="AnimationTree" parent="." index="0"]
+parameters/playback = SubResource( 1 )
+
+[node name="AnimationPlayer" parent="." index="1"]
+anims/PlayerIdle = ExtResource( 3 )
+anims/PlayerIdleHoldingL = ExtResource( 6 )
+anims/PlayerIdleHoldingR = ExtResource( 9 )
+anims/PlayerWalk = ExtResource( 4 )
+anims/PlayerWalkHoldingL = ExtResource( 8 )
+anims/PlayerWalkHoldingR = ExtResource( 7 )
+anims/RESET = SubResource( 2 )
+
+[node name="BodySprite" parent="Body" index="0"]
+frame = 0
+
+[node name="Arm" type="Sprite" parent="Body" index="1"]
+position = Vector2( -3, -10 )
+texture = ExtResource( 5 )
+centered = false
+offset = Vector2( -2, -6 )
+region_enabled = true
+region_rect = Rect2( 41, 175, 20, 11 )
+
+[node name="Hand1Socket" type="Node2D" parent="Body/Arm" index="0"]
+position = Vector2( 16, 0 )
+
+[node name="InteractableText" type="Label" parent="." index="5"]
+margin_left = -40.0
+margin_top = -77.0
+margin_right = 40.0
+margin_bottom = -29.0
+grow_horizontal = 2
+grow_vertical = 0
+rect_pivot_offset = Vector2( 40, 40 )
+theme = ExtResource( 11 )
+text = "Oy Cunt"
+align = 1
+valign = 2
+autowrap = true

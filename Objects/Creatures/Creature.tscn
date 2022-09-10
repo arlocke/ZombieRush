@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Sprites/Creatures/Characters/Char0.png" type="Texture" id=1]
+[ext_resource path="res://Animation/Creatures/ASM_Player.tres" type="AnimationNodeStateMachine" id=2]
+[ext_resource path="res://Scripts/Creatures/Creature.cs" type="Script" id=3]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=2]
+
+[sub_resource type="CapsuleShape2D" id=1]
+height = 15.586
+
+[node name="Creature" type="KinematicBody2D" groups=["Creatures"]]
+collision_mask = 0
+script = ExtResource( 3 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = ExtResource( 2 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource( 2 )
+parameters/Idle/blend_position = Vector2( 0, 0 )
+parameters/Walk/blend_position = Vector2( 0, 0 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -16.207 )
+shape = SubResource( 1 )
+
+[node name="Body" type="Node2D" parent="."]
+
+[node name="BodySprite" type="Sprite" parent="Body"]
+texture = ExtResource( 1 )
+offset = Vector2( 0, -16.5 )
+hframes = 5
+vframes = 5
+frame = 11
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+target_desired_distance = 100.0
+path_max_distance = 100.0
+avoidance_enabled = true
