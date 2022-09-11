@@ -6,9 +6,11 @@
 [sub_resource type="AnimationNodeStateMachinePlayback" id=1]
 
 [node name="GunAk-47" instance=ExtResource( 1 )]
+itemName = "Ak-47"
 magMaxSize = 30
 currentMagSize = 30
 ammoType = 1
+itemSize = 3.0
 
 [node name="Sprite" parent="." index="0"]
 texture = ExtResource( 2 )

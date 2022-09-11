@@ -13,14 +13,21 @@ public class Player:Creature {
     [Export]
     public bool holding = false; //all this affects is idle animation
 
-    //Movement variables
-    //public float moveSpeed = 1f;
-    public float collisionOffset = 0.05f; // Distance from rigidbody to check for collisions
-
     //Children
     public Sprite arm;
     public Node2D hand1Socket;
     public Gun heldGun;
+
+    //Movement
+    public bool dashing;
+    public Vector2 movementDirection;
+    public float movementVelocity; //not a vector
+    [Export]
+    public float movementFriction;
+    [Export]
+    public float dashSpeed;
+    [Export]
+    public float maxCancelDashSpeed; //the fastest you can go before you can start walking again
 
     //Inventory
     public Godot.Collections.Dictionary<AmmoType, int> heldAmmo;
@@ -57,13 +64,27 @@ public class Player:Creature {
 
     public override void _PhysicsProcess(float dt) {
         bool walking = false;
-        if(movementInput != Vector2.Zero) {
-            walking = MoveAndSlide(movementInput * moveSpeed) != Vector2.Zero;
-
+        if(movementInput != Vector2.Zero && CanManeuver() && (!dashing || Mathf.Abs(movementInput.Angle() - movementDirection.Angle()) > 0.5f)) {
+            walking = MoveAndSlide(movementInput.Normalized() * moveSpeed) != Vector2.Zero;
+            if(dashing) {
+                dashing = false;
+                movementVelocity = 0;
+                movementDirection = Vector2.Zero;
+            }
             //Changing direction of walk anim when unequipped
             if(!holding && movementInput.x != 0) {
                 facingRight = movementInput.x > 0;
                 bodySprite.FlipH = !facingRight;
+            }
+        }
+        if(dashing) {
+            movementVelocity -= movementFriction * dt;
+            if(movementVelocity <= 0) {
+                dashing = false;
+                movementVelocity = 0;
+                movementDirection = Vector2.Zero;
+            } else {
+                MoveAndSlide(movementDirection * movementVelocity);
             }
         }
         string animState = walking ? "Walk" : "Idle";
@@ -97,6 +118,18 @@ public class Player:Creature {
         } else {
             interactableText.Visible = false;
             closestInteractable = null;
+        }
+    }
+
+    public bool CanManeuver() {
+        return movementVelocity < maxCancelDashSpeed;
+    }
+
+    public void Dash() {
+        if(CanManeuver()) {
+            dashing = true;
+            movementDirection = movementInput.Normalized();
+            movementVelocity = dashSpeed;
         }
     }
 
@@ -169,7 +202,7 @@ public class Player:Creature {
         arm.Scale = new Vector2((facingRight ? 1 : -1), 1);
         arm.ShowBehindParent = !facingRight;
         if(heldGun != null) {
-            heldGun.SetFacingRight(facingRight);
+            heldGun.SetFacingRight(facingRight); 
         }
     }
 
@@ -195,6 +228,8 @@ public class Player:Creature {
         } else if(ie.IsActionReleased("move_down")) {
             if(movementInput.y == 1)
                 movementInput.y = 0;
+        } else if(ie.IsActionPressed("dash"))  {
+            Dash();
         } else if(ie.IsActionPressed("interact")) {
             if(closestInteractable != null) {
                 closestInteractable.Interact(this);
