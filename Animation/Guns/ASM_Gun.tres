@@ -21,7 +21,7 @@ nodes/BlendSpace1D/position = Vector2( -60, 160 )
 nodes/TimeScale/node = SubResource( 4 )
 nodes/TimeScale/position = Vector2( 140, 160 )
 nodes/output/position = Vector2( 300, 160 )
-node_connections = [ "output", 0, "TimeScale", "TimeScale", 0, "BlendSpace1D" ]
+node_connections = [ "TimeScale", 0, "BlendSpace1D", "output", 0, "TimeScale" ]
 
 [sub_resource type="AnimationNodeAnimation" id=6]
 animation = "GunActionForwardR"
@@ -44,7 +44,7 @@ nodes/BlendSpace1D/position = Vector2( 260, 140 )
 nodes/TimeScale/node = SubResource( 9 )
 nodes/TimeScale/position = Vector2( 440, 140 )
 nodes/output/position = Vector2( 600, 140 )
-node_connections = [ "output", 0, "TimeScale", "TimeScale", 0, "BlendSpace1D" ]
+node_connections = [ "TimeScale", 0, "BlendSpace1D", "output", 0, "TimeScale" ]
 
 [sub_resource type="AnimationNodeAnimation" id=11]
 animation = "GunIdleR"
@@ -67,17 +67,17 @@ nodes/BlendSpace1D/position = Vector2( 0, 120 )
 nodes/TimeScale/node = SubResource( 14 )
 nodes/TimeScale/position = Vector2( 200, 120 )
 nodes/output/position = Vector2( 400, 140 )
-node_connections = [ "output", 0, "TimeScale", "TimeScale", 0, "BlendSpace1D" ]
+node_connections = [ "TimeScale", 0, "BlendSpace1D", "output", 0, "TimeScale" ]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=16]
 switch_mode = 2
 advance_condition = "Loaded"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=18]
-
 [sub_resource type="AnimationNodeStateMachineTransition" id=17]
 switch_mode = 2
 auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
 
 [resource]
 states/ActionBack/node = SubResource( 5 )
@@ -86,6 +86,6 @@ states/ActionForward/node = SubResource( 10 )
 states/ActionForward/position = Vector2( 405, 60.328 )
 states/Idle/node = SubResource( 15 )
 states/Idle/position = Vector2( 227, 18.328 )
-transitions = [ "ActionBack", "ActionForward", SubResource( 16 ), "Idle", "ActionBack", SubResource( 18 ), "ActionForward", "Idle", SubResource( 17 ) ]
+transitions = [ "ActionBack", "ActionForward", SubResource( 16 ), "ActionForward", "Idle", SubResource( 17 ), "Idle", "ActionBack", SubResource( 18 ) ]
 start_node = "Idle"
-graph_offset = Vector2( -149, -111.672 )
+graph_offset = Vector2( -136, -98.672 )

@@ -6,8 +6,8 @@
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=2]
 
-[sub_resource type="CapsuleShape2D" id=1]
-height = 15.586
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 10, 8 )
 
 [node name="Creature" type="KinematicBody2D" groups=["Creatures"]]
 collision_mask = 0
@@ -24,8 +24,8 @@ parameters/Walk/blend_position = Vector2( 0, 0 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -16.207 )
-shape = SubResource( 1 )
+position = Vector2( 0, -8.239 )
+shape = SubResource( 3 )
 
 [node name="Body" type="Node2D" parent="."]
 

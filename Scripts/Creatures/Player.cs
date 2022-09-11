@@ -13,10 +13,18 @@ public class Player:Creature {
     [Export]
     public bool holding = false; //all this affects is idle animation
 
+    //Movement variables
+    //public float moveSpeed = 1f;
+    public float collisionOffset = 0.05f; // Distance from rigidbody to check for collisions
+
     //Children
-    public Sprite arm;
+    public Sprite armR;
+    public Sprite armL;
     public Node2D hand1Socket;
     public Gun heldGun;
+    public Sprite eyes;
+    public AnimationTree eyesAnimTree;
+    public AnimationNodeStateMachinePlayback eyesAnimStateMachine;
 
     //Movement
     public bool dashing;
@@ -56,13 +64,18 @@ public class Player:Creature {
         };
 
         heldAmmoList = new List<int>(heldAmmo.Values);
-        arm = GetNode<Sprite>("Body/Arm");
-        hand1Socket = arm.GetNode<Node2D>("Hand1Socket");
+        armR = GetNode<Sprite>("Body/ArmR");
+        armL = GetNode<Sprite>("Body/ArmL");
+        hand1Socket = armR.GetChild<Sprite>(0).GetNode<Node2D>("Hand1Socket");
         interactableText = GetNode<Label>("InteractableText");
+        eyes = GetNode<Sprite>("Body/Face/Eyes");
+        eyesAnimTree = GetNode<AnimationTree>("Body/Face/EyesAnimationTree");
+        eyesAnimStateMachine = (AnimationNodeStateMachinePlayback)eyesAnimTree.Get("parameters/playback");
         holding = heldGun != null;
     }
 
     public override void _PhysicsProcess(float dt) {
+        UpdateAim();
         bool walking = false;
         if(movementInput != Vector2.Zero && CanManeuver() && (!dashing || Mathf.Abs(movementInput.Angle() - movementDirection.Angle()) > 0.5f)) {
             walking = MoveAndSlide(movementInput.Normalized() * moveSpeed) != Vector2.Zero;
@@ -70,11 +83,6 @@ public class Player:Creature {
                 dashing = false;
                 movementVelocity = 0;
                 movementDirection = Vector2.Zero;
-            }
-            //Changing direction of walk anim when unequipped
-            if(!holding && movementInput.x != 0) {
-                facingRight = movementInput.x > 0;
-                bodySprite.FlipH = !facingRight;
             }
         }
         if(dashing) {
@@ -87,13 +95,17 @@ public class Player:Creature {
                 MoveAndSlide(movementDirection * movementVelocity);
             }
         }
+        hand1Socket.ShowBehindParent = facingRight;
+        bodySprite.Scale = new Vector2(facingRight ? 1 : -1, 1);
         string animState = walking ? "Walk" : "Idle";
         animStateMachine.Travel(animState);
-        animTree.Set("parameters/" + animState + "/blend_position", new Vector2(facingRight ? 1 : -1, holding ? 1 : 0));
-        arm.Visible = holding;
+        animTree.Set("parameters/" + animState + "/blend_position", holding ? 1 : 0);
+        armR.Visible = holding;
+        armL.Visible = holding;
 
-        if(holding)
-            UpdateAim();
+        if(GD.Randf() < dt / 5f) {
+            eyesAnimStateMachine.Travel("Blink");
+        }
 
         if(currentInteractables.Count > 0) {
             closestInteractable = currentInteractables[0];
@@ -142,15 +154,17 @@ public class Player:Creature {
             } else {
                 g.GetNode<Sprite>("Sprite").FlipH = false;
             }
+            g.SetFacingRight(!facingRight); //The gun only updates facing right if it's different which creates issues. Duct tape to force updates. Improve?
             g.SetFacingRight(facingRight);
-            arm.Visible = true;
+            armR.Visible = true;
+            armL.Visible = true;
             heldGun = g;
             heldGun.holder = this;
             if(heldGun.GetParent() != null)
                 heldGun.GetParent().RemoveChild(heldGun);
-            arm.AddChild(heldGun);
+            hand1Socket.AddChild(heldGun);
             heldGun.Rotation = 0;
-            heldGun.Position = hand1Socket.Position + heldGun.hand1Socket.Position * -1;
+            heldGun.Position = heldGun.hand1Socket.Position * -1;
             heldGun.SetFacingRight(facingRight);
             //something for 2 handed guns
             holding = true;
@@ -162,17 +176,18 @@ public class Player:Creature {
         PickupGun newGunPickup = pickupGunRef.Instance<PickupGun>();
         GetParent().GetParent().GetNode<YSort>("Pickups").AddChild(newGunPickup);
         newGunPickup.GlobalPosition = g.GlobalPosition;
-        arm.RemoveChild(g);
+        if(g.GetParent() != null)
+            g.GetParent().RemoveChild(g);
         newGunPickup.AddChild(g);
-        g.GlobalRotation = arm.GlobalRotation;
-        if(arm.Scale.x < 0)
+        g.GlobalRotation = armR.GlobalRotation;
+        if(armR.Scale.x < 0)
             g.GetNode<Sprite>("Sprite").FlipH = true;
         g.ZIndex = 0;
         g.ReleaseTrigger();
         g.holder = null;
         newGunPickup.payload = g;
         newGunPickup.interactionName = g.itemName;
-        newGunPickup.DropRandomDirection(false, -arm.Position.y);
+        newGunPickup.DropRandomDirection(false, -armR.Position.y);
         holding = false;
     }
     public int AddAmmo(AmmoType t, int amount) {
@@ -196,14 +211,24 @@ public class Player:Creature {
     }
     public void UpdateAim() {
         Vector2 mousePos = GetGlobalMousePosition();
-        facingRight = mousePos.x >= arm.GlobalPosition.x;
-        float angle = Mathf.Atan((mousePos.y - arm.GlobalPosition.y) / (mousePos.x - arm.GlobalPosition.x));
-        arm.Rotation = angle;
-        arm.Scale = new Vector2((facingRight ? 1 : -1), 1);
-        arm.ShowBehindParent = !facingRight;
+        facingRight = holding ? mousePos.x >= armR.GlobalPosition.x : (movementInput.x != 0 ? movementInput.x > 0 : facingRight);
+        Vector2 mouseDir = mousePos - armR.GlobalPosition;
+        float angle = Mathf.Atan((mousePos.y - armR.GlobalPosition.y) / (mousePos.x - armR.GlobalPosition.x));
+        armR.Rotation = angle;
+        armR.Scale = new Vector2((facingRight ? 1 : -1), 1);
+        armR.ShowBehindParent = !facingRight;
+        armL.Scale = new Vector2((facingRight ? 1 : -1), 1);
+        armL.ShowBehindParent = facingRight;
         if(heldGun != null) {
-            heldGun.SetFacingRight(facingRight); 
+            heldGun.SetFacingRight(facingRight);
         }
+        Vector2 eyeDir;
+        if(Mathf.Abs(mouseDir.x) < 8 && Mathf.Abs(mouseDir.y) < 8)
+            eyeDir = new Vector2();
+        else
+            eyeDir = new Vector2(mouseDir.x, -mouseDir.y).Normalized();
+        eyesAnimTree.Set("parameters/Idle/blend_position", eyeDir);
+        eyesAnimTree.Set("parameters/Blink/blend_position", eyeDir);
     }
 
     public override void _Input(InputEvent ie) {
@@ -228,7 +253,7 @@ public class Player:Creature {
         } else if(ie.IsActionReleased("move_down")) {
             if(movementInput.y == 1)
                 movementInput.y = 0;
-        } else if(ie.IsActionPressed("dash"))  {
+        } else if(ie.IsActionPressed("dash")) {
             Dash();
         } else if(ie.IsActionPressed("interact")) {
             if(closestInteractable != null) {
