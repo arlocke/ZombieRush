@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Objects/Creatures/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Items/Pickups/PickupGun.tscn" type="PackedScene" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Scripts/DEV/FPSCounter.cs" type="Script" id=10]
 [ext_resource path="res://Objects/Items/Weapons/Guns/GunAk-47.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Sprites/Environment/Tilesets/Road_SpriteMap.png" type="Texture" id=12]
+[ext_resource path="res://Objects/Creatures/PlayerYoyoable.tscn" type="PackedScene" id=13]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 9.4, 3.5 )
@@ -69,6 +70,9 @@ position = Vector2( 670, 205 )
 position = Vector2( 688, 350 )
 
 [node name="Players" type="YSort" parent="Navigation2D/MasterYSort"]
+
+[node name="PlayerYoyoable" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 13 )]
+position = Vector2( 388, 373 )
 
 [node name="Player" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 1 )]
 position = Vector2( 389, 331 )

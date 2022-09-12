@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/char_yuiArm.png-104d2df572e35ae89feae343ca962ecf.stex"
+path="res://.import/eyes_masBasic.png-543c47a1752e8966a744c671b22a538d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Creatures/Characters/char_yuiArm.png"
-dest_files=[ "res://.import/char_yuiArm.png-104d2df572e35ae89feae343ca962ecf.stex" ]
+source_file="res://Sprites/Creatures/Characters/eyes_masBasic.png"
+dest_files=[ "res://.import/eyes_masBasic.png-543c47a1752e8966a744c671b22a538d.stex" ]
 
 [params]
 

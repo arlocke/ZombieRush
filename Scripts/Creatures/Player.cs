@@ -22,6 +22,7 @@ public class Player:Creature {
     public Sprite armL;
     public Node2D hand1Socket;
     public Gun heldGun;
+    public Node2D face;
     public Sprite eyes;
     public AnimationTree eyesAnimTree;
     public AnimationNodeStateMachinePlayback eyesAnimStateMachine;
@@ -68,7 +69,8 @@ public class Player:Creature {
         armL = GetNode<Sprite>("Body/ArmL");
         hand1Socket = armR.GetChild<Sprite>(0).GetNode<Node2D>("Hand1Socket");
         interactableText = GetNode<Label>("InteractableText");
-        eyes = GetNode<Sprite>("Body/Face/Eyes");
+        face = GetNode<Node2D>("Body/Face");
+        eyes = face.GetNode<Sprite>("Eyes");
         eyesAnimTree = GetNode<AnimationTree>("Body/Face/EyesAnimationTree");
         eyesAnimStateMachine = (AnimationNodeStateMachinePlayback)eyesAnimTree.Get("parameters/playback");
         holding = heldGun != null;
@@ -97,6 +99,7 @@ public class Player:Creature {
         }
         hand1Socket.ShowBehindParent = facingRight;
         bodySprite.Scale = new Vector2(facingRight ? 1 : -1, 1);
+        face.Scale = new Vector2(facingRight ? 1 : -1, 1);
         string animState = walking ? "Walk" : "Idle";
         animStateMachine.Travel(animState);
         animTree.Set("parameters/" + animState + "/blend_position", holding ? 1 : 0);
@@ -226,7 +229,7 @@ public class Player:Creature {
         if(Mathf.Abs(mouseDir.x) < 8 && Mathf.Abs(mouseDir.y) < 8)
             eyeDir = new Vector2();
         else
-            eyeDir = new Vector2(mouseDir.x, -mouseDir.y).Normalized();
+            eyeDir = new Vector2(mouseDir.x * (facingRight ? 1 : -1), -mouseDir.y).Normalized();
         eyesAnimTree.Set("parameters/Idle/blend_position", eyeDir);
         eyesAnimTree.Set("parameters/Blink/blend_position", eyeDir);
     }

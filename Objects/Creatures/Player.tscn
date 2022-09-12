@@ -508,7 +508,6 @@ anims/RESET = SubResource( 2 )
 texture = ExtResource( 5 )
 offset = Vector2( -2, -19 )
 hframes = 10
-vframes = 3
 frame = 0
 
 [node name="Face" type="Node2D" parent="Body" index="1"]
@@ -551,6 +550,7 @@ anims/EyesW = SubResource( 26 )
 anims/RESET = SubResource( 7 )
 
 [node name="Eyebrows" type="Sprite" parent="Body/Face" index="3"]
+self_modulate = Color( 0, 0, 0, 1 )
 position = Vector2( 0, -27 )
 texture = ExtResource( 9 )
 hframes = 3
@@ -558,6 +558,7 @@ vframes = 2
 frame = 5
 
 [node name="ArmL" type="Sprite" parent="Body" index="2"]
+visible = false
 position = Vector2( 4, -15 )
 rotation = 0.797615
 texture = ExtResource( 5 )
@@ -576,6 +577,7 @@ region_enabled = true
 region_rect = Rect2( 19, 93, 9, 4 )
 
 [node name="ArmR" type="Sprite" parent="Body" index="3"]
+visible = false
 position = Vector2( -5, -14 )
 texture = ExtResource( 5 )
 centered = false
