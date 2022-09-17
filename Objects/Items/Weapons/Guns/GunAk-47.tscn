@@ -7,6 +7,8 @@
 
 [node name="GunAk-47" instance=ExtResource( 1 )]
 itemName = "Ak-47"
+damage = 3.0
+fireRate = 0.1
 magMaxSize = 30
 currentMagSize = 30
 ammoType = 1

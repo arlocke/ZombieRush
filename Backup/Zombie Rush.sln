@@ -1,15 +1,12 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.3.32825.248
-MinimumVisualStudioVersion = 10.0.40219.1
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zombie Rush", "Zombie Rush.csproj", "{320DBA49-78FC-4A13-A1F0-DFC22C533900}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		ExportDebug|Any CPU = ExportDebug|Any CPU
-		ExportRelease|Any CPU = ExportRelease|Any CPU
+	Debug|Any CPU = Debug|Any CPU
+	ExportDebug|Any CPU = ExportDebug|Any CPU
+	ExportRelease|Any CPU = ExportRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{320DBA49-78FC-4A13-A1F0-DFC22C533900}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -18,11 +15,5 @@ Global
 		{320DBA49-78FC-4A13-A1F0-DFC22C533900}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
 		{320DBA49-78FC-4A13-A1F0-DFC22C533900}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{320DBA49-78FC-4A13-A1F0-DFC22C533900}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {F03434B6-22AE-4F83-87F2-841898C4938B}
 	EndGlobalSection
 EndGlobal

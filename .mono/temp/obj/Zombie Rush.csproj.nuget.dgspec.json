@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\alock\\Desktop\\GitHub Projects\\ZombieRushGodot\\Zombie Rush.csproj": {}
+    "D:\\Documents\\GitProjects\\ZombieRush\\Zombie Rush.csproj": {}
   },
   "projects": {
-    "C:\\Users\\alock\\Desktop\\GitHub Projects\\ZombieRushGodot\\Zombie Rush.csproj": {
+    "D:\\Documents\\GitProjects\\ZombieRush\\Zombie Rush.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\alock\\Desktop\\GitHub Projects\\ZombieRushGodot\\Zombie Rush.csproj",
+        "projectUniqueName": "D:\\Documents\\GitProjects\\ZombieRush\\Zombie Rush.csproj",
         "projectName": "Zombie Rush",
-        "projectPath": "C:\\Users\\alock\\Desktop\\GitHub Projects\\ZombieRushGodot\\Zombie Rush.csproj",
-        "packagesPath": "C:\\Users\\alock\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\alock\\Desktop\\GitHub Projects\\ZombieRushGodot\\.mono\\temp\\obj\\",
+        "projectPath": "D:\\Documents\\GitProjects\\ZombieRush\\Zombie Rush.csproj",
+        "packagesPath": "C:\\Users\\Matt\\.nuget\\packages\\",
+        "outputPath": "D:\\Documents\\GitProjects\\ZombieRush\\.mono\\temp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\alock\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Matt\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -39,7 +39,7 @@
       "frameworks": {
         "net472": {
           "targetAlias": "net472",
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.405\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }
