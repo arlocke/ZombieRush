@@ -73,9 +73,16 @@ position = Vector2( 688, 350 )
 
 [node name="PlayerYoyoable" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 13 )]
 position = Vector2( 388, 373 )
+playerNum = 1
+lookDirection = Vector2( 0, 0 )
+movementFriction = 400.0
+dashSpeed = 300.0
+maxCancelDashSpeed = 100.0
 
 [node name="Player" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 1 )]
 position = Vector2( 389, 331 )
+playerNum = 2
+lookDirection = Vector2( 0, 0 )
 movementFriction = 400.0
 dashSpeed = 300.0
 maxCancelDashSpeed = 100.0

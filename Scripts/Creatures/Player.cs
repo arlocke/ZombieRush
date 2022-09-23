@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 
 public class Player:Creature {
+    //Player info
+    [Export]
+    public byte playerNum;
     //Interaction Data
     public List<Interactable> currentInteractables = new List<Interactable>();
     public Interactable closestInteractable;
@@ -26,6 +29,10 @@ public class Player:Creature {
     public Sprite eyes;
     public AnimationTree eyesAnimTree;
     public AnimationNodeStateMachinePlayback eyesAnimStateMachine;
+
+    //TEMP
+    [Export]
+    public Vector2 lookDirection;
 
     //Movement
     public bool dashing;
@@ -214,9 +221,14 @@ public class Player:Creature {
     }
     public void UpdateAim() {
         Vector2 mousePos = GetGlobalMousePosition();
-        facingRight = holding ? mousePos.x >= armR.GlobalPosition.x : (movementInput.x != 0 ? movementInput.x > 0 : facingRight);
-        Vector2 mouseDir = mousePos - armR.GlobalPosition;
-        float angle = Mathf.Atan((mousePos.y - armR.GlobalPosition.y) / (mousePos.x - armR.GlobalPosition.x));
+        Vector2 mouseDir;
+        if(playerNum == 1) {
+            mouseDir = mousePos - armR.GlobalPosition;
+        } else {
+            mouseDir = lookDirection;
+        }
+        facingRight = holding ? mouseDir.x >= 0 : (movementInput.x != 0 ? movementInput.x > 0 : facingRight);
+        float angle = Mathf.Atan((mouseDir.y) / (mouseDir.x));
         armR.Rotation = angle;
         armR.Scale = new Vector2((facingRight ? 1 : -1), 1);
         armR.ShowBehindParent = !facingRight;
@@ -236,38 +248,46 @@ public class Player:Creature {
 
     public override void _Input(InputEvent ie) {
         base._Input(ie);
-        if(ie.IsActionPressed("move_right")) {                 //MOVEMENT
+        if(ie.IsActionPressed("move_right_p" + playerNum)) {                 //MOVEMENT
             movementInput.x = 1;
-        } else if(ie.IsActionReleased("move_right")) {
+        } else if(ie.IsActionReleased("move_right_p" + playerNum)) {
             if(movementInput.x == 1)
                 movementInput.x = 0;
-        } else if(ie.IsActionPressed("move_left")) {
+        } else if(ie.IsActionPressed("move_left_p" + playerNum)) {
             movementInput.x = -1;
-        } else if(ie.IsActionReleased("move_left")) {
+        } else if(ie.IsActionReleased("move_left_p" + playerNum)) {
             if(movementInput.x == -1)
                 movementInput.x = 0;
-        } else if(ie.IsActionPressed("move_up")) {
+        } else if(ie.IsActionPressed("move_up_p" + playerNum)) {
             movementInput.y = -1;
-        } else if(ie.IsActionReleased("move_up")) {
+        } else if(ie.IsActionReleased("move_up_p" + playerNum)) {
             if(movementInput.y == -1)
                 movementInput.y = 0;
-        } else if(ie.IsActionPressed("move_down")) {
+        } else if(ie.IsActionPressed("move_down_p" + playerNum)) {
             movementInput.y = 1;
-        } else if(ie.IsActionReleased("move_down")) {
+        } else if(ie.IsActionReleased("move_down_p" + playerNum)) {
             if(movementInput.y == 1)
                 movementInput.y = 0;
-        } else if(ie.IsActionPressed("dash")) {
+        } else if(ie.IsActionPressed("dash_p" + playerNum)) {
             Dash();
-        } else if(ie.IsActionPressed("interact")) {
+        } else if(ie.IsActionPressed("interact_p" + playerNum)) {
             if(closestInteractable != null) {
                 closestInteractable.Interact(this);
             }
+        } else if(ie.IsActionPressed("look_up_p" + playerNum)) {
+            lookDirection.y = -100;
+        } else if(ie.IsActionPressed("look_down_p" + playerNum)) {
+            lookDirection.y = 100;
+        } else if(ie.IsActionPressed("look_right_p" + playerNum)) {
+            lookDirection.x = 100;
+        } else if(ie.IsActionPressed("look_left_p" + playerNum)) {
+            lookDirection.x = -100;
         } else if(holding && heldGun != null) {
-            if(ie.IsActionPressed("shoot")) {
+            if(ie.IsActionPressed("shoot_p" + playerNum)) {
                 heldGun.PullTrigger();
-            } else if(ie.IsActionReleased("shoot")) {
+            } else if(ie.IsActionReleased("shoot_p" + playerNum)) {
                 heldGun.ReleaseTrigger();
-            } else if(ie.IsActionPressed("reload")) {
+            } else if(ie.IsActionPressed("reload_p" + playerNum)) {
                 if(heldGun.currentMagSize < heldGun.magMaxSize) {
                     int amt = RemoveAmmo(heldGun.ammoType, heldGun.magMaxSize - heldGun.currentMagSize);
                     //reload animation
