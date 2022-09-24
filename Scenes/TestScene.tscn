@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Objects/Creatures/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Items/Pickups/PickupGun.tscn" type="PackedScene" id=2]
@@ -8,11 +8,10 @@
 [ext_resource path="res://Objects/Items/Pickups/Ammo/PickupAmmo50AE.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Objects/Items/Pickups/Ammo/PickupAmmo762.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Objects/Items/Weapons/Guns/GunGlock18.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Misc/MainTheme.tres" type="Theme" id=9]
-[ext_resource path="res://Scripts/DEV/FPSCounter.cs" type="Script" id=10]
 [ext_resource path="res://Objects/Items/Weapons/Guns/GunAk-47.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Sprites/Environment/Tilesets/Road_SpriteMap.png" type="Texture" id=12]
 [ext_resource path="res://Objects/Creatures/PlayerYoyoable.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Objects/UI/Game/GUIGame.tscn" type="PackedScene" id=14]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 9.4, 3.5 )
@@ -73,7 +72,7 @@ position = Vector2( 688, 350 )
 
 [node name="PlayerYoyoable" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 13 )]
 position = Vector2( 388, 373 )
-playerNum = 1
+playerNum = 2
 lookDirection = Vector2( 0, 0 )
 movementFriction = 400.0
 dashSpeed = 300.0
@@ -81,7 +80,7 @@ maxCancelDashSpeed = 100.0
 
 [node name="Player" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 1 )]
 position = Vector2( 389, 331 )
-playerNum = 2
+playerNum = 1
 lookDirection = Vector2( 0, 0 )
 movementFriction = 400.0
 dashSpeed = 300.0
@@ -92,14 +91,7 @@ offset = Vector2( 0, -16 )
 current = true
 zoom = Vector2( 0.5, 0.5 )
 
-[node name="Label" type="Label" parent="Navigation2D/MasterYSort/Players/Player/Camera2D"]
-margin_left = -250.0
-margin_top = -165.0
-margin_right = -195.0
-margin_bottom = -151.0
-theme = ExtResource( 9 )
-text = "FPS: 99999"
-script = ExtResource( 10 )
+[node name="GUIGame" parent="Navigation2D/MasterYSort/Players/Player/Camera2D" instance=ExtResource( 14 )]
 
 [node name="Pickups" type="YSort" parent="Navigation2D/MasterYSort"]
 
@@ -173,3 +165,5 @@ shape = SubResource( 2 )
 visible = false
 position = Vector2( -70, 12 )
 navpoly = SubResource( 1 )
+
+[editable path="Navigation2D/MasterYSort/Players/Player/Camera2D/GUIGame"]

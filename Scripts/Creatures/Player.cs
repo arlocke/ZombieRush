@@ -274,13 +274,13 @@ public class Player:Creature {
             if(closestInteractable != null) {
                 closestInteractable.Interact(this);
             }
-        } else if(ie.IsActionPressed("look_up_p" + playerNum)) {
+        } else if(playerNum != 1 && ie.IsActionPressed("look_up_p" + playerNum)) {
             lookDirection.y = -100;
-        } else if(ie.IsActionPressed("look_down_p" + playerNum)) {
+        } else if(playerNum != 1 && ie.IsActionPressed("look_down_p" + playerNum)) {
             lookDirection.y = 100;
-        } else if(ie.IsActionPressed("look_right_p" + playerNum)) {
+        } else if(playerNum != 1 && ie.IsActionPressed("look_right_p" + playerNum)) {
             lookDirection.x = 100;
-        } else if(ie.IsActionPressed("look_left_p" + playerNum)) {
+        } else if(playerNum != 1 && ie.IsActionPressed("look_left_p" + playerNum)) {
             lookDirection.x = -100;
         } else if(holding && heldGun != null) {
             if(ie.IsActionPressed("shoot_p" + playerNum)) {

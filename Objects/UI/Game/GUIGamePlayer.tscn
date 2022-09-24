@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Objects/UI/Game/GUIGamePlayerHP.tscn" type="PackedScene" id=1]
+
+[node name="GUIGamePlayer" type="VSplitContainer"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 9.0
+margin_top = -57.0
+margin_right = 278.0
+margin_bottom = -9.0
+
+[node name="GUIGamePlayerHP" parent="." instance=ExtResource( 1 )]
+anchor_top = 0.0
+anchor_bottom = 0.0
+margin_top = 0.0
+margin_right = 269.0
+margin_bottom = 48.0
