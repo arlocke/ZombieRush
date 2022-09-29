@@ -8,13 +8,11 @@
 [ext_resource path="res://Objects/Items/Pickups/Ammo/PickupAmmo50AE.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Objects/Items/Pickups/Ammo/PickupAmmo762.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Objects/Items/Weapons/Guns/GunGlock18.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Objects/Managers/PlayerManager.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Objects/UI/Game/GUIGamePlayer.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Objects/Items/Weapons/Guns/GunAk-47.tscn" type="PackedScene" id=11]
-[ext_resource path="res://Sprites/Environment/Tilesets/Road_SpriteMap.png" type="Texture" id=12]
+[ext_resource path="res://Objects/Managers/CameraGame.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Objects/Creatures/PlayerYoyoable.tscn" type="PackedScene" id=13]
-[ext_resource path="res://Objects/UI/Game/GUIGame.tscn" type="PackedScene" id=14]
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 9.4, 3.5 )
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 163, 70, 922, 65, 945, 535, 122, 516 )
@@ -23,6 +21,12 @@ outlines = [ PoolVector2Array( 163, 70, 922, 65, 945, 535, 122, 516 ) ]
 
 [node name="Node2D" type="Node2D"]
 
+[node name="PlayerManager" parent="." instance=ExtResource( 9 )]
+playerGUIRef = ExtResource( 10 )
+
+[node name="CameraGame" parent="PlayerManager" instance=ExtResource( 12 )]
+padding = Vector2( 16, 16 )
+
 [node name="Navigation2D" type="Navigation2D" parent="."]
 
 [node name="MasterYSort" type="YSort" parent="Navigation2D"]
@@ -30,68 +34,88 @@ outlines = [ PoolVector2Array( 163, 70, 922, 65, 945, 535, 122, 516 ) ]
 [node name="Zombies" type="YSort" parent="Navigation2D/MasterYSort"]
 
 [node name="Zombie" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 557, 324 )
+position = Vector2( 760, 337 )
+state = 5
+meleeAttackRangeSqr = 1024.0
 
 [node name="Zombie2" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 560, 271 )
+position = Vector2( 763, 284 )
+state = 5
+meleeAttackRangeSqr = 1024.0
 
 [node name="Zombie3" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 554, 384 )
+position = Vector2( 757, 397 )
+state = 5
+meleeAttackRangeSqr = 1024.0
 
 [node name="Zombie4" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 584, 293 )
+position = Vector2( 787, 306 )
+state = 5
+meleeAttackRangeSqr = 1024.0
 
 [node name="Zombie5" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 582, 362 )
+position = Vector2( 785, 375 )
+state = 5
+meleeAttackRangeSqr = 1024.0
 
 [node name="Zombie6" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 604, 321 )
+position = Vector2( 807, 334 )
+state = 5
+meleeAttackRangeSqr = 1024.0
 
 [node name="Zombie7" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 630, 294 )
+position = Vector2( 833, 307 )
+state = 5
+meleeAttackRangeSqr = 1024.0
 
 [node name="Zombie8" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 626, 358 )
+position = Vector2( 829, 371 )
+state = 5
+meleeAttackRangeSqr = 1024.0
 
 [node name="Zombie9" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 659, 253 )
+position = Vector2( 862, 266 )
+state = 5
+meleeAttackRangeSqr = 1024.0
 
 [node name="Zombie10" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 598, 225 )
+position = Vector2( 801, 238 )
+state = 5
+meleeAttackRangeSqr = 1024.0
 
 [node name="Zombie11" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 568, 223 )
+position = Vector2( 771, 236 )
+state = 5
+meleeAttackRangeSqr = 1024.0
 
 [node name="Zombie12" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 670, 205 )
+position = Vector2( 873, 218 )
+state = 5
+meleeAttackRangeSqr = 1024.0
 
 [node name="Zombie13" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 688, 350 )
+position = Vector2( 891, 363 )
+state = 5
+meleeAttackRangeSqr = 1024.0
 
 [node name="Players" type="YSort" parent="Navigation2D/MasterYSort"]
 
 [node name="PlayerYoyoable" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 13 )]
-position = Vector2( 388, 373 )
+position = Vector2( -88, 570 )
+corpseTexture = null
+corpseRef = null
 playerNum = 2
-lookDirection = Vector2( 0, 0 )
 movementFriction = 400.0
 dashSpeed = 300.0
 maxCancelDashSpeed = 100.0
 
 [node name="Player" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 1 )]
 position = Vector2( 389, 331 )
+teamFaction = 1
 playerNum = 1
-lookDirection = Vector2( 0, 0 )
 movementFriction = 400.0
 dashSpeed = 300.0
 maxCancelDashSpeed = 100.0
-
-[node name="Camera2D" type="Camera2D" parent="Navigation2D/MasterYSort/Players/Player"]
-offset = Vector2( 0, -16 )
-current = true
-zoom = Vector2( 0.5, 0.5 )
-
-[node name="GUIGame" parent="Navigation2D/MasterYSort/Players/Player/Camera2D" instance=ExtResource( 14 )]
 
 [node name="Pickups" type="YSort" parent="Navigation2D/MasterYSort"]
 
@@ -146,24 +170,7 @@ startingHVel = 0.15
 position = Vector2( 280, 339 )
 startingHVel = 0.15
 
-[node name="Sprite" type="Sprite" parent="Navigation2D/MasterYSort"]
-position = Vector2( 389, 241 )
-texture = ExtResource( 12 )
-offset = Vector2( -0.5, -11 )
-region_enabled = true
-region_rect = Rect2( 0, 32, 32, 32 )
-region_filter_clip = true
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Navigation2D/MasterYSort/Sprite"]
-scale = Vector2( 0.48, 1 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Navigation2D/MasterYSort/Sprite/StaticBody2D"]
-position = Vector2( 0, -0.5 )
-shape = SubResource( 2 )
-
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
 visible = false
 position = Vector2( -70, 12 )
 navpoly = SubResource( 1 )
-
-[editable path="Navigation2D/MasterYSort/Players/Player/Camera2D/GUIGame"]

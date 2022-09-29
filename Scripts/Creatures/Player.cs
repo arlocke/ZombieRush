@@ -53,6 +53,10 @@ public class Player:Creature {
     [Export]
     Vector2 movementInput;
 
+    //UI
+    public GUIGamePlayer playerGUI;
+    public CameraGame cam;
+
     //Prefabs
     [Export]
     public PackedScene pickupGunRef;
@@ -87,7 +91,8 @@ public class Player:Creature {
         UpdateAim();
         bool walking = false;
         if(movementInput != Vector2.Zero && CanManeuver() && (!dashing || Mathf.Abs(movementInput.Angle() - movementDirection.Angle()) > 0.5f)) {
-            walking = MoveAndSlide(movementInput.Normalized() * moveSpeed) != Vector2.Zero;
+            Vector2 vel = cam.AllowedVel(this, movementInput.Normalized() * moveSpeed, dt);
+            walking = !vel.IsEqualApprox(Vector2.Zero) && !MoveAndSlide(vel).IsEqualApprox(Vector2.Zero);
             if(dashing) {
                 dashing = false;
                 movementVelocity = 0;
@@ -101,7 +106,9 @@ public class Player:Creature {
                 movementVelocity = 0;
                 movementDirection = Vector2.Zero;
             } else {
-                MoveAndSlide(movementDirection * movementVelocity);
+                Vector2 vel = cam.AllowedVel(this, movementDirection * movementVelocity, dt);
+                if(!vel.IsEqualApprox(Vector2.Zero))
+                    MoveAndSlide(vel);
             }
         }
         hand1Socket.ShowBehindParent = facingRight;
@@ -181,7 +188,6 @@ public class Player:Creature {
             bodySprite.FlipH = false;
         }
     }
-
     public void DropGun(Gun g) {
         PickupGun newGunPickup = pickupGunRef.Instance<PickupGun>();
         GetParent().GetParent().GetNode<YSort>("Pickups").AddChild(newGunPickup);
@@ -219,6 +225,17 @@ public class Player:Creature {
     public int CheckAmmo(AmmoType t) {
         return heldAmmo[t];
     }
+    public override void Heal(float healAmount) {
+        base.Heal(healAmount);
+        playerGUI.UpdateHP();
+    }
+    public override void TakeDamage(float takenDamage) {
+        base.TakeDamage(takenDamage);
+        playerGUI.UpdateHP();
+    }
+    public override void Die() {
+        base.Die();
+    }
     public void UpdateAim() {
         Vector2 mousePos = GetGlobalMousePosition();
         Vector2 mouseDir;
@@ -251,22 +268,22 @@ public class Player:Creature {
         if(ie.IsActionPressed("move_right_p" + playerNum)) {                 //MOVEMENT
             movementInput.x = 1;
         } else if(ie.IsActionReleased("move_right_p" + playerNum)) {
-            if(movementInput.x == 1)
+            if(movementInput.x > 0)
                 movementInput.x = 0;
         } else if(ie.IsActionPressed("move_left_p" + playerNum)) {
             movementInput.x = -1;
         } else if(ie.IsActionReleased("move_left_p" + playerNum)) {
-            if(movementInput.x == -1)
+            if(movementInput.x < 0)
                 movementInput.x = 0;
         } else if(ie.IsActionPressed("move_up_p" + playerNum)) {
             movementInput.y = -1;
         } else if(ie.IsActionReleased("move_up_p" + playerNum)) {
-            if(movementInput.y == -1)
+            if(movementInput.y < 0)
                 movementInput.y = 0;
         } else if(ie.IsActionPressed("move_down_p" + playerNum)) {
             movementInput.y = 1;
         } else if(ie.IsActionReleased("move_down_p" + playerNum)) {
-            if(movementInput.y == 1)
+            if(movementInput.y > 0)
                 movementInput.y = 0;
         } else if(ie.IsActionPressed("dash_p" + playerNum)) {
             Dash();
@@ -294,6 +311,10 @@ public class Player:Creature {
                     heldGun.FinishReload(heldGun.currentMagSize + amt); //implement ammo at some point
                 }
             }
+        } else if(ie.IsActionPressed("add_hp_p" + playerNum)) {                 //Add HP TEST
+            Heal(3);
+        } else if(ie.IsActionPressed("remove_hp_p" + playerNum)) {                 //Remove HP TEST
+            TakeDamage(2);
         }
     }
 }
