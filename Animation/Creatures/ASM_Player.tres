@@ -30,8 +30,8 @@ value_label = "Holding"
 
 [resource]
 states/Idle/node = SubResource( 3 )
-states/Idle/position = Vector2( 88.319, -87.028 )
+states/Idle/position = Vector2( 79.319, -87.028 )
 states/Walk/node = SubResource( 6 )
 states/Walk/position = Vector2( 279.319, -87.028 )
 start_node = "Idle"
-graph_offset = Vector2( -371.681, -168.028 )
+graph_offset = Vector2( -173.681, -147.028 )

@@ -2,8 +2,19 @@ using Godot;
 using Godot.Collections;
 using System.Collections.Generic;
 
+public enum InputDeviceType {
+    MouseKeyboard,
+    Controller,
+}
+
 
 public class Player:Creature {
+    //Input Info
+    public InputDeviceType inputDeviceType;
+
+    //Player info
+    [Export]
+    public byte playerNum;
     //Interaction Data
     public List<Interactable> currentInteractables = new List<Interactable>();
     public Interactable closestInteractable;
@@ -27,6 +38,10 @@ public class Player:Creature {
     public AnimationTree eyesAnimTree;
     public AnimationNodeStateMachinePlayback eyesAnimStateMachine;
 
+    //TEMP
+    [Export]
+    public Vector2 lookDirection;
+
     //Movement
     public bool dashing;
     public Vector2 movementDirection;
@@ -45,6 +60,10 @@ public class Player:Creature {
     public List<int> heldAmmoList;
     [Export]
     Vector2 movementInput;
+
+    //UI
+    public GUIGamePlayer playerGUI;
+    public CameraGame cam;
 
     //Prefabs
     [Export]
@@ -79,8 +98,17 @@ public class Player:Creature {
     public override void _PhysicsProcess(float dt) {
         UpdateAim();
         bool walking = false;
+        if(inputDeviceType == InputDeviceType.Controller) { //for now
+            Vector2 leftStick = new Vector2 (Input.GetJoyAxis(playerNum - 2, (int) JoystickList.AnalogLx), Input.GetJoyAxis(playerNum - 2, (int) JoystickList.AnalogLy));
+            if(leftStick.LengthSquared() > 0.5f){
+                movementInput = leftStick; 
+            } else {
+                movementInput = Vector2.Zero;
+            }
+        }
         if(movementInput != Vector2.Zero && CanManeuver() && (!dashing || Mathf.Abs(movementInput.Angle() - movementDirection.Angle()) > 0.5f)) {
-            walking = MoveAndSlide(movementInput.Normalized() * moveSpeed) != Vector2.Zero;
+            Vector2 vel = cam.AllowedVel(this, movementInput.Normalized() * moveSpeed, dt);
+            walking = !vel.IsEqualApprox(Vector2.Zero) && !MoveAndSlide(vel).IsEqualApprox(Vector2.Zero);
             if(dashing) {
                 dashing = false;
                 movementVelocity = 0;
@@ -94,7 +122,9 @@ public class Player:Creature {
                 movementVelocity = 0;
                 movementDirection = Vector2.Zero;
             } else {
-                MoveAndSlide(movementDirection * movementVelocity);
+                Vector2 vel = cam.AllowedVel(this, movementDirection * movementVelocity, dt);
+                if(!vel.IsEqualApprox(Vector2.Zero))
+                    MoveAndSlide(vel);
             }
         }
         hand1Socket.ShowBehindParent = facingRight;
@@ -174,7 +204,6 @@ public class Player:Creature {
             bodySprite.FlipH = false;
         }
     }
-
     public void DropGun(Gun g) {
         PickupGun newGunPickup = pickupGunRef.Instance<PickupGun>();
         GetParent().GetParent().GetNode<YSort>("Pickups").AddChild(newGunPickup);
@@ -212,68 +241,104 @@ public class Player:Creature {
     public int CheckAmmo(AmmoType t) {
         return heldAmmo[t];
     }
+    public override void Heal(float healAmount) {
+        base.Heal(healAmount);
+        playerGUI.UpdateHP();
+    }
+    public override void TakeDamage(float takenDamage) {
+        base.TakeDamage(takenDamage);
+        playerGUI.UpdateHP();
+    }
+    public override void Die() {
+        base.Die();
+    }
     public void UpdateAim() {
-        Vector2 mousePos = GetGlobalMousePosition();
-        facingRight = holding ? mousePos.x >= armR.GlobalPosition.x : (movementInput.x != 0 ? movementInput.x > 0 : facingRight);
-        Vector2 mouseDir = mousePos - armR.GlobalPosition;
-        float angle = Mathf.Atan((mousePos.y - armR.GlobalPosition.y) / (mousePos.x - armR.GlobalPosition.x));
-        armR.Rotation = angle;
-        armR.Scale = new Vector2((facingRight ? 1 : -1), 1);
-        armR.ShowBehindParent = !facingRight;
-        armL.Scale = new Vector2((facingRight ? 1 : -1), 1);
-        armL.ShowBehindParent = facingRight;
-        if(heldGun != null) {
-            heldGun.SetFacingRight(facingRight);
+        Vector2 lookDir = new Vector2();
+        if(inputDeviceType == InputDeviceType.MouseKeyboard) {
+            Vector2 mousePos = GetGlobalMousePosition();
+            lookDir = mousePos - armR.GlobalPosition;
+        } else {
+            Vector2 rightStick = new Vector2 (Input.GetJoyAxis(playerNum - 2, (int) JoystickList.AnalogRx), Input.GetJoyAxis(playerNum - 2, (int) JoystickList.AnalogRy));
+            if(rightStick.LengthSquared() > 0.5f){
+                lookDir = rightStick;
+            }else {
+                lookDir = movementInput;
+            }
+        }
+        if(!lookDir.IsEqualApprox(Vector2.Zero)){
+            facingRight = holding ? lookDir.x >= 0 : (movementInput.x != 0 ? movementInput.x > 0 : facingRight);
+            float angle = Mathf.Atan((lookDir.y) / (lookDir.x));
+            armR.Rotation = angle;
+            armR.Scale = new Vector2((facingRight ? 1 : -1), 1);
+            armR.ShowBehindParent = !facingRight;
+            armL.Scale = new Vector2((facingRight ? 1 : -1), 1);
+            armL.ShowBehindParent = facingRight;
+            if(heldGun != null) {
+                heldGun.SetFacingRight(facingRight);
+            }
         }
         Vector2 eyeDir;
-        if(Mathf.Abs(mouseDir.x) < 8 && Mathf.Abs(mouseDir.y) < 8)
+        float lookDirDeadzone = inputDeviceType == InputDeviceType.MouseKeyboard ? 64 : 0.25f;
+        if(lookDir.LengthSquared() < lookDirDeadzone)
             eyeDir = new Vector2();
         else
-            eyeDir = new Vector2(mouseDir.x * (facingRight ? 1 : -1), -mouseDir.y).Normalized();
+            eyeDir = new Vector2(lookDir.x * (facingRight ? 1 : -1), -lookDir.y).Normalized();
         eyesAnimTree.Set("parameters/Idle/blend_position", eyeDir);
         eyesAnimTree.Set("parameters/Blink/blend_position", eyeDir);
     }
 
     public override void _Input(InputEvent ie) {
         base._Input(ie);
-        if(ie.IsActionPressed("move_right")) {                 //MOVEMENT
+        if(ie.IsActionPressed("move_right_p" + playerNum)) {                 //MOVEMENT
             movementInput.x = 1;
-        } else if(ie.IsActionReleased("move_right")) {
-            if(movementInput.x == 1)
+        } else if(ie.IsActionReleased("move_right_p" + playerNum)) {
+            if(movementInput.x > 0)
                 movementInput.x = 0;
-        } else if(ie.IsActionPressed("move_left")) {
+        } else if(ie.IsActionPressed("move_left_p" + playerNum)) {
             movementInput.x = -1;
-        } else if(ie.IsActionReleased("move_left")) {
-            if(movementInput.x == -1)
+        } else if(ie.IsActionReleased("move_left_p" + playerNum)) {
+            if(movementInput.x < 0)
                 movementInput.x = 0;
-        } else if(ie.IsActionPressed("move_up")) {
+        } else if(ie.IsActionPressed("move_up_p" + playerNum)) {
             movementInput.y = -1;
-        } else if(ie.IsActionReleased("move_up")) {
-            if(movementInput.y == -1)
+        } else if(ie.IsActionReleased("move_up_p" + playerNum)) {
+            if(movementInput.y < 0)
                 movementInput.y = 0;
-        } else if(ie.IsActionPressed("move_down")) {
+        } else if(ie.IsActionPressed("move_down_p" + playerNum)) {
             movementInput.y = 1;
-        } else if(ie.IsActionReleased("move_down")) {
-            if(movementInput.y == 1)
+        } else if(ie.IsActionReleased("move_down_p" + playerNum)) {
+            if(movementInput.y > 0)
                 movementInput.y = 0;
-        } else if(ie.IsActionPressed("dash")) {
+        } else if(ie.IsActionPressed("dash_p" + playerNum)) {
             Dash();
-        } else if(ie.IsActionPressed("interact")) {
+        } else if(ie.IsActionPressed("interact_p" + playerNum)) {
             if(closestInteractable != null) {
                 closestInteractable.Interact(this);
             }
+        } else if(playerNum != 1 && ie.IsActionPressed("look_up_p" + playerNum)) {
+            lookDirection.y = -100;
+        } else if(playerNum != 1 && ie.IsActionPressed("look_down_p" + playerNum)) {
+            lookDirection.y = 100;
+        } else if(playerNum != 1 && ie.IsActionPressed("look_right_p" + playerNum)) {
+            lookDirection.x = 100;
+        } else if(playerNum != 1 && ie.IsActionPressed("look_left_p" + playerNum)) {
+            lookDirection.x = -100;
         } else if(holding && heldGun != null) {
-            if(ie.IsActionPressed("shoot")) {
+            if(ie.IsActionPressed("shoot_p" + playerNum)) {
                 heldGun.PullTrigger();
-            } else if(ie.IsActionReleased("shoot")) {
+            } else if(ie.IsActionReleased("shoot_p" + playerNum)) {
                 heldGun.ReleaseTrigger();
-            } else if(ie.IsActionPressed("reload")) {
+            } else if(ie.IsActionPressed("reload_p" + playerNum)) {
                 if(heldGun.currentMagSize < heldGun.magMaxSize) {
                     int amt = RemoveAmmo(heldGun.ammoType, heldGun.magMaxSize - heldGun.currentMagSize);
                     //reload animation
                     heldGun.FinishReload(heldGun.currentMagSize + amt); //implement ammo at some point
                 }
             }
+        } else if(ie.IsActionPressed("add_hp_p" + playerNum)) {                 //Add HP TEST
+            Heal(3);
+        } else if(ie.IsActionPressed("remove_hp_p" + playerNum)) {                 //Remove HP TEST
+            TakeDamage(2);
         }
     }
 }
