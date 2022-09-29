@@ -35,73 +35,74 @@ padding = Vector2( 16, 16 )
 
 [node name="Zombie" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 760, 337 )
-state = 5
-meleeAttackRangeSqr = 1024.0
+meleeAttackDamage = 0.0
+meleeAttackRangeSqr = 0.0
 
 [node name="Zombie2" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 763, 284 )
-state = 5
-meleeAttackRangeSqr = 1024.0
+meleeAttackDamage = 0.0
+meleeAttackRangeSqr = 0.0
 
 [node name="Zombie3" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 757, 397 )
-state = 5
-meleeAttackRangeSqr = 1024.0
+meleeAttackDamage = 0.0
+meleeAttackRangeSqr = 0.0
 
 [node name="Zombie4" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 787, 306 )
-state = 5
-meleeAttackRangeSqr = 1024.0
+meleeAttackDamage = 0.0
+meleeAttackRangeSqr = 0.0
 
 [node name="Zombie5" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 785, 375 )
-state = 5
-meleeAttackRangeSqr = 1024.0
+meleeAttackDamage = 0.0
+meleeAttackRangeSqr = 0.0
 
 [node name="Zombie6" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 807, 334 )
-state = 5
-meleeAttackRangeSqr = 1024.0
+meleeAttackDamage = 0.0
+meleeAttackRangeSqr = 0.0
 
 [node name="Zombie7" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 833, 307 )
-state = 5
-meleeAttackRangeSqr = 1024.0
+meleeAttackDamage = 0.0
+meleeAttackRangeSqr = 0.0
 
 [node name="Zombie8" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 829, 371 )
-state = 5
-meleeAttackRangeSqr = 1024.0
+meleeAttackDamage = 0.0
+meleeAttackRangeSqr = 0.0
 
 [node name="Zombie9" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 862, 266 )
-state = 5
-meleeAttackRangeSqr = 1024.0
+meleeAttackDamage = 0.0
+meleeAttackRangeSqr = 0.0
 
 [node name="Zombie10" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 801, 238 )
-state = 5
-meleeAttackRangeSqr = 1024.0
+meleeAttackDamage = 0.0
+meleeAttackRangeSqr = 0.0
 
 [node name="Zombie11" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 771, 236 )
-state = 5
-meleeAttackRangeSqr = 1024.0
+meleeAttackDamage = 0.0
+meleeAttackRangeSqr = 0.0
 
 [node name="Zombie12" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 873, 218 )
-state = 5
-meleeAttackRangeSqr = 1024.0
+meleeAttackDamage = 0.0
+meleeAttackRangeSqr = 0.0
 
 [node name="Zombie13" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 891, 363 )
-state = 5
-meleeAttackRangeSqr = 1024.0
+meleeAttackDamage = 0.0
+meleeAttackRangeSqr = 0.0
 
 [node name="Players" type="YSort" parent="Navigation2D/MasterYSort"]
 
 [node name="PlayerYoyoable" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 13 )]
-position = Vector2( -88, 570 )
+position = Vector2( 389, 366 )
+scale = Vector2( 1, 1 )
 corpseTexture = null
 corpseRef = null
 playerNum = 2
@@ -111,6 +112,8 @@ maxCancelDashSpeed = 100.0
 
 [node name="Player" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 1 )]
 position = Vector2( 389, 331 )
+corpseTexture = null
+corpseRef = null
 teamFaction = 1
 playerNum = 1
 movementFriction = 400.0

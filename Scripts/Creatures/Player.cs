@@ -2,8 +2,16 @@ using Godot;
 using Godot.Collections;
 using System.Collections.Generic;
 
+public enum InputDeviceType {
+    MouseKeyboard,
+    Controller,
+}
+
 
 public class Player:Creature {
+    //Input Info
+    public InputDeviceType inputDeviceType;
+
     //Player info
     [Export]
     public byte playerNum;
@@ -90,6 +98,14 @@ public class Player:Creature {
     public override void _PhysicsProcess(float dt) {
         UpdateAim();
         bool walking = false;
+        if(inputDeviceType == InputDeviceType.Controller) { //for now
+            Vector2 leftStick = new Vector2 (Input.GetJoyAxis(playerNum - 2, (int) JoystickList.AnalogLx), Input.GetJoyAxis(playerNum - 2, (int) JoystickList.AnalogLy));
+            if(leftStick.LengthSquared() > 0.5f){
+                movementInput = leftStick; 
+            } else {
+                movementInput = Vector2.Zero;
+            }
+        }
         if(movementInput != Vector2.Zero && CanManeuver() && (!dashing || Mathf.Abs(movementInput.Angle() - movementDirection.Angle()) > 0.5f)) {
             Vector2 vel = cam.AllowedVel(this, movementInput.Normalized() * moveSpeed, dt);
             walking = !vel.IsEqualApprox(Vector2.Zero) && !MoveAndSlide(vel).IsEqualApprox(Vector2.Zero);
@@ -237,28 +253,36 @@ public class Player:Creature {
         base.Die();
     }
     public void UpdateAim() {
-        Vector2 mousePos = GetGlobalMousePosition();
-        Vector2 mouseDir;
-        if(playerNum == 1) {
-            mouseDir = mousePos - armR.GlobalPosition;
+        Vector2 lookDir = new Vector2();
+        if(inputDeviceType == InputDeviceType.MouseKeyboard) {
+            Vector2 mousePos = GetGlobalMousePosition();
+            lookDir = mousePos - armR.GlobalPosition;
         } else {
-            mouseDir = lookDirection;
+            Vector2 rightStick = new Vector2 (Input.GetJoyAxis(playerNum - 2, (int) JoystickList.AnalogRx), Input.GetJoyAxis(playerNum - 2, (int) JoystickList.AnalogRy));
+            if(rightStick.LengthSquared() > 0.5f){
+                lookDir = rightStick;
+            }else {
+                lookDir = movementInput;
+            }
         }
-        facingRight = holding ? mouseDir.x >= 0 : (movementInput.x != 0 ? movementInput.x > 0 : facingRight);
-        float angle = Mathf.Atan((mouseDir.y) / (mouseDir.x));
-        armR.Rotation = angle;
-        armR.Scale = new Vector2((facingRight ? 1 : -1), 1);
-        armR.ShowBehindParent = !facingRight;
-        armL.Scale = new Vector2((facingRight ? 1 : -1), 1);
-        armL.ShowBehindParent = facingRight;
-        if(heldGun != null) {
-            heldGun.SetFacingRight(facingRight);
+        if(!lookDir.IsEqualApprox(Vector2.Zero)){
+            facingRight = holding ? lookDir.x >= 0 : (movementInput.x != 0 ? movementInput.x > 0 : facingRight);
+            float angle = Mathf.Atan((lookDir.y) / (lookDir.x));
+            armR.Rotation = angle;
+            armR.Scale = new Vector2((facingRight ? 1 : -1), 1);
+            armR.ShowBehindParent = !facingRight;
+            armL.Scale = new Vector2((facingRight ? 1 : -1), 1);
+            armL.ShowBehindParent = facingRight;
+            if(heldGun != null) {
+                heldGun.SetFacingRight(facingRight);
+            }
         }
         Vector2 eyeDir;
-        if(Mathf.Abs(mouseDir.x) < 8 && Mathf.Abs(mouseDir.y) < 8)
+        float lookDirDeadzone = inputDeviceType == InputDeviceType.MouseKeyboard ? 64 : 0.25f;
+        if(lookDir.LengthSquared() < lookDirDeadzone)
             eyeDir = new Vector2();
         else
-            eyeDir = new Vector2(mouseDir.x * (facingRight ? 1 : -1), -mouseDir.y).Normalized();
+            eyeDir = new Vector2(lookDir.x * (facingRight ? 1 : -1), -lookDir.y).Normalized();
         eyesAnimTree.Set("parameters/Idle/blend_position", eyeDir);
         eyesAnimTree.Set("parameters/Blink/blend_position", eyeDir);
     }

@@ -26,5 +26,7 @@ public class PlayerManager:Node {
         pGUI.SetupPlayer(p);
         cam.targets.Add(p);
         p.cam = cam;
+        p.inputDeviceType = p.playerNum == 1 ? InputDeviceType.MouseKeyboard : InputDeviceType.Controller;
     }
+
 }
