@@ -8,11 +8,11 @@
 [node name="GunAk-47" instance=ExtResource( 1 )]
 itemName = "Ak-47"
 damage = 3.0
-fireRate = 0.1
+attackRate = 0.1
+itemSize = 3.0
 magMaxSize = 30
 currentMagSize = 30
 ammoType = 1
-itemSize = 3.0
 
 [node name="Sprite" parent="." index="0"]
 texture = ExtResource( 2 )

@@ -12,21 +12,18 @@ public enum GunState {
     Empty,
     //cancelling
 }
+public enum GunSlotType {
+    Primary,
+    Secondary
+}
 
-public class Gun:Node2D {
-    [Export]
-    public string itemName;
+public class Gun:Weapon {
     [Export]
     public FireMode fireMode;
+    [Export]
+    public GunSlotType slotType;
     public GunState state;
     public string animState = "Idle";
-    public bool facingRight = true;
-    [Export]
-    public int tier;
-    [Export]
-    public float damage;
-    [Export]
-    public float fireRate;
     public float fireTimer;
     [Export]
     public float range;
@@ -44,26 +41,12 @@ public class Gun:Node2D {
     [Export]
     public PackedScene bulletRef;
     ////////////Components
-    public AnimationTree animTree;
-    public AnimationNodeStateMachinePlayback animStateMachine;
     public Node2D bulletSpawnSocket;
-    public Node2D hand1Socket;
-    public Node2D hand2Socket;
-    [Export]
-    public float itemSize = 1;
-    public Creature holder;
 
     public override void _Ready() {
-        animTree = GetNode<AnimationTree>("AnimationTree");
-        animStateMachine = (AnimationNodeStateMachinePlayback)animTree.Get("parameters/playback");
+        base._Ready();
         UpdateAnimTreeVars();
-        animTree.Set("parameters/ActionBack/TimeScale/scale", Mathf.Max(1 / fireRate, 5));
-        animTree.Set("parameters/ActionForward/TimeScale/scale", Mathf.Max(1 / fireRate, 5));
-        SetFacingRight(true);
         bulletSpawnSocket = GetNode<Node2D>("BulletSpawnSocket");
-        hand1Socket = GetNode<Node2D>("Hand1Socket");
-        hand2Socket = GetNode<Node2D>("Hand2Socket");
-
     }
     public override void _PhysicsProcess(float dt) {
         if(fireTimer > 0) {
@@ -77,6 +60,14 @@ public class Gun:Node2D {
             }
         }
     }
+    public override void Attack() {
+        base.Attack();
+        PullTrigger();
+    }
+    public override void ReleaseAttack() {
+        base.ReleaseAttack();
+        ReleaseTrigger();
+    }
     public void PullTrigger() {
         if(state == GunState.Idle) {
             state = GunState.TriggerHeld;
@@ -88,7 +79,7 @@ public class Gun:Node2D {
         }
     }
     public void Shoot() {
-        fireTimer += fireRate;
+        fireTimer += attackRate;
 
         Bullet newBullet = bulletRef.Instance<Bullet>();
         GetTree().Root.AddChild(newBullet);
@@ -127,7 +118,7 @@ public class Gun:Node2D {
         currentMagSize = ammoToAdd;
         animTree.Set("parameters/conditions/Loaded", currentMagSize > 0);
     }
-    public void SetFacingRight(bool r) {
+    public override void SetFacingRight(bool r) {
         if(r != facingRight) {
             facingRight = r;
             ShowBehindParent = facingRight;
@@ -139,7 +130,7 @@ public class Gun:Node2D {
     }
     public void UpdateAnimTreeVars() {
         if(animTree != null) {
-            animTree.Set("parameters/" + animState + "/TimeScale/scale", Mathf.Max(1 / fireRate, 5));
+            animTree.Set("parameters/" + animState + "/TimeScale/scale", Mathf.Max(1 / attackRate, 5));
         }
     }
     public void UpdateAnimFacingRight() {

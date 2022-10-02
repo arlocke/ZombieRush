@@ -1,7 +1,7 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Objects/Creatures/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Objects/Items/Pickups/PickupGun.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Objects/Items/Pickups/PickupWeapon.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Objects/Items/Weapons/Guns/GunDesertEagle.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Objects/Creatures/Zombies/Zombie.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Objects/Items/Pickups/Ammo/PickupAmmo9mm.tscn" type="PackedScene" id=5]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Objects/Items/Weapons/Guns/GunAk-47.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Objects/Managers/CameraGame.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Objects/Creatures/PlayerYoyoable.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Objects/Items/Weapons/Melee/WeaponMelee.tscn" type="PackedScene" id=14]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 163, 70, 922, 65, 945, 535, 122, 516 )
@@ -109,6 +110,7 @@ playerNum = 2
 movementFriction = 400.0
 dashSpeed = 300.0
 maxCancelDashSpeed = 100.0
+pickupWeaponRef = null
 
 [node name="Player" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 1 )]
 position = Vector2( 389, 331 )
@@ -119,8 +121,14 @@ playerNum = 1
 movementFriction = 400.0
 dashSpeed = 300.0
 maxCancelDashSpeed = 100.0
+pickupWeaponRef = null
 
 [node name="Pickups" type="YSort" parent="Navigation2D/MasterYSort"]
+
+[node name="PickupWeaponMelee" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 2 )]
+position = Vector2( 430, 413 )
+
+[node name="WeaponMelee" parent="Navigation2D/MasterYSort/Pickups/PickupWeaponMelee" instance=ExtResource( 14 )]
 
 [node name="PickupGun" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 2 )]
 position = Vector2( 429, 304 )

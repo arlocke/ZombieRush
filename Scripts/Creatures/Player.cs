@@ -31,8 +31,16 @@ public class Player:Creature {
     //Children
     public Sprite armR;
     public Sprite armL;
-    public Node2D hand1Socket;
-    public Gun heldGun;
+    public Node2D handRSocket;
+    public Node2D handLSocket;
+    [Export]
+    public Weapon activeWeapon;
+    [Export]
+    public WeaponMelee melee;
+    [Export]
+    public Gun secondaryGun;
+    [Export]
+    public Gun primaryGun;
     public Node2D face;
     public Sprite eyes;
     public AnimationTree eyesAnimTree;
@@ -67,7 +75,7 @@ public class Player:Creature {
 
     //Prefabs
     [Export]
-    public PackedScene pickupGunRef;
+    public PackedScene pickupWeaponRef;
 
     // Start is called before the first frame update
     public override void _Ready() {
@@ -86,22 +94,23 @@ public class Player:Creature {
         heldAmmoList = new List<int>(heldAmmo.Values);
         armR = GetNode<Sprite>("Body/ArmR");
         armL = GetNode<Sprite>("Body/ArmL");
-        hand1Socket = armR.GetChild<Sprite>(0).GetNode<Node2D>("Hand1Socket");
+        handRSocket = armR.GetChild<Sprite>(0).GetNode<Node2D>("HandRSocket");
+        handLSocket = armL.GetChild<Sprite>(0).GetNode<Node2D>("HandLSocket");
         interactableText = GetNode<Label>("InteractableText");
         face = GetNode<Node2D>("Body/Face");
         eyes = face.GetNode<Sprite>("Eyes");
         eyesAnimTree = GetNode<AnimationTree>("Body/Face/EyesAnimationTree");
         eyesAnimStateMachine = (AnimationNodeStateMachinePlayback)eyesAnimTree.Get("parameters/playback");
-        holding = heldGun != null;
+        holding = secondaryGun != null;
     }
 
     public override void _PhysicsProcess(float dt) {
         UpdateAim();
         bool walking = false;
         if(inputDeviceType == InputDeviceType.Controller) { //for now
-            Vector2 leftStick = new Vector2 (Input.GetJoyAxis(playerNum - 2, (int) JoystickList.AnalogLx), Input.GetJoyAxis(playerNum - 2, (int) JoystickList.AnalogLy));
-            if(leftStick.LengthSquared() > 0.5f){
-                movementInput = leftStick; 
+            Vector2 leftStick = new Vector2(Input.GetJoyAxis(playerNum - 2, (int)JoystickList.AnalogLx), Input.GetJoyAxis(playerNum - 2, (int)JoystickList.AnalogLy));
+            if(leftStick.LengthSquared() > 0.5f) {
+                movementInput = leftStick;
             } else {
                 movementInput = Vector2.Zero;
             }
@@ -127,7 +136,7 @@ public class Player:Creature {
                     MoveAndSlide(vel);
             }
         }
-        hand1Socket.ShowBehindParent = facingRight;
+        handRSocket.ShowBehindParent = facingRight;
         bodySprite.Scale = new Vector2(facingRight ? 1 : -1, 1);
         face.Scale = new Vector2(facingRight ? 1 : -1, 1);
         string animState = walking ? "Walk" : "Idle";
@@ -177,48 +186,110 @@ public class Player:Creature {
             movementVelocity = dashSpeed;
         }
     }
-
-    public void EquipGun(Gun g) {
-        if(g != null) {
-            if(heldGun != null) {
-                g.GetNode<Sprite>("Sprite").FlipH = heldGun.GetNode<Sprite>("Sprite").FlipH;
-                g.ZIndex = heldGun.ZIndex;
-                DropGun(heldGun);
-            } else {
-                g.GetNode<Sprite>("Sprite").FlipH = false;
+    public void SwapWeapons() {
+        if(IsInstanceValid(activeWeapon)) {
+            if(activeWeapon == primaryGun) {
+                ActivateWeapon(secondaryGun);
+                ActivateWeapon(melee);
+                DeactivateWeapon(primaryGun);
+            } else if(activeWeapon == melee) {
+                ActivateWeapon(primaryGun);
+                DeactivateWeapon(melee);
+                DeactivateWeapon(secondaryGun);
             }
-            g.SetFacingRight(!facingRight); //The gun only updates facing right if it's different which creates issues. Duct tape to force updates. Improve?
-            g.SetFacingRight(facingRight);
-            armR.Visible = true;
-            armL.Visible = true;
-            heldGun = g;
-            heldGun.holder = this;
-            if(heldGun.GetParent() != null)
-                heldGun.GetParent().RemoveChild(heldGun);
-            hand1Socket.AddChild(heldGun);
-            heldGun.Rotation = 0;
-            heldGun.Position = heldGun.hand1Socket.Position * -1;
-            heldGun.SetFacingRight(facingRight);
-            //something for 2 handed guns
-            holding = true;
-            bodySprite.FlipH = false;
         }
     }
-    public void DropGun(Gun g) {
-        PickupGun newGunPickup = pickupGunRef.Instance<PickupGun>();
+    public void ActivateWeapon(Weapon w) {
+        if(IsInstanceValid(w)) {
+            if(IsInstanceValid(activeWeapon)) {
+                w.GetNode<Sprite>("Sprite").FlipH = activeWeapon.GetNode<Sprite>("Sprite").FlipH;
+                w.ZIndex = activeWeapon.ZIndex;
+            } else {
+                w.GetNode<Sprite>("Sprite").FlipH = false;
+            }
+            w.Visible = true;
+            if(!(w is Gun) || (w as Gun).slotType == GunSlotType.Primary)
+                activeWeapon = w;
+        }
+    }
+    public void DeactivateWeapon(Weapon w) {
+        if(IsInstanceValid(w)) {
+            w.Visible = false;
+            w.ReleaseAttack();
+        }
+    }
+    public void PickUpItem(Weapon w) {
+        if(IsInstanceValid(w)) {
+            if(w is Weapon) {
+                if(IsInstanceValid(w.GetParent()))
+                    w.GetParent().RemoveChild(w);
+                if(w is Gun) {
+                    Gun g = w as Gun;
+                    Gun gToSwap;
+                    if(g.slotType == GunSlotType.Primary) {
+                        gToSwap = primaryGun;
+                        primaryGun = g;
+                        handRSocket.AddChild(w);
+                        DeactivateWeapon(melee);
+                        DeactivateWeapon(secondaryGun);
+                    } else {
+                        gToSwap = secondaryGun;
+                        secondaryGun = g;
+                        handLSocket.AddChild(w);
+                        DeactivateWeapon(primaryGun);
+                        ActivateWeapon(melee);
+                    }
+                    if(gToSwap != null) {
+                        g.GetNode<Sprite>("Sprite").FlipH = gToSwap.GetNode<Sprite>("Sprite").FlipH;
+                        g.ZIndex = gToSwap.ZIndex;
+                        DropItem(gToSwap);
+                    } else {
+                        g.GetNode<Sprite>("Sprite").FlipH = false;
+                    }
+                } else if(w is WeaponMelee) {
+                    WeaponMelee m = w as WeaponMelee;
+                    if(melee != null) {
+                        m.GetNode<Sprite>("Sprite").FlipH = melee.GetNode<Sprite>("Sprite").FlipH;
+                        m.ZIndex = melee.ZIndex;
+                        DropItem(melee);
+                    } else {
+                        m.GetNode<Sprite>("Sprite").FlipH = false;
+                    }
+                    handRSocket.AddChild(w);
+                    melee = m;
+                }
+                w.SetFacingRight(!facingRight); //The gun only updates facing right if it's different which creates issues. Duct tape to force updates. Improve?
+                w.SetFacingRight(facingRight);
+                armR.Visible = true;
+                armL.Visible = true;
+                w.holder = this;
+                w.Rotation = 0;
+                w.Position = w.hand1Socket.Position * -1;
+                w.SetFacingRight(facingRight);
+                //something for 2 handed guns
+                holding = true;
+                bodySprite.FlipH = false;
+                ActivateWeapon(w);
+            }
+        }
+    }
+    public void DropItem(Weapon i) {
+        PickupWeapon newGunPickup = pickupWeaponRef.Instance<PickupWeapon>();
         GetParent().GetParent().GetNode<YSort>("Pickups").AddChild(newGunPickup);
-        newGunPickup.GlobalPosition = g.GlobalPosition;
-        if(g.GetParent() != null)
-            g.GetParent().RemoveChild(g);
-        newGunPickup.AddChild(g);
-        g.GlobalRotation = armR.GlobalRotation;
+        newGunPickup.GlobalPosition = i.GlobalPosition;
+        if(i.GetParent() != null)
+            i.GetParent().RemoveChild(i);
+        newGunPickup.AddChild(i);
+        i.GlobalRotation = armR.GlobalRotation;
         if(armR.Scale.x < 0)
-            g.GetNode<Sprite>("Sprite").FlipH = true;
-        g.ZIndex = 0;
-        g.ReleaseTrigger();
-        g.holder = null;
-        newGunPickup.payload = g;
-        newGunPickup.interactionName = g.itemName;
+            i.GetNode<Sprite>("Sprite").FlipH = true;
+        i.ZIndex = 0;
+        i.Visible = true;
+        if(i is Gun)
+            (i as Gun).ReleaseTrigger();
+        i.holder = null;
+        newGunPickup.payload = i;
+        newGunPickup.interactionName = i.itemName;
         newGunPickup.DropRandomDirection(false, -armR.Position.y);
         holding = false;
     }
@@ -258,14 +329,14 @@ public class Player:Creature {
             Vector2 mousePos = GetGlobalMousePosition();
             lookDir = mousePos - armR.GlobalPosition;
         } else {
-            Vector2 rightStick = new Vector2 (Input.GetJoyAxis(playerNum - 2, (int) JoystickList.AnalogRx), Input.GetJoyAxis(playerNum - 2, (int) JoystickList.AnalogRy));
-            if(rightStick.LengthSquared() > 0.5f){
+            Vector2 rightStick = new Vector2(Input.GetJoyAxis(playerNum - 2, (int)JoystickList.AnalogRx), Input.GetJoyAxis(playerNum - 2, (int)JoystickList.AnalogRy));
+            if(rightStick.LengthSquared() > 0.5f) {
                 lookDir = rightStick;
-            }else {
+            } else {
                 lookDir = movementInput;
             }
         }
-        if(!lookDir.IsEqualApprox(Vector2.Zero)){
+        if(!lookDir.IsEqualApprox(Vector2.Zero)) {
             facingRight = holding ? lookDir.x >= 0 : (movementInput.x != 0 ? movementInput.x > 0 : facingRight);
             float angle = Mathf.Atan((lookDir.y) / (lookDir.x));
             armR.Rotation = angle;
@@ -273,8 +344,8 @@ public class Player:Creature {
             armR.ShowBehindParent = !facingRight;
             armL.Scale = new Vector2((facingRight ? 1 : -1), 1);
             armL.ShowBehindParent = facingRight;
-            if(heldGun != null) {
-                heldGun.SetFacingRight(facingRight);
+            if(secondaryGun != null) {
+                secondaryGun.SetFacingRight(facingRight);
             }
         }
         Vector2 eyeDir;
@@ -315,6 +386,8 @@ public class Player:Creature {
             if(closestInteractable != null) {
                 closestInteractable.Interact(this);
             }
+        } else if(playerNum == 1 && ie.IsActionPressed("swap_weapons_p" + playerNum)) {
+            SwapWeapons();
         } else if(playerNum != 1 && ie.IsActionPressed("look_up_p" + playerNum)) {
             lookDirection.y = -100;
         } else if(playerNum != 1 && ie.IsActionPressed("look_down_p" + playerNum)) {
@@ -323,16 +396,17 @@ public class Player:Creature {
             lookDirection.x = 100;
         } else if(playerNum != 1 && ie.IsActionPressed("look_left_p" + playerNum)) {
             lookDirection.x = -100;
-        } else if(holding && heldGun != null) {
+        } else if(holding && IsInstanceValid(activeWeapon)) {
             if(ie.IsActionPressed("shoot_p" + playerNum)) {
-                heldGun.PullTrigger();
+                activeWeapon.Attack();
             } else if(ie.IsActionReleased("shoot_p" + playerNum)) {
-                heldGun.ReleaseTrigger();
-            } else if(ie.IsActionPressed("reload_p" + playerNum)) {
-                if(heldGun.currentMagSize < heldGun.magMaxSize) {
-                    int amt = RemoveAmmo(heldGun.ammoType, heldGun.magMaxSize - heldGun.currentMagSize);
+                activeWeapon.ReleaseAttack();
+            } else if(ie.IsActionPressed("reload_p" + playerNum) && activeWeapon is Gun) {
+                Gun activeGun = activeWeapon as Gun;
+                if(activeGun.currentMagSize < activeGun.magMaxSize) {
+                    int amt = RemoveAmmo(activeGun.ammoType, activeGun.magMaxSize - activeGun.currentMagSize);
                     //reload animation
-                    heldGun.FinishReload(heldGun.currentMagSize + amt); //implement ammo at some point
+                    activeGun.FinishReload(activeGun.currentMagSize + amt); //implement ammo at some point
                 }
             }
         } else if(ie.IsActionPressed("add_hp_p" + playerNum)) {                 //Add HP TEST
