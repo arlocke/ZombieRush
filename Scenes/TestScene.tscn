@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Objects/Creatures/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Items/Pickups/Pickup.tscn" type="PackedScene" id=2]
@@ -14,6 +14,306 @@
 [ext_resource path="res://Objects/Managers/CameraGame.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Objects/Creatures/PlayerYoyoable.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Objects/Items/Weapons/Melee/WeaponMelee.tscn" type="PackedScene" id=14]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=2]
+
+[sub_resource type="Animation" id=6]
+resource_local_to_scene = true
+resource_name = "PlayerIdle"
+loop = true
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/BodySprite:frame_coords")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( 1, 0 ), Vector2( 2, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/Face:position")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.25, 0.74695 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 1 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_local_to_scene = true
+resource_name = "PlayerIdleHolding"
+loop = true
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/BodySprite:frame_coords")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 1 ), Vector2( 1, 1 ), Vector2( 2, 1 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/ArmR:position")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -4, -15 ), Vector2( -4, -14 ), Vector2( -4, -14 ), Vector2( -4, -15 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body/Face:position")
+tracks/2/interp = 0
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.25, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 1 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_local_to_scene = true
+resource_name = "PlayerWalk"
+length = 0.75
+loop = true
+step = 0.125
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/BodySprite:frame_coords")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.125, 0.25, 0.375, 0.5, 0.625 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 3, 0 ), Vector2( 4, 0 ), Vector2( 5, 0 ), Vector2( 6, 0 ), Vector2( 5, 0 ), Vector2( 4, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/Face:position")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.125, 0.375, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -1 ), Vector2( 0, 0 ), Vector2( 0, -1 ) ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_local_to_scene = true
+resource_name = "PlayerWalkHolding"
+length = 0.75
+loop = true
+step = 0.125
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/BodySprite:frame_coords")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.125, 0.25, 0.375, 0.5, 0.625 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 3, 1 ), Vector2( 4, 1 ), Vector2( 5, 1 ), Vector2( 6, 1 ), Vector2( 5, 1 ), Vector2( 4, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/ArmR:position")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.125, 0.375, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -4, -15 ), Vector2( -4, -16 ), Vector2( -4, -15 ), Vector2( -4, -16 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body/Face:position")
+tracks/2/interp = 0
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.125, 0.375, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -1 ), Vector2( 0, 0 ), Vector2( 0, -1 ) ]
+}
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=3]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=4]
+
+[sub_resource type="Animation" id=10]
+resource_local_to_scene = true
+resource_name = "PlayerIdle"
+loop = true
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/BodySprite:frame_coords")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( 2, 0 ), Vector2( 3, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/Face:position")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.25, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 1 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_local_to_scene = true
+resource_name = "PlayerIdleHolding"
+loop = true
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/BodySprite:frame_coords")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 1 ), Vector2( 1, 1 ), Vector2( 2, 1 ), Vector2( 3, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/ArmR:position")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -4, -15 ), Vector2( -4, -14 ), Vector2( -4, -14 ), Vector2( -4, -15 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body/Face:position")
+tracks/2/interp = 0
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.25, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 1 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=12]
+resource_local_to_scene = true
+resource_name = "PlayerWalk"
+length = 0.75
+loop = true
+step = 0.125
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/BodySprite:frame_coords")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.125, 0.25, 0.375, 0.5, 0.625 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 4, 0 ), Vector2( 5, 0 ), Vector2( 6, 0 ), Vector2( 7, 0 ), Vector2( 8, 0 ), Vector2( 9, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/Face:position")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.125, 0.375, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -1 ), Vector2( 0, 0 ), Vector2( 0, -1 ) ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_local_to_scene = true
+resource_name = "PlayerWalkHolding"
+length = 0.75
+loop = true
+step = 0.125
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/BodySprite:frame_coords")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.125, 0.25, 0.375, 0.5, 0.625 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 4, 1 ), Vector2( 5, 1 ), Vector2( 6, 1 ), Vector2( 7, 1 ), Vector2( 8, 1 ), Vector2( 9, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body/ArmR:position")
+tracks/1/interp = 0
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.125, 0.375, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -4, -15 ), Vector2( -4, -16 ), Vector2( -4, -15 ), Vector2( -4, -16 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Body/Face:position")
+tracks/2/interp = 0
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.125, 0.375, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -1 ), Vector2( 0, 0 ), Vector2( 0, -1 ) ]
+}
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=5]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 163, 70, 922, 65, 945, 535, 122, 516 )
@@ -109,6 +409,29 @@ movementFriction = 400.0
 dashSpeed = 300.0
 maxCancelDashSpeed = 100.0
 
+[node name="AnimationTreeBody" parent="Navigation2D/MasterYSort/Players/PlayerYoyoable" index="0"]
+parameters/playback = SubResource( 2 )
+parameters/Idle/blend_position = Vector2( 0, 0 )
+
+[node name="AnimationPlayerBody" parent="Navigation2D/MasterYSort/Players/PlayerYoyoable" index="1"]
+anims/PlayerIdle = SubResource( 6 )
+anims/PlayerIdleHolding = SubResource( 7 )
+anims/PlayerWalk = SubResource( 8 )
+anims/PlayerWalkHolding = SubResource( 9 )
+
+[node name="BodySprite" parent="Navigation2D/MasterYSort/Players/PlayerYoyoable/Body" index="0"]
+frame = 0
+
+[node name="EyesAnimationTree" parent="Navigation2D/MasterYSort/Players/PlayerYoyoable/Body/Face" index="1"]
+parameters/playback = SubResource( 3 )
+
+[node name="ArmR" parent="Navigation2D/MasterYSort/Players/PlayerYoyoable/Body" index="3"]
+position = Vector2( -5, -14 )
+rotation = 0.0
+
+[node name="HandRSocket" parent="Navigation2D/MasterYSort/Players/PlayerYoyoable/Body/ArmR/ForearmR" index="0"]
+rotation = 0.0
+
 [node name="Player" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 1 )]
 position = Vector2( 389, 331 )
 teamFaction = 1
@@ -116,6 +439,27 @@ playerNum = 1
 movementFriction = 400.0
 dashSpeed = 300.0
 maxCancelDashSpeed = 100.0
+
+[node name="AnimationTreeBody" parent="Navigation2D/MasterYSort/Players/Player" index="0"]
+parameters/playback = SubResource( 4 )
+
+[node name="AnimationPlayerBody" parent="Navigation2D/MasterYSort/Players/Player" index="1"]
+anims/PlayerIdle = SubResource( 10 )
+anims/PlayerIdleHolding = SubResource( 11 )
+anims/PlayerWalk = SubResource( 12 )
+anims/PlayerWalkHolding = SubResource( 13 )
+
+[node name="BodySprite" parent="Navigation2D/MasterYSort/Players/Player/Body" index="0"]
+frame = 0
+
+[node name="EyesAnimationTree" parent="Navigation2D/MasterYSort/Players/Player/Body/Face" index="1"]
+parameters/playback = SubResource( 5 )
+
+[node name="ArmR" parent="Navigation2D/MasterYSort/Players/Player/Body" index="3"]
+rotation = 0.0
+
+[node name="HandRSocket" parent="Navigation2D/MasterYSort/Players/Player/Body/ArmR/ForearmR" index="0"]
+rotation = 0.0
 
 [node name="Pickups" type="YSort" parent="Navigation2D/MasterYSort"]
 
@@ -179,3 +523,6 @@ startingHVel = 0.15
 visible = false
 position = Vector2( -70, 12 )
 navpoly = SubResource( 1 )
+
+[editable path="Navigation2D/MasterYSort/Players/PlayerYoyoable"]
+[editable path="Navigation2D/MasterYSort/Players/Player"]

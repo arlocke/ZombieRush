@@ -5,9 +5,9 @@
 [ext_resource path="res://Sprites/Creatures/Characters/char_businessGuy.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Creatures/Characters/eyebrows_masBasic.png" type="Texture" id=4]
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=1]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=3]
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=4]
 resource_local_to_scene = true
 resource_name = "PlayerIdle"
 loop = true
@@ -22,7 +22,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( 1, 0 ), Vector2( 2, 0 ) ]
+"values": [ Vector2( 2, 0 ), Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( 0, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Body/Face:position")
@@ -31,13 +31,13 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.25, 0.75 ),
+"times": PoolRealArray( 0, 0.5, 0.74695 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 0, 1 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=5]
 resource_local_to_scene = true
 resource_name = "PlayerIdleHolding"
 loop = true
@@ -52,7 +52,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 2, 1 ) ]
+"values": [ Vector2( 0, 1 ), Vector2( 1, 1 ), Vector2( 2, 1 ), Vector2( 1, 1 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Body/ArmR:position")
@@ -79,7 +79,7 @@ tracks/2/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 1 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=6]
 resource_local_to_scene = true
 resource_name = "PlayerWalk"
 length = 0.75
@@ -110,7 +110,7 @@ tracks/1/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, -1 ), Vector2( 0, 0 ), Vector2( 0, -1 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
 resource_local_to_scene = true
 resource_name = "PlayerWalkHolding"
 length = 0.75
@@ -156,21 +156,21 @@ tracks/2/keys = {
 [sub_resource type="AnimationNodeStateMachinePlayback" id=2]
 
 [node name="PlayerYoyoable" instance=ExtResource( 1 )]
-activeWeapon = null
 
-[node name="AnimationTree" parent="." index="0"]
-parameters/playback = SubResource( 1 )
+[node name="AnimationTreeBody" parent="." index="0"]
+parameters/playback = SubResource( 3 )
 
-[node name="AnimationPlayer" parent="." index="1"]
-anims/PlayerIdle = SubResource( 3 )
-anims/PlayerIdleHolding = SubResource( 4 )
-anims/PlayerWalk = SubResource( 5 )
-anims/PlayerWalkHolding = SubResource( 6 )
+[node name="AnimationPlayerBody" parent="." index="1"]
+anims/PlayerIdle = SubResource( 4 )
+anims/PlayerIdleHolding = SubResource( 5 )
+anims/PlayerWalk = SubResource( 6 )
+anims/PlayerWalkHolding = SubResource( 7 )
 
 [node name="BodySprite" parent="Body" index="0"]
 texture = ExtResource( 3 )
 offset = Vector2( 0, -18 )
 hframes = 7
+frame = 2
 
 [node name="Eyes" parent="Body/Face" index="0"]
 position = Vector2( 2.99419, -20 )
@@ -195,9 +195,13 @@ offset = Vector2( -2, -3 )
 region_rect = Rect2( 16, 88, 10, 5 )
 
 [node name="ArmR" parent="Body" index="3"]
+rotation = 0.0
 texture = ExtResource( 3 )
 region_rect = Rect2( 6, 97, 8, 5 )
 
 [node name="ForearmR" parent="Body/ArmR" index="0"]
 texture = ExtResource( 3 )
 region_rect = Rect2( 16, 97, 10, 5 )
+
+[node name="HandRSocket" parent="Body/ArmR/ForearmR" index="0"]
+rotation = 0.0
