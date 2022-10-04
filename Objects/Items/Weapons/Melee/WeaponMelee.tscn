@@ -30,6 +30,7 @@ tracks/0/keys = {
 [node name="WeaponMelee" type="Node2D" groups=["Items"]]
 script = ExtResource( 9 )
 itemName = "Katana"
+slotType = 1
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )

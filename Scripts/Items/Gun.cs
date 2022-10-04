@@ -12,16 +12,10 @@ public enum GunState {
     Empty,
     //cancelling
 }
-public enum GunSlotType {
-    Primary,
-    Secondary
-}
 
 public class Gun:Weapon {
     [Export]
     public FireMode fireMode;
-    [Export]
-    public GunSlotType slotType;
     public GunState state;
     public string animState = "Idle";
     public float fireTimer;
@@ -60,13 +54,21 @@ public class Gun:Weapon {
             }
         }
     }
-    public override void Attack() {
-        base.Attack();
+    public override void Use() {
+        base.Use();
         PullTrigger();
     }
-    public override void ReleaseAttack() {
-        base.ReleaseAttack();
+    public override void CancelUse() {
+        base.CancelUse();
         ReleaseTrigger();
+    }
+    public override void Custom() {
+        base.Custom();
+        if(currentMagSize < magMaxSize && IsInstanceValid(holder)) {
+            int amt = (holder as Player).RemoveAmmo(ammoType, magMaxSize - currentMagSize);
+            //reload animation
+            FinishReload(currentMagSize + amt);
+        }
     }
     public void PullTrigger() {
         if(state == GunState.Idle) {

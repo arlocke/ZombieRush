@@ -9,7 +9,7 @@
 [ext_resource path="res://Animation/Creatures/PlayerIdleHolding.tres" type="Animation" id=7]
 [ext_resource path="res://Sprites/Creatures/Characters/eyes_femBasic.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/Creatures/Characters/eyebrows_femBasic.png" type="Texture" id=9]
-[ext_resource path="res://Objects/Items/Pickups/PickupWeapon.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Objects/Items/Pickups/Pickup.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Misc/MainTheme.tres" type="Theme" id=11]
 [ext_resource path="res://Sprites/Creatures/Characters/Char0_dead.png" type="Texture" id=12]
 [ext_resource path="res://Objects/Creatures/Corpse.tscn" type="PackedScene" id=13]
@@ -491,17 +491,16 @@ corpseRef = ExtResource( 13 )
 teamType = 1
 playerNum = 0
 holding = false
-activeWeapon = null
-melee = null
-secondaryGun = null
-primaryGun = null
 lookDirection = Vector2( 0, 0 )
 movementFriction = 10.0
 dashSpeed = 100.0
 maxCancelDashSpeed = 50.0
-maxAmmo = null
+activeItems = {
+}
+maxAmmo = {
+}
 movementInput = Vector2( 0, 0 )
-pickupWeaponRef = ExtResource( 10 )
+pickupRef = ExtResource( 10 )
 
 [node name="AnimationTree" parent="." index="0"]
 parameters/playback = SubResource( 1 )
