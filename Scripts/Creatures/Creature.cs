@@ -26,7 +26,7 @@ public class Creature:KinematicBody2D {     //Stats
     public Texture corpseTexture;
     [Export]
     public PackedScene corpseRef;
-    public bool facingRight;
+    public bool facingRight = true;
 
     //Team data
     [Export]

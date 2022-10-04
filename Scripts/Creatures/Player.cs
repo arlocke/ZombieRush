@@ -37,6 +37,8 @@ public class Player:Creature {
     public float collisionOffset = 0.05f; // Distance from rigidbody to check for collisions
 
     //Children
+    Node2D shoulderR;
+    Node2D shoulderL;
     public Sprite armR;
     public Sprite armL;
     public Node2D handRSocket;
@@ -95,10 +97,12 @@ public class Player:Creature {
         };
 
         heldAmmoList = new List<int>(heldAmmo.Values);
-        armR = GetNode<Sprite>("Body/ArmR");
-        armL = GetNode<Sprite>("Body/ArmL");
-        handRSocket = armR.GetChild<Sprite>(0).GetNode<Node2D>("HandRSocket");
+        shoulderL = GetNode<Node2D>("Body/ShoulderL");
+        shoulderR = GetNode<Node2D>("Body/ShoulderR");
+        armL = shoulderL.GetNode<Sprite>("ArmL");
+        armR = shoulderR.GetNode<Sprite>("ArmR");
         handLSocket = armL.GetChild<Sprite>(0).GetNode<Node2D>("HandLSocket");
+        handRSocket = armR.GetChild<Sprite>(0).GetNode<Node2D>("HandRSocket");
         interactableText = GetNode<Label>("InteractableText");
         face = GetNode<Node2D>("Body/Face");
         eyes = face.GetNode<Sprite>("Eyes");
@@ -324,10 +328,10 @@ public class Player:Creature {
                 float angle = Mathf.Atan((lookDir.y) / (lookDir.x));
                 armR.Rotation = angle;
                 armR.Scale = new Vector2((facingRight ? 1 : -1), 1);
-                armR.ShowBehindParent = !facingRight;
+                shoulderR.ShowBehindParent = !facingRight;
                 armL.Rotation = angle;
                 armL.Scale = new Vector2((facingRight ? 1 : -1), 1);
-                armL.ShowBehindParent = facingRight;
+                shoulderL.ShowBehindParent = facingRight;
                 ItemSlot currSl;
                 if(activeItems.TryGetValue(activeSlot, out currSl)) {
                     if(IsInstanceValid(currSl.handR)) {
