@@ -31,6 +31,12 @@ public class Player:Creature {
     //Animation Data
     [Export]
     public bool holding = false; //all this affects is idle animation
+    [Export]
+    public bool canMove;
+    [Export]
+    public bool canAim;
+    [Export]
+    public bool actionable;
 
     //Movement variables
     //public float moveSpeed = 1f;
@@ -39,23 +45,26 @@ public class Player:Creature {
     //Children
     Node2D shoulderR;
     Node2D shoulderL;
-    public Sprite armR;
-    public Sprite armL;
+    public Node2D armR;
+    public Node2D armL;
     public Node2D handRSocket;
     public Node2D handLSocket;
     public Node2D face;
     public Sprite eyes;
     public AnimationTree eyesAnimTree;
     public AnimationNodeStateMachinePlayback eyesAnimStateMachine;
+    public AnimationPlayer animPlayerArms;
 
-    //TEMP
+    //Aiming
     [Export]
     public Vector2 lookDirection;
 
     //Movement
-    public bool dashing;
+    [Export]
+    Vector2 movementInput;
     public Vector2 movementDirection;
     public float movementVelocity; //not a vector
+    public bool dashing;
     [Export]
     public float movementFriction;
     [Export]
@@ -71,8 +80,6 @@ public class Player:Creature {
     [Export]
     public Godot.Collections.Dictionary<AmmoType, int> maxAmmo = new Godot.Collections.Dictionary<AmmoType, int>();
     public List<int> heldAmmoList;
-    [Export]
-    Vector2 movementInput;
 
     //UI
     public GUIGamePlayer playerGUI;
@@ -99,16 +106,20 @@ public class Player:Creature {
         heldAmmoList = new List<int>(heldAmmo.Values);
         shoulderL = GetNode<Node2D>("Body/ShoulderL");
         shoulderR = GetNode<Node2D>("Body/ShoulderR");
-        armL = shoulderL.GetNode<Sprite>("ArmL");
-        armR = shoulderR.GetNode<Sprite>("ArmR");
-        handLSocket = armL.GetChild<Sprite>(0).GetNode<Node2D>("HandLSocket");
-        handRSocket = armR.GetChild<Sprite>(0).GetNode<Node2D>("HandRSocket");
+        armL = shoulderL.GetNode<Node2D>("ArmL");
+        armR = shoulderR.GetNode<Node2D>("ArmR");
+        handLSocket = armL.GetNode<Node2D>("UpperArmL/ForearmL/HandLSocket");
+        handRSocket = armR.GetNode<Node2D>("UpperArmR/ForearmR/HandRSocket");
         interactableText = GetNode<Label>("InteractableText");
         face = GetNode<Node2D>("Body/Face");
         eyes = face.GetNode<Sprite>("Eyes");
         eyesAnimTree = GetNode<AnimationTree>("Body/Face/EyesAnimationTree");
         eyesAnimStateMachine = (AnimationNodeStateMachinePlayback)eyesAnimTree.Get("parameters/playback");
+        animPlayerArms = armR.GetNode<AnimationPlayer>("AnimationPlayerArms");
         holding = false;
+        canAim = true;
+        canMove = true;
+        actionable = true;
     }
 
     public override void _PhysicsProcess(float dt) {
@@ -309,6 +320,7 @@ public class Player:Creature {
         base.Die();
     }
     public void UpdateAim() {
+        if(!canAim) return;
         Vector2 lookDir = new Vector2();
         if(inputDeviceType == InputDeviceType.MouseKeyboard) {
             Vector2 mousePos = GetGlobalMousePosition();
