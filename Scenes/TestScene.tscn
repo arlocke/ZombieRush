@@ -105,13 +105,11 @@ meleeAttackRangeSqr = 0.0
 position = Vector2( 385, 339 )
 teamFaction = 1
 canMove = false
-canAim = false
 actionable = false
 
 [node name="PlayerBusinessGuy" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 1 )]
 position = Vector2( 384, 375 )
 canMove = false
-canAim = false
 actionable = false
 
 [node name="Pickups" type="YSort" parent="Navigation2D/MasterYSort"]

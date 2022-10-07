@@ -37,6 +37,8 @@ public class Player:Creature {
     public bool canAim;
     [Export]
     public bool actionable;
+    public Vector2 lookDirR;
+    public Vector2 lookDirL;
 
     //Movement variables
     //public float moveSpeed = 1f;
@@ -230,6 +232,7 @@ public class Player:Creature {
             i.SetFacingRight(facingRight);
             armR.Visible = true;
             armL.Visible = true;
+            i.Setup(this);
             i.holder = this;
             i.Rotation = 0;
             i.Position = i.hand1Socket.Position * -1;
@@ -289,6 +292,20 @@ public class Player:Creature {
             i.CancelUse();
         }
     }
+    public void EnableMeleeHitboxes(bool rightHand) {
+        if(activeItems.ContainsKey(ItemSlotType.Secondary)) {
+            WeaponMelee w = (rightHand ? activeItems[ItemSlotType.Secondary].handR : activeItems[ItemSlotType.Secondary].handL) as WeaponMelee;
+            if(IsInstanceValid(w))
+                w.EnableHitboxes();
+        }
+    }
+    public void DisableMeleeHitboxes(bool rightHand) {
+        if(activeItems.ContainsKey(ItemSlotType.Secondary)) {
+            WeaponMelee w = (rightHand ? activeItems[ItemSlotType.Secondary].handR : activeItems[ItemSlotType.Secondary].handL) as WeaponMelee;
+            if(IsInstanceValid(w))
+                w.DisableHitboxes();
+        }
+    }
     public int AddAmmo(AmmoType t, int amount) {
         int remainder = Mathf.Max(amount - (maxAmmo[t] - heldAmmo[t]), 0);
 
@@ -319,12 +336,11 @@ public class Player:Creature {
     public override void Die() {
         base.Die();
     }
-    public void UpdateAim() {
-        if(!canAim) return;
+    public Vector2 GetDirectionToInput(bool right) {
         Vector2 lookDir = new Vector2();
         if(inputDeviceType == InputDeviceType.MouseKeyboard) {
             Vector2 mousePos = GetGlobalMousePosition();
-            lookDir = mousePos - armR.GlobalPosition;
+            lookDir = mousePos - (right ? armR : armL).GlobalPosition;
         } else {
             Vector2 rightStick = new Vector2(Input.GetJoyAxis(playerNum - 2, (int)JoystickList.AnalogRx), Input.GetJoyAxis(playerNum - 2, (int)JoystickList.AnalogRy));
             if(rightStick.LengthSquared() > 0.5f) {
@@ -333,39 +349,50 @@ public class Player:Creature {
                 lookDir = movementInput;
             }
         }
+        return lookDir;
+    }
+    public void UpdateAim() {
+        if(!canAim) return;
+        lookDirR = GetDirectionToInput(true);
+        lookDirL = GetDirectionToInput(false);
         //ARMS/ITEMS
-        if(!lookDir.IsEqualApprox(Vector2.Zero)) {
-            facingRight = holding ? lookDir.x >= 0 : (movementInput.x != 0 ? movementInput.x > 0 : facingRight);
-            if(holding) {
-                float angle = Mathf.Atan((lookDir.y) / (lookDir.x));
-                armR.Rotation = angle;
-                armR.Scale = new Vector2((facingRight ? 1 : -1), 1);
-                shoulderR.ShowBehindParent = !facingRight;
-                armL.Rotation = angle;
-                armL.Scale = new Vector2((facingRight ? 1 : -1), 1);
-                shoulderL.ShowBehindParent = facingRight;
-                ItemSlot currSl;
-                if(activeItems.TryGetValue(activeSlot, out currSl)) {
-                    if(IsInstanceValid(currSl.handR)) {
-                        currSl.handR.SetFacingRight(facingRight);
-                    }
-                    if(IsInstanceValid(currSl.handL)) {
-                        currSl.handL.SetFacingRight(facingRight);
-                    }
-                }
-            }
-        }
+        UpdateArmDirection(false);
+        UpdateArmDirection(true);
         //EYES
         Vector2 eyeDir;
         float lookDirDeadzone = inputDeviceType == InputDeviceType.MouseKeyboard ? 64 : 0.25f;
-        if(lookDir.LengthSquared() < lookDirDeadzone)
+        if(lookDirR.LengthSquared() < lookDirDeadzone)
             eyeDir = new Vector2();
         else
-            eyeDir = new Vector2(lookDir.x * (facingRight ? 1 : -1), -lookDir.y).Normalized();
+            eyeDir = new Vector2(lookDirR.x * (facingRight ? 1 : -1), -lookDirR.y).Normalized();
         eyesAnimTree.Set("parameters/Idle/blend_position", eyeDir);
         eyesAnimTree.Set("parameters/Blink/blend_position", eyeDir);
     }
-
+    public void UpdateArmDirection(bool right, bool forceAngleToInput = false) {
+        Vector2 lD = right ? lookDirR : lookDirL;
+        if(!lD.IsEqualApprox(Vector2.Zero)) {
+            bool thisFacingRight = holding ? lD.x >= 0 : (movementInput.x != 0 ? movementInput.x > 0 : facingRight);
+            if(right)
+                facingRight = thisFacingRight;
+            if(holding) {
+                float angle = Mathf.Atan((lD.y) / (lD.x));
+                Node2D currArm = right ? armR : armL;
+                currArm.Rotation = angle;
+                ItemSlot currSl;
+                if(activeItems.TryGetValue(activeSlot, out currSl)) {
+                    Item currItem = right ? currSl.handR : currSl.handL;
+                    if(IsInstanceValid(currItem)) {
+                        currItem.SetFacingRight(thisFacingRight);
+                        if(!forceAngleToInput && currItem is WeaponMelee) {
+                            currArm.RotationDegrees = thisFacingRight ? 125 : -125;
+                        }
+                    }
+                }
+                currArm.Scale = new Vector2((thisFacingRight ? 1 : -1), 1);
+                currArm.GetParent<Node2D>().ShowBehindParent = facingRight != right;
+            }
+        }
+    }
     public override void _Input(InputEvent ie) {
         base._Input(ie);
         if(ie.IsActionPressed("move_right_p" + playerNum)) {                 //MOVEMENT

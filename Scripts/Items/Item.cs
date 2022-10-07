@@ -25,6 +25,9 @@ public class Item:Node2D {
         hand1Socket = GetNode<Node2D>("Hand1Socket");
         hand2Socket = GetNode<Node2D>("Hand2Socket");
     }
+    public virtual void Setup(Creature c) {
+        holder = c;
+    }
     public virtual void SetFacingRight(bool r) {
         if(r != facingRight) {
             facingRight = r;
