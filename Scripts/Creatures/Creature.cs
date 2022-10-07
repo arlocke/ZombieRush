@@ -26,7 +26,7 @@ public class Creature:KinematicBody2D {     //Stats
     public Texture corpseTexture;
     [Export]
     public PackedScene corpseRef;
-    public bool facingRight;
+    public bool facingRight = true;
 
     //Team data
     [Export]
@@ -38,9 +38,9 @@ public class Creature:KinematicBody2D {     //Stats
     public NavigationAgent2D navAgent;
     public List<Vector2> path;
     public override void _Ready() {
-        animTree = GetNode<AnimationTree>("AnimationTree");
+        animTree = GetNode<AnimationTree>("AnimationTreeBody");
         animStateMachine = (AnimationNodeStateMachinePlayback)animTree.Get("parameters/playback");
-        animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+        animPlayer = GetNode<AnimationPlayer>("AnimationPlayerBody");
         body = GetNode<Node2D>("Body");
         bodySprite = GetNode<Sprite>("Body/BodySprite");
         navAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");

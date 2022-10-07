@@ -44,6 +44,10 @@ public class Pickup:Interactable {
             }
         }
         if(payload != null) {
+            if(payload is Item) {
+                itemSize = (payload as Item).itemSize;
+                interactionName = (payload as Item).itemName;
+            }
             SetPayloadOffset();
         }
     }
@@ -89,6 +93,15 @@ public class Pickup:Interactable {
         }
         float maxShadowSize = itemSize / itemSizeMaxShadowFactor;
         shadowSprite.Frame = (int)(Mathf.Lerp(0, maxShadowSize, 1 - Mathf.Clamp(height / shadowCastMaxHeight, 0, 1)) * 32f);
+    }
+    public override bool Interact(Player pc) {
+        if(payload is Item) {
+            pc.EquipItem(payload as Item);
+            payload = null;
+            QueueFree();
+            return true;
+        } else
+            return false;
     }
     public void DropRandomDirection(bool onGround, float h) {
         moving = true;

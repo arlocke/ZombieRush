@@ -6,6 +6,14 @@ public enum InputDeviceType {
     MouseKeyboard,
     Controller,
 }
+public struct ItemSlot {
+    public Item handR;
+    public Item handL;
+    public ItemSlot(Item iR, Item iL) {
+        handR = iR;
+        handL = iL;
+    }
+}
 
 
 public class Player:Creature {
@@ -23,29 +31,42 @@ public class Player:Creature {
     //Animation Data
     [Export]
     public bool holding = false; //all this affects is idle animation
+    [Export]
+    public bool canMove;
+    [Export]
+    public bool canAim;
+    [Export]
+    public bool actionable;
+    public Vector2 lookDirR;
+    public Vector2 lookDirL;
 
     //Movement variables
     //public float moveSpeed = 1f;
     public float collisionOffset = 0.05f; // Distance from rigidbody to check for collisions
 
     //Children
-    public Sprite armR;
-    public Sprite armL;
-    public Node2D hand1Socket;
-    public Gun heldGun;
+    Node2D shoulderR;
+    Node2D shoulderL;
+    public Node2D armR;
+    public Node2D armL;
+    public Node2D handRSocket;
+    public Node2D handLSocket;
     public Node2D face;
     public Sprite eyes;
     public AnimationTree eyesAnimTree;
     public AnimationNodeStateMachinePlayback eyesAnimStateMachine;
+    public AnimationPlayer animPlayerArms;
 
-    //TEMP
+    //Aiming
     [Export]
     public Vector2 lookDirection;
 
     //Movement
-    public bool dashing;
+    [Export]
+    Vector2 movementInput;
     public Vector2 movementDirection;
     public float movementVelocity; //not a vector
+    public bool dashing;
     [Export]
     public float movementFriction;
     [Export]
@@ -54,12 +75,13 @@ public class Player:Creature {
     public float maxCancelDashSpeed; //the fastest you can go before you can start walking again
 
     //Inventory
-    public Godot.Collections.Dictionary<AmmoType, int> heldAmmo;
+    public ItemSlotType activeSlot;
     [Export]
-    public Godot.Collections.Dictionary<AmmoType, int> maxAmmo;
+    public System.Collections.Generic.Dictionary<ItemSlotType, ItemSlot> activeItems = new System.Collections.Generic.Dictionary<ItemSlotType, ItemSlot>();
+    public Godot.Collections.Dictionary<AmmoType, int> heldAmmo = new Godot.Collections.Dictionary<AmmoType, int>();
+    [Export]
+    public Godot.Collections.Dictionary<AmmoType, int> maxAmmo = new Godot.Collections.Dictionary<AmmoType, int>();
     public List<int> heldAmmoList;
-    [Export]
-    Vector2 movementInput;
 
     //UI
     public GUIGamePlayer playerGUI;
@@ -67,7 +89,7 @@ public class Player:Creature {
 
     //Prefabs
     [Export]
-    public PackedScene pickupGunRef;
+    public PackedScene pickupRef;
 
     // Start is called before the first frame update
     public override void _Ready() {
@@ -84,24 +106,31 @@ public class Player:Creature {
         };
 
         heldAmmoList = new List<int>(heldAmmo.Values);
-        armR = GetNode<Sprite>("Body/ArmR");
-        armL = GetNode<Sprite>("Body/ArmL");
-        hand1Socket = armR.GetChild<Sprite>(0).GetNode<Node2D>("Hand1Socket");
+        shoulderL = GetNode<Node2D>("Body/ShoulderL");
+        shoulderR = GetNode<Node2D>("Body/ShoulderR");
+        armL = shoulderL.GetNode<Node2D>("ArmL");
+        armR = shoulderR.GetNode<Node2D>("ArmR");
+        handLSocket = armL.GetNode<Node2D>("UpperArmL/ForearmL/HandLSocket");
+        handRSocket = armR.GetNode<Node2D>("UpperArmR/ForearmR/HandRSocket");
         interactableText = GetNode<Label>("InteractableText");
         face = GetNode<Node2D>("Body/Face");
         eyes = face.GetNode<Sprite>("Eyes");
         eyesAnimTree = GetNode<AnimationTree>("Body/Face/EyesAnimationTree");
         eyesAnimStateMachine = (AnimationNodeStateMachinePlayback)eyesAnimTree.Get("parameters/playback");
-        holding = heldGun != null;
+        animPlayerArms = armR.GetNode<AnimationPlayer>("AnimationPlayerArms");
+        holding = false;
+        canAim = true;
+        canMove = true;
+        actionable = true;
     }
 
     public override void _PhysicsProcess(float dt) {
         UpdateAim();
         bool walking = false;
         if(inputDeviceType == InputDeviceType.Controller) { //for now
-            Vector2 leftStick = new Vector2 (Input.GetJoyAxis(playerNum - 2, (int) JoystickList.AnalogLx), Input.GetJoyAxis(playerNum - 2, (int) JoystickList.AnalogLy));
-            if(leftStick.LengthSquared() > 0.5f){
-                movementInput = leftStick; 
+            Vector2 leftStick = new Vector2(Input.GetJoyAxis(playerNum - 2, (int)JoystickList.AnalogLx), Input.GetJoyAxis(playerNum - 2, (int)JoystickList.AnalogLy));
+            if(leftStick.LengthSquared() > 0.5f) {
+                movementInput = leftStick;
             } else {
                 movementInput = Vector2.Zero;
             }
@@ -127,7 +156,7 @@ public class Player:Creature {
                     MoveAndSlide(vel);
             }
         }
-        hand1Socket.ShowBehindParent = facingRight;
+        handRSocket.ShowBehindParent = facingRight;
         bodySprite.Scale = new Vector2(facingRight ? 1 : -1, 1);
         face.Scale = new Vector2(facingRight ? 1 : -1, 1);
         string animState = walking ? "Walk" : "Idle";
@@ -177,50 +206,105 @@ public class Player:Creature {
             movementVelocity = dashSpeed;
         }
     }
+    public void EquipItem(Item i) {
+        if(IsInstanceValid(i)) {
+            if(IsInstanceValid(i.GetParent()))
+                i.GetParent().RemoveChild(i);
 
-    public void EquipGun(Gun g) {
-        if(g != null) {
-            if(heldGun != null) {
-                g.GetNode<Sprite>("Sprite").FlipH = heldGun.GetNode<Sprite>("Sprite").FlipH;
-                g.ZIndex = heldGun.ZIndex;
-                DropGun(heldGun);
-            } else {
-                g.GetNode<Sprite>("Sprite").FlipH = false;
+            bool equipHandR = !(i.slotType == ItemSlotType.Secondary && i is Gun);
+            if(activeItems.ContainsKey(i.slotType)) {
+                DropItem(equipHandR ? activeItems[i.slotType].handR : activeItems[i.slotType].handL);
+            } else
+                activeItems.Add(i.slotType, new ItemSlot(null, null));
+            ItemSlot newSlot;
+            if(activeItems.TryGetValue(i.slotType, out newSlot)) {
+                if(equipHandR) {
+                    newSlot.handR = i;
+                    handRSocket.AddChild(i);
+                } else {
+                    newSlot.handL = i;
+                    handLSocket.AddChild(i);
+                }
+                activeItems[i.slotType] = newSlot;
             }
-            g.SetFacingRight(!facingRight); //The gun only updates facing right if it's different which creates issues. Duct tape to force updates. Improve?
-            g.SetFacingRight(facingRight);
+            ChangeItemSlot(i.slotType);
+            i.SetFacingRight(!facingRight); //The gun only updates facing right if it's different which creates issues. Duct tape to force updates. Improve?
+            i.SetFacingRight(facingRight);
             armR.Visible = true;
             armL.Visible = true;
-            heldGun = g;
-            heldGun.holder = this;
-            if(heldGun.GetParent() != null)
-                heldGun.GetParent().RemoveChild(heldGun);
-            hand1Socket.AddChild(heldGun);
-            heldGun.Rotation = 0;
-            heldGun.Position = heldGun.hand1Socket.Position * -1;
-            heldGun.SetFacingRight(facingRight);
+            i.Setup(this);
+            i.holder = this;
+            i.Rotation = 0;
+            i.Position = i.hand1Socket.Position * -1;
             //something for 2 handed guns
             holding = true;
             bodySprite.FlipH = false;
         }
     }
-    public void DropGun(Gun g) {
-        PickupGun newGunPickup = pickupGunRef.Instance<PickupGun>();
-        GetParent().GetParent().GetNode<YSort>("Pickups").AddChild(newGunPickup);
-        newGunPickup.GlobalPosition = g.GlobalPosition;
-        if(g.GetParent() != null)
-            g.GetParent().RemoveChild(g);
-        newGunPickup.AddChild(g);
-        g.GlobalRotation = armR.GlobalRotation;
-        if(armR.Scale.x < 0)
-            g.GetNode<Sprite>("Sprite").FlipH = true;
-        g.ZIndex = 0;
-        g.ReleaseTrigger();
-        g.holder = null;
-        newGunPickup.payload = g;
-        newGunPickup.interactionName = g.itemName;
-        newGunPickup.DropRandomDirection(false, -armR.Position.y);
-        holding = false;
+    public void DropItem(Item i) {
+        if(IsInstanceValid(i)) {
+            i.GlobalRotation = armR.GlobalRotation;
+            if(armR.Scale.x < 0)
+                i.GetNode<Sprite>("Sprite").FlipH = true;
+            i.ZIndex = 0;
+            i.Visible = true;
+            i.CancelUse();
+            i.holder = null;
+            Pickup newPickup = pickupRef.Instance<Pickup>();
+            GetParent().GetParent().GetNode<YSort>("Pickups").AddChild(newPickup);
+            newPickup.GlobalPosition = i.GlobalPosition;
+            if(i.GetParent() != null)
+                i.GetParent().RemoveChild(i);
+            newPickup.AddChild(i);
+            newPickup.payload = i;
+            newPickup.interactionName = i.itemName;
+            newPickup.DropRandomDirection(false, -armR.Position.y);
+            holding = false;
+        }
+    }
+    public void SwapWeapons() {
+        ChangeItemSlot(activeSlot == ItemSlotType.Primary ? ItemSlotType.Secondary : ItemSlotType.Primary);
+    }
+    public void ChangeItemSlot(ItemSlotType st) {
+        ItemSlot oldSlot;
+        if(activeItems.TryGetValue(activeSlot, out oldSlot)) {
+            DeactivateItem(oldSlot.handR);
+            DeactivateItem(oldSlot.handL);
+        }
+        ItemSlot newSlot;
+        if(activeItems.TryGetValue(st, out newSlot)) {
+            ActivateItem(newSlot.handR);
+            ActivateItem(newSlot.handL);
+            holding = true;
+        } else {
+            holding = false;
+        }
+        activeSlot = st;
+    }
+    public void ActivateItem(Item i) {
+        if(IsInstanceValid(i)) {
+            i.Visible = true;
+        }
+    }
+    public void DeactivateItem(Item i) {
+        if(IsInstanceValid(i)) {
+            i.Visible = false;
+            i.CancelUse();
+        }
+    }
+    public void EnableMeleeHitboxes(bool rightHand) {
+        if(activeItems.ContainsKey(ItemSlotType.Secondary)) {
+            WeaponMelee w = (rightHand ? activeItems[ItemSlotType.Secondary].handR : activeItems[ItemSlotType.Secondary].handL) as WeaponMelee;
+            if(IsInstanceValid(w))
+                w.EnableHitboxes();
+        }
+    }
+    public void DisableMeleeHitboxes(bool rightHand) {
+        if(activeItems.ContainsKey(ItemSlotType.Secondary)) {
+            WeaponMelee w = (rightHand ? activeItems[ItemSlotType.Secondary].handR : activeItems[ItemSlotType.Secondary].handL) as WeaponMelee;
+            if(IsInstanceValid(w))
+                w.DisableHitboxes();
+        }
     }
     public int AddAmmo(AmmoType t, int amount) {
         int remainder = Mathf.Max(amount - (maxAmmo[t] - heldAmmo[t]), 0);
@@ -252,41 +336,63 @@ public class Player:Creature {
     public override void Die() {
         base.Die();
     }
-    public void UpdateAim() {
+    public Vector2 GetDirectionToInput(bool right) {
         Vector2 lookDir = new Vector2();
         if(inputDeviceType == InputDeviceType.MouseKeyboard) {
             Vector2 mousePos = GetGlobalMousePosition();
-            lookDir = mousePos - armR.GlobalPosition;
+            lookDir = mousePos - (right ? armR : armL).GlobalPosition;
         } else {
-            Vector2 rightStick = new Vector2 (Input.GetJoyAxis(playerNum - 2, (int) JoystickList.AnalogRx), Input.GetJoyAxis(playerNum - 2, (int) JoystickList.AnalogRy));
-            if(rightStick.LengthSquared() > 0.5f){
+            Vector2 rightStick = new Vector2(Input.GetJoyAxis(playerNum - 2, (int)JoystickList.AnalogRx), Input.GetJoyAxis(playerNum - 2, (int)JoystickList.AnalogRy));
+            if(rightStick.LengthSquared() > 0.5f) {
                 lookDir = rightStick;
-            }else {
+            } else {
                 lookDir = movementInput;
             }
         }
-        if(!lookDir.IsEqualApprox(Vector2.Zero)){
-            facingRight = holding ? lookDir.x >= 0 : (movementInput.x != 0 ? movementInput.x > 0 : facingRight);
-            float angle = Mathf.Atan((lookDir.y) / (lookDir.x));
-            armR.Rotation = angle;
-            armR.Scale = new Vector2((facingRight ? 1 : -1), 1);
-            armR.ShowBehindParent = !facingRight;
-            armL.Scale = new Vector2((facingRight ? 1 : -1), 1);
-            armL.ShowBehindParent = facingRight;
-            if(heldGun != null) {
-                heldGun.SetFacingRight(facingRight);
-            }
-        }
+        return lookDir;
+    }
+    public void UpdateAim() {
+        if(!canAim) return;
+        lookDirR = GetDirectionToInput(true);
+        lookDirL = GetDirectionToInput(false);
+        //ARMS/ITEMS
+        UpdateArmDirection(false);
+        UpdateArmDirection(true);
+        //EYES
         Vector2 eyeDir;
         float lookDirDeadzone = inputDeviceType == InputDeviceType.MouseKeyboard ? 64 : 0.25f;
-        if(lookDir.LengthSquared() < lookDirDeadzone)
+        if(lookDirR.LengthSquared() < lookDirDeadzone)
             eyeDir = new Vector2();
         else
-            eyeDir = new Vector2(lookDir.x * (facingRight ? 1 : -1), -lookDir.y).Normalized();
+            eyeDir = new Vector2(lookDirR.x * (facingRight ? 1 : -1), -lookDirR.y).Normalized();
         eyesAnimTree.Set("parameters/Idle/blend_position", eyeDir);
         eyesAnimTree.Set("parameters/Blink/blend_position", eyeDir);
     }
-
+    public void UpdateArmDirection(bool right, bool forceAngleToInput = false) {
+        Vector2 lD = right ? lookDirR : lookDirL;
+        if(!lD.IsEqualApprox(Vector2.Zero)) {
+            bool thisFacingRight = holding ? lD.x >= 0 : (movementInput.x != 0 ? movementInput.x > 0 : facingRight);
+            if(right)
+                facingRight = thisFacingRight;
+            if(holding) {
+                float angle = Mathf.Atan((lD.y) / (lD.x));
+                Node2D currArm = right ? armR : armL;
+                currArm.Rotation = angle;
+                ItemSlot currSl;
+                if(activeItems.TryGetValue(activeSlot, out currSl)) {
+                    Item currItem = right ? currSl.handR : currSl.handL;
+                    if(IsInstanceValid(currItem)) {
+                        currItem.SetFacingRight(thisFacingRight);
+                        if(!forceAngleToInput && currItem is WeaponMelee) {
+                            currArm.RotationDegrees = thisFacingRight ? 125 : -125;
+                        }
+                    }
+                }
+                currArm.Scale = new Vector2((thisFacingRight ? 1 : -1), 1);
+                currArm.GetParent<Node2D>().ShowBehindParent = facingRight != right;
+            }
+        }
+    }
     public override void _Input(InputEvent ie) {
         base._Input(ie);
         if(ie.IsActionPressed("move_right_p" + playerNum)) {                 //MOVEMENT
@@ -315,6 +421,8 @@ public class Player:Creature {
             if(closestInteractable != null) {
                 closestInteractable.Interact(this);
             }
+        } else if(playerNum == 1 && ie.IsActionPressed("swap_weapons_p" + playerNum)) {
+            SwapWeapons();
         } else if(playerNum != 1 && ie.IsActionPressed("look_up_p" + playerNum)) {
             lookDirection.y = -100;
         } else if(playerNum != 1 && ie.IsActionPressed("look_down_p" + playerNum)) {
@@ -323,17 +431,26 @@ public class Player:Creature {
             lookDirection.x = 100;
         } else if(playerNum != 1 && ie.IsActionPressed("look_left_p" + playerNum)) {
             lookDirection.x = -100;
-        } else if(holding && heldGun != null) {
-            if(ie.IsActionPressed("shoot_p" + playerNum)) {
-                heldGun.PullTrigger();
-            } else if(ie.IsActionReleased("shoot_p" + playerNum)) {
-                heldGun.ReleaseTrigger();
-            } else if(ie.IsActionPressed("reload_p" + playerNum)) {
-                if(heldGun.currentMagSize < heldGun.magMaxSize) {
-                    int amt = RemoveAmmo(heldGun.ammoType, heldGun.magMaxSize - heldGun.currentMagSize);
-                    //reload animation
-                    heldGun.FinishReload(heldGun.currentMagSize + amt); //implement ammo at some point
-                }
+        } else if(activeItems.ContainsKey(activeSlot)) {
+            if(ie.IsActionPressed("item_use_p" + playerNum)) {              //Use/Attack 1
+                if(IsInstanceValid(activeItems[activeSlot].handR))
+                    activeItems[activeSlot].handR.Use();
+            } else if(ie.IsActionReleased("item_use_p" + playerNum)) {
+                if(IsInstanceValid(activeItems[activeSlot].handR))
+                    activeItems[activeSlot].handR.CancelUse();
+            } else if(ie.IsActionPressed("item_use2_p" + playerNum)) {             //Use/Attack 2
+                if(IsInstanceValid(activeItems[activeSlot].handL))
+                    activeItems[activeSlot].handL.Use();
+                else if(IsInstanceValid(activeItems[activeSlot].handR))
+                    activeItems[activeSlot].handR.AltUse();
+            } else if(ie.IsActionReleased("item_use2_p" + playerNum)) {
+                if(IsInstanceValid(activeItems[activeSlot].handL))
+                    activeItems[activeSlot].handL.CancelUse();
+            } else if(ie.IsActionPressed("item_custom_p" + playerNum)) {
+                if(IsInstanceValid(activeItems[activeSlot].handR))
+                    activeItems[activeSlot].handR.Custom();
+                if(IsInstanceValid(activeItems[activeSlot].handL))
+                    activeItems[activeSlot].handL.Custom();
             }
         } else if(ie.IsActionPressed("add_hp_p" + playerNum)) {                 //Add HP TEST
             Heal(3);

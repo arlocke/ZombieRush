@@ -8,7 +8,7 @@ public enum AmmoType {
     //more types for zombie sludge etc
 }
 
-public class Projectile:Hitbox {
+public class Projectile:HitboxPiercing {
     [Export]
     public float speed;
     public float distanceRemaining;

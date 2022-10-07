@@ -8,7 +8,7 @@ public class PlayerManager:Node {
     CanvasLayer gameGUI;
     CameraGame cam;
     [Export]
-    PackedScene playerGUIRef;
+    public PackedScene playerGUIRef;
     public override void _Ready() {
         gameGUI = GetTree().GetNodesInGroup("Canvases")[0] as CanvasLayer;
         cam = GetNode<CameraGame>("CameraGame");
