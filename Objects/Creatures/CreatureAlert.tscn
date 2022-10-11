@@ -3,7 +3,7 @@
 [ext_resource path="res://Scripts/Creatures/CreatureMods/CreatureAlert.cs" type="Script" id=1]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 119.0
+radius = 128.0
 
 [node name="CreatureAlert" type="Area2D"]
 collision_layer = 0

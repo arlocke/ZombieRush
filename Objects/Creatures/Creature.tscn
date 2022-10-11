@@ -31,6 +31,7 @@ anims/PlayerWalk = ExtResource( 5 )
 anims/PlayerWalkHolding = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2( 0, -8.239 )
 shape = SubResource( 3 )
 
@@ -44,6 +45,8 @@ vframes = 3
 frame = 1
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 2.0
 target_desired_distance = 100.0
 path_max_distance = 100.0
-avoidance_enabled = true
+radius = 4.0
+neighbor_dist = 128.0

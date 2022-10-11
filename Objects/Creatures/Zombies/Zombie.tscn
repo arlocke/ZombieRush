@@ -15,15 +15,16 @@ moveSpeed = 69.0
 meleeAttackDamage = 1.0
 corpseTexture = ExtResource( 5 )
 corpseRef = ExtResource( 6 )
+coordinator = null
 targetCreature = null
 state = 0
+intelligence = 1
 meleeAttackDelay = 0.0
-meleeAttackRangeSqr = 150.0
+meleeAttackRangeSqr = 256.0
 rangedAttackDelay = 0.0
 rangedAttackRangeSqr = 0.0
 
 [node name="AnimationTreeBody" parent="." index="0"]
-active = false
 parameters/playback = SubResource( 1 )
 
 [node name="BodySprite" parent="Body" index="0"]
@@ -35,3 +36,4 @@ frame = 0
 [node name="CreatureAlert" parent="." index="4" instance=ExtResource( 4 )]
 visible = false
 collision_layer = 1
+monitorable = false

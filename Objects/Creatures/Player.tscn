@@ -520,9 +520,9 @@ canAim = false
 actionable = true
 lookDirection = Vector2( 0, 0 )
 movementInput = Vector2( 0, 0 )
-movementFriction = 10.0
-dashSpeed = 100.0
-maxCancelDashSpeed = 50.0
+movementFriction = 400.0
+dashSpeed = 300.0
+maxCancelDashSpeed = 100.0
 activeItems = {
 }
 maxAmmo = {
