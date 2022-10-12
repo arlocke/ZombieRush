@@ -26,7 +26,7 @@ public class WeaponMelee:Weapon {
         if(IsInstanceValid(holder)) {
             if(!(holder as Player).animPlayerArms.IsPlaying()) {
                 (holder as Player).UpdateArmDirection(true, true);
-                (holder as Player).animPlayerArms.Play("MeleeAttack");
+                (holder as Player).animPlayerArms.Play("PlayerMeleeAttack");
             }
         }
     }

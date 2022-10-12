@@ -17,9 +17,9 @@
 [ext_resource path="res://Scripts/Creatures/AICoordinator.cs" type="Script" id=15]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 163, 70, 922, 65, 945, 535, 122, 516 )
+vertices = PoolVector2Array( 66, -12, 1092, -13, 1096, 589, 70, 584 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
-outlines = [ PoolVector2Array( 163, 70, 922, 65, 945, 535, 122, 516 ) ]
+outlines = [ PoolVector2Array( 66, -12, 1092, -13, 1096, 589, 70, 584 ) ]
 
 [node name="Node2D" type="Node2D"]
 
@@ -33,6 +33,8 @@ playerGUIRef = ExtResource( 10 )
 padding = Vector2( 16, 16 )
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
+cell_size = 32.0
+edge_connection_margin = 4.0
 
 [node name="MasterYSort" type="YSort" parent="Navigation2D"]
 
@@ -40,64 +42,53 @@ padding = Vector2( 16, 16 )
 
 [node name="Zombie" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 574, 374 )
-meleeAttackDamage = 0.0
 
 [node name="Zombie2" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 577, 321 )
-meleeAttackDamage = 0.0
 
 [node name="Zombie3" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 571, 434 )
-meleeAttackDamage = 0.0
 
 [node name="Zombie4" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 601, 343 )
-meleeAttackDamage = 0.0
 
 [node name="Zombie5" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 599, 412 )
-meleeAttackDamage = 0.0
 
 [node name="Zombie6" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 621, 371 )
-meleeAttackDamage = 0.0
 
 [node name="Zombie7" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 647, 344 )
-meleeAttackDamage = 0.0
 
 [node name="Zombie8" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 643, 408 )
-meleeAttackDamage = 0.0
 
 [node name="Zombie9" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 676, 303 )
-meleeAttackDamage = 0.0
 
 [node name="Zombie10" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 615, 275 )
-meleeAttackDamage = 0.0
 
 [node name="Zombie11" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 585, 273 )
-meleeAttackDamage = 0.0
 
 [node name="Zombie12" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 687, 255 )
-meleeAttackDamage = 0.0
 
 [node name="Zombie13" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 705, 400 )
-meleeAttackDamage = 0.0
 
 [node name="Players" type="YSort" parent="Navigation2D/MasterYSort"]
 
 [node name="PlayerYui" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 13 )]
 position = Vector2( 385, 339 )
 teamFaction = 1
+canAim = false
 
 [node name="PlayerBusinessGuy" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 1 )]
 position = Vector2( 384, 375 )
+canAim = false
 
 [node name="Pickups" type="YSort" parent="Navigation2D/MasterYSort"]
 

@@ -28,6 +28,7 @@ public class Creature:KinematicBody2D {     //Stats
     public Texture corpseTexture;
     [Export]
     public PackedScene corpseRef;
+    public Vector2 movementDirection;
     public bool facingRight = true;
 
     //Team data
@@ -49,11 +50,14 @@ public class Creature:KinematicBody2D {     //Stats
         navAgent.Connect("velocity_computed", this, "Move");
         navAgent.MaxSpeed = moveSpeed;
     }
-    public virtual void TakeDamage(float takenDamage) {
+    ///<returns> Whether or not the creature died from the damage </returns>
+    public virtual bool TakeDamage(float takenDamage) {
         hp = Mathf.Clamp(hp - takenDamage, 0, maxHp);
         if(hp <= 0) {
             Die();
+            return true;
         }
+        return false;
     }
     public virtual void Heal(float healAmount) {
         hp = Mathf.Clamp(hp + healAmount, 0, maxHp);

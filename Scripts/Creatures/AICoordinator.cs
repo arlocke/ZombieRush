@@ -22,7 +22,8 @@ public class AICoordinator:Node {
                     AICreature c = directedCreatures[i];
                     if(IsInstanceValid(c)) {
                         c.UpdateTargets();
-                        c.navAgent.SetTargetLocation(c.targetCreature.Position);
+                        if(IsInstanceValid(c.targetCreature))
+                            c.navAgent.SetTargetLocation(c.targetCreature.Position);
                     }
                 }
             }

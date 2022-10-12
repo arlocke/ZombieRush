@@ -47,25 +47,33 @@ public class AICreature:Creature {
     [Export]
     public float rangedAttackRangeSqr;
     public float attackTimer;
-    Vector2[] pathPoints;
+    public float stateTimer;
+    [Export]
+    public float moveSpeedWalk;
 
     public override void _Ready() {
         base._Ready();
         //Assuming dex cap for reaction time is 20. Randomize a little so that no zombie will have the same reaction time.
         reactionTime = (1 - (dexterity / 20)) + (float)GD.RandRange(0.1f, 0.3f);
         coordinator = Owner.GetNode<AICoordinator>("AICoordinator");
-        Connect("path_changed",)
     }
     public override void _PhysicsProcess(float dt) {
         base._PhysicsProcess(dt);
         UpdateReactions(dt);
         switch(state) {
             case BehaviorState.Idle:
-            //standing still jacking off, mashing head against wall etc...
+                //standing still jacking off, mashing head against wall etc...
+                stateTimer -= dt;
+                if(stateTimer < 0)
+                    Wander();
+                break;
             case BehaviorState.Wandering:
-                //walking around n shit
+                MoveWander(dt);
                 break;
             case BehaviorState.Chasing:
+                if(!IsInstanceValid(targetCreature)) {
+                    UpdateTargets();
+                }
                 if(TargetInRange()) {
                     StartMeleeAttack();
                 }
@@ -134,6 +142,20 @@ public class AICreature:Creature {
     public void Wander() {
         SetState(BehaviorState.Wandering);
         coordinator.directedCreatures.Remove(this);
+        movementDirection = GD.Randf() > 0.5f ? (GD.Randf() > 0.5f ? new Vector2(0, 1) : new Vector2(0, -1)) : (GD.Randf() > 0.5f ? new Vector2(1, 0) : new Vector2(-1, 0));
+        stateTimer = (float)GD.RandRange(1, 5);
+    }
+    public void MoveWander(float dt) {
+        stateTimer -= dt;
+        if(MoveAndCollide(movementDirection * moveSpeedWalk * dt) != null || stateTimer < 0) {
+            if(GD.Randf() > 0.5f) {  //Continue wandering
+                movementDirection = movementDirection.Rotated((Mathf.Pi / 2) * Mathf.Ceil((float)GD.RandRange(0, 3)));
+                stateTimer = (float)GD.RandRange(1, 5);
+            } else {                  //Idle
+                SetState(BehaviorState.Idle);
+                stateTimer = (float)GD.RandRange(1, 5);
+            }
+        }
     }
     public void AddReaction(Action a) {
         reactions.AddLast(new Reaction(a, reactionTime - (reactions.Count > 0 ? reactions.First.Value.timer : 0)));
@@ -150,7 +172,9 @@ public class AICreature:Creature {
     }
     public void FinishMeleeAttack() {
         if(IsInstanceValid(targetCreature) && Position.DistanceSquaredTo(targetCreature.Position) < meleeAttackRangeSqr) {
-            targetCreature.TakeDamage(meleeAttackDamage);
+            if(targetCreature.TakeDamage(meleeAttackDamage)) {
+                UpdateTargets();
+            }
         } else {
             SetState(BehaviorState.Chasing);
             animStateMachine.Travel("Idle");
@@ -158,15 +182,5 @@ public class AICreature:Creature {
     }
     public void SetState(BehaviorState s) {
         state = s;
-    }
-    public override void _Draw() {
-        base._Draw();
-        Vector2[] p = navAgent.GetNavPath();
-        if(p.Length > 1) {
-            DrawPolyline(p, Colors.Red, 2);
-        }
-    }
-    public void UpdatePathPoints() {
-
     }
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Sprites/Creatures/Zombies/Zombie1.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Creatures/Zombie.cs" type="Script" id=2]
@@ -6,8 +6,42 @@
 [ext_resource path="res://Objects/Creatures/CreatureAlert.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Sprites/Creatures/Characters/Char0_dead.png" type="Texture" id=5]
 [ext_resource path="res://Objects/Creatures/Corpse.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Animation/Creatures/ASM_ZombieGrunt.tres" type="AnimationNodeStateMachine" id=7]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=1]
+
+[sub_resource type="Animation" id=2]
+resource_name = "ZombieAttack"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/BodySprite:self_modulate")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.1, 0.5, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.7 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "FinishMeleeAttack"
+} ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "ZombieIdle"
 
 [node name="Zombie" groups=["Zombies"] instance=ExtResource( 3 )]
 script = ExtResource( 2 )
@@ -23,9 +57,18 @@ meleeAttackDelay = 0.0
 meleeAttackRangeSqr = 256.0
 rangedAttackDelay = 0.0
 rangedAttackRangeSqr = 0.0
+moveSpeedWalk = 20.0
 
 [node name="AnimationTreeBody" parent="." index="0"]
+tree_root = ExtResource( 7 )
+active = true
 parameters/playback = SubResource( 1 )
+parameters/Idle/blend_position = 0
+parameters/Walk/blend_position = 0
+
+[node name="AnimationPlayerBody" parent="." index="1"]
+anims/ZombieAttack = SubResource( 2 )
+anims/ZombieIdle = SubResource( 3 )
 
 [node name="BodySprite" parent="Body" index="0"]
 texture = ExtResource( 1 )
@@ -37,3 +80,6 @@ frame = 0
 visible = false
 collision_layer = 1
 monitorable = false
+
+[node name="NavigationAgent2D" parent="." index="5"]
+avoidance_enabled = true

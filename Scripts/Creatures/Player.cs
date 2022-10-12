@@ -64,7 +64,6 @@ public class Player:Creature {
     //Movement
     [Export]
     Vector2 movementInput;
-    public Vector2 movementDirection;
     public float movementVelocity; //not a vector
     public bool dashing;
     [Export]
@@ -334,14 +333,15 @@ public class Player:Creature {
         base.Heal(healAmount);
         playerGUI.UpdateHP();
     }
-    public override void TakeDamage(float takenDamage) {
-        base.TakeDamage(takenDamage);
+    public override bool TakeDamage(float takenDamage) {
+        bool dead = base.TakeDamage(takenDamage);
         playerGUI.UpdateHP();
+        return dead;
     }
     public override void Die() {
         base.Die();
     }
-    public Vector2 GetDirectionToInput(bool right) {
+    public Vector2 GetDirectionToInput(bool right = true) {
         Vector2 lookDir = new Vector2();
         if(inputDeviceType == InputDeviceType.MouseKeyboard) {
             Vector2 mousePos = GetGlobalMousePosition();
@@ -357,12 +357,12 @@ public class Player:Creature {
         return lookDir;
     }
     public void UpdateAim() {
-        if(!canAim) return;
         lookDirR = GetDirectionToInput(true);
         lookDirL = GetDirectionToInput(false);
         //ARMS/ITEMS
+        if(canAim)
+            UpdateArmDirection(true);
         UpdateArmDirection(false);
-        UpdateArmDirection(true);
         //EYES
         Vector2 eyeDir;
         float lookDirDeadzone = inputDeviceType == InputDeviceType.MouseKeyboard ? 64 : 0.25f;
@@ -377,22 +377,30 @@ public class Player:Creature {
         Vector2 lD = right ? lookDirR : lookDirL;
         if(!lD.IsEqualApprox(Vector2.Zero)) {
             bool thisFacingRight = holding ? lD.x >= 0 : (movementInput.x != 0 ? movementInput.x > 0 : facingRight);
-            if(right)
+            bool flip = false;
+            if(right && facingRight != thisFacingRight) {
                 facingRight = thisFacingRight;
+                flip = true;
+            }
             if(holding) {
                 float angle = Mathf.Atan((lD.y) / (lD.x));
                 Node2D currArm = right ? armR : armL;
-                currArm.Rotation = angle;
+                bool angleToInput = true;
                 ItemSlot currSl;
                 if(activeItems.TryGetValue(activeSlot, out currSl)) {
                     Item currItem = right ? currSl.handR : currSl.handL;
                     if(IsInstanceValid(currItem)) {
                         currItem.SetFacingRight(thisFacingRight);
                         if(!forceAngleToInput && currItem is WeaponMelee) {
-                            currArm.RotationDegrees = thisFacingRight ? 125 : -125;
+                            currArm.RotationDegrees = Mathf.Lerp(currArm.RotationDegrees * (flip ? -1 : 1), thisFacingRight ? 125 : -125, 0.1f);
+                            Node2D currUpperArm = currArm.GetNode<Node2D>("UpperArm" + (right ? "R" : "L"));
+                            currUpperArm.RotationDegrees = Mathf.Lerp(currUpperArm.RotationDegrees, 0, 0.1f);
+                            angleToInput = false;
                         }
                     }
                 }
+                if(angleToInput)
+                    currArm.Rotation = angle;
                 currArm.Scale = new Vector2((thisFacingRight ? 1 : -1), 1);
                 currArm.GetParent<Node2D>().ShowBehindParent = facingRight != right;
             }

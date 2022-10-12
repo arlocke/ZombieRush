@@ -1,17 +1,23 @@
-[gd_scene load_steps=57 format=2]
+[gd_scene load_steps=63 format=2]
 
 [ext_resource path="res://Objects/Creatures/Creature.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Creatures/Player.cs" type="Script" id=2]
-[ext_resource path="res://Animation/Creatures/MeleeAttack.tres" type="Animation" id=3]
+[ext_resource path="res://Animation/Creatures/PlayerMeleeAttack.tres" type="Animation" id=3]
+[ext_resource path="res://Animation/Creatures/PlayerIdle.tres" type="Animation" id=4]
 [ext_resource path="res://Sprites/Creatures/Characters/char_yui.png" type="Texture" id=5]
+[ext_resource path="res://Animation/Creatures/PlayerWalkHolding.tres" type="Animation" id=6]
+[ext_resource path="res://Animation/Creatures/PlayerIdleHolding.tres" type="Animation" id=7]
 [ext_resource path="res://Sprites/Creatures/Characters/eyes_femBasic.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/Creatures/Characters/eyebrows_femBasic.png" type="Texture" id=9]
 [ext_resource path="res://Objects/Items/Pickups/Pickup.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Misc/MainTheme.tres" type="Theme" id=11]
 [ext_resource path="res://Sprites/Creatures/Characters/Char0_dead.png" type="Texture" id=12]
 [ext_resource path="res://Objects/Creatures/Corpse.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Animation/Creatures/PlayerWalk.tres" type="Animation" id=14]
+[ext_resource path="res://Animation/Creatures/ASM_Player.tres" type="AnimationNodeStateMachine" id=15]
+[ext_resource path="res://Objects/Items/Weapons/Melee/WeaponMelee.tscn" type="PackedScene" id=16]
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=46]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=50]
 
 [sub_resource type="Animation" id=49]
 length = 0.001
@@ -516,7 +522,7 @@ teamType = 1
 playerNum = 0
 holding = false
 canMove = true
-canAim = false
+canAim = true
 actionable = true
 lookDirection = Vector2( 0, 0 )
 movementInput = Vector2( 0, 0 )
@@ -530,17 +536,23 @@ maxAmmo = {
 pickupRef = ExtResource( 10 )
 
 [node name="AnimationTreeBody" parent="." index="0"]
+tree_root = ExtResource( 15 )
 active = true
-parameters/playback = SubResource( 46 )
-parameters/Idle/blend_position = 0.0
+parameters/playback = SubResource( 50 )
+parameters/Idle/blend_position = 0
+parameters/Walk/blend_position = 0
 
 [node name="AnimationPlayerBody" parent="." index="1"]
+anims/PlayerIdle = ExtResource( 4 )
+anims/PlayerIdleHolding = ExtResource( 7 )
+anims/PlayerWalk = ExtResource( 14 )
+anims/PlayerWalkHolding = ExtResource( 6 )
 anims/RESET = SubResource( 49 )
 
 [node name="BodySprite" parent="Body" index="0"]
 texture = ExtResource( 5 )
 offset = Vector2( -2, -19 )
-frame = 3
+frame = 0
 
 [node name="Face" type="Node2D" parent="Body" index="1"]
 
@@ -623,7 +635,7 @@ position = Vector2( -5.98838, -14 )
 
 [node name="AnimationPlayerArms" type="AnimationPlayer" parent="Body/ShoulderR/ArmR" index="0"]
 root_node = NodePath("../../..")
-anims/MeleeAttack = ExtResource( 3 )
+anims/PlayerMeleeAttack = ExtResource( 3 )
 anims/RESET = SubResource( 48 )
 
 [node name="UpperArmR" type="Sprite" parent="Body/ShoulderR/ArmR" index="1"]
@@ -644,6 +656,9 @@ region_rect = Rect2( 19, 104, 9, 4 )
 
 [node name="HandRSocket" type="Node2D" parent="Body/ShoulderR/ArmR/UpperArmR/ForearmR" index="0"]
 position = Vector2( 5, 0 )
+
+[node name="WeaponMelee" parent="Body/ShoulderR/ArmR/UpperArmR/ForearmR/HandRSocket" index="0" instance=ExtResource( 16 )]
+position = Vector2( 0, -11.268 )
 
 [node name="InteractableText" type="Label" parent="." index="5"]
 visible = false
