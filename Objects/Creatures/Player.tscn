@@ -7,7 +7,7 @@
 [ext_resource path="res://Sprites/Creatures/Characters/eyes_femBasic.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/Creatures/Characters/eyebrows_femBasic.png" type="Texture" id=9]
 [ext_resource path="res://Objects/Items/Pickups/Pickup.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Misc/MainTheme.tres" type="Theme" id=11]
+[ext_resource path="res://GUI/MainTheme.tres" type="Theme" id=11]
 [ext_resource path="res://Sprites/Creatures/Characters/Char0_dead.png" type="Texture" id=12]
 [ext_resource path="res://Objects/Creatures/Corpse.tscn" type="PackedScene" id=13]
 

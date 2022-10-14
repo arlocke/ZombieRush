@@ -1,8 +1,14 @@
-[gd_resource type="Theme" load_steps=8 format=2]
+[gd_resource type="Theme" load_steps=11 format=2]
 
-[ext_resource path="res://Misc/MainFontDynamic.tres" type="DynamicFont" id=1]
+[ext_resource path="res://GUI/MainFontDynamic.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Sprites/UI/General/sb_tab.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/UI/General/sb_speechBubble.png" type="Texture" id=3]
+[ext_resource path="res://GUI/Styleboxes/sb_buttonNormal.tres" type="StyleBox" id=4]
+[ext_resource path="res://GUI/Styleboxes/sb_buttonPressed.tres" type="StyleBox" id=5]
+[ext_resource path="res://GUI/Styleboxes/sb_buttonHover.tres" type="StyleBox" id=6]
+
+[sub_resource type="DynamicFont" id=1]
+size = 1
 
 [sub_resource type="StyleBoxTexture" id=2]
 content_margin_left = 8.0
@@ -17,17 +23,17 @@ modulate_color = Color( 0.933333, 0.219608, 0.145098, 1 )
 
 [sub_resource type="StyleBoxTexture" id=3]
 texture = ExtResource( 2 )
-region_rect = Rect2( 0, 0, 5, 5 )
+region_rect = Rect2( 0, 0, 5, 4 )
 margin_left = 2.0
 margin_right = 2.0
-margin_top = 4.0
-margin_bottom = 3.0
+margin_top = 3.0
+margin_bottom = 2.0
 expand_margin_bottom = 3.0
 modulate_color = Color( 0.603922, 0.117647, 0.0666667, 1 )
 
 [sub_resource type="StyleBoxTexture" id=4]
 texture = ExtResource( 2 )
-region_rect = Rect2( 0, 0, 5, 5 )
+region_rect = Rect2( 0, 0, 5, 4 )
 margin_left = 2.0
 margin_right = 2.0
 margin_top = 2.0
@@ -36,10 +42,13 @@ expand_margin_top = 2.0
 expand_margin_bottom = 1.0
 modulate_color = Color( 0.933333, 0.219608, 0.145098, 1 )
 
-[sub_resource type="DynamicFont" id=1]
-
 [resource]
 default_font = SubResource( 1 )
+Button/styles/disabled = ExtResource( 5 )
+Button/styles/focus = ExtResource( 6 )
+Button/styles/hover = ExtResource( 6 )
+Button/styles/normal = ExtResource( 4 )
+Button/styles/pressed = ExtResource( 5 )
 Label/colors/font_color = Color( 1, 1, 1, 1 )
 Label/colors/font_color_shadow = Color( 0, 0, 0, 1 )
 Label/colors/font_outline_modulate = Color( 0, 0, 0, 1 )
@@ -49,6 +58,7 @@ Label/constants/shadow_offset_x = -1
 Label/constants/shadow_offset_y = 1
 Label/fonts/font = ExtResource( 1 )
 Label/styles/normal = null
+TabContainer/fonts/font = SubResource( 1 )
 TabContainer/styles/panel = SubResource( 2 )
 TabContainer/styles/tab_bg = SubResource( 3 )
 TabContainer/styles/tab_fg = SubResource( 4 )

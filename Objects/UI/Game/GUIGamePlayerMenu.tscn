@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Misc/MainTheme.tres" type="Theme" id=1]
+[ext_resource path="res://GUI/MainTheme.tres" type="Theme" id=1]
 [ext_resource path="res://Sprites/UI/General/sb_transConcave.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/UI/General/sb_transFlat.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/UI/General/sb_opaqueConvex.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/UI/Game/GUITabsWithIcons.cs" type="Script" id=5]
 [ext_resource path="res://Sprites/UI/Icons/icon_inventory.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/Items/Guns/glock18Med_Gray.png" type="Texture" id=7]
@@ -17,10 +16,14 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -46.0
-margin_top = -57.0
-margin_right = 42.0
-margin_bottom = 87.0
+margin_left = -47.0
+margin_top = -75.0
+margin_right = 41.0
+margin_bottom = 69.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme = ExtResource( 1 )
 custom_constants/side_margin = 8
 tab_align = 0
@@ -36,8 +39,10 @@ margin_left = 8.0
 margin_top = 24.0
 margin_right = -6.0
 margin_bottom = -10.0
-size_flags_horizontal = 4
-size_flags_vertical = 4
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_constants/vseparation = 4
 custom_constants/hseparation = 4
 columns = 3
@@ -45,7 +50,10 @@ columns = 3
 [node name="InventorySlot1" type="NinePatchRect" parent="TabContainer/Inventory"]
 margin_right = 22.0
 margin_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
 rect_min_size = Vector2( 22, 22 )
+size_flags_horizontal = 6
 texture = ExtResource( 2 )
 region_rect = Rect2( 0, 0, 8, 8 )
 patch_margin_left = 5
@@ -53,23 +61,23 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="InventoryItem1" type="NinePatchRect" parent="TabContainer/Inventory/InventorySlot1"]
-self_modulate = Color( 1, 0, 0.937255, 1 )
+[node name="InventoryItem1" type="Button" parent="TabContainer/Inventory/InventorySlot1"]
+modulate = Color( 1, 0, 0.984314, 1 )
 margin_right = 22.0
 margin_bottom = 22.0
-rect_min_size = Vector2( 22, 22 )
-texture = ExtResource( 4 )
-region_rect = Rect2( 0, 0, 6, 6 )
-patch_margin_left = 4
-patch_margin_top = 3
-patch_margin_right = 4
-patch_margin_bottom = 4
+theme = ExtResource( 1 )
+action_mode = 0
+clip_text = true
+icon_align = 1
 
 [node name="InventorySlot2" type="NinePatchRect" parent="TabContainer/Inventory"]
 margin_left = 26.0
 margin_right = 48.0
 margin_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
 rect_min_size = Vector2( 22, 22 )
+size_flags_horizontal = 6
 texture = ExtResource( 2 )
 region_rect = Rect2( 0, 0, 8, 8 )
 patch_margin_left = 5
@@ -81,7 +89,10 @@ patch_margin_bottom = 5
 margin_left = 52.0
 margin_right = 74.0
 margin_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
 rect_min_size = Vector2( 22, 22 )
+size_flags_horizontal = 6
 texture = ExtResource( 2 )
 region_rect = Rect2( 0, 0, 8, 8 )
 patch_margin_left = 5
@@ -89,23 +100,21 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="InventoryItem1" type="NinePatchRect" parent="TabContainer/Inventory/InventorySlot3"]
+[node name="InventoryItem1" type="Button" parent="TabContainer/Inventory/InventorySlot3"]
 self_modulate = Color( 1, 0.866667, 0, 1 )
 margin_right = 22.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 22, 22 )
-texture = ExtResource( 4 )
-region_rect = Rect2( 0, 0, 6, 6 )
-patch_margin_left = 4
-patch_margin_top = 3
-patch_margin_right = 4
-patch_margin_bottom = 4
+action_mode = 0
 
 [node name="InventorySlot4" type="NinePatchRect" parent="TabContainer/Inventory"]
 margin_top = 26.0
 margin_right = 22.0
 margin_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
 rect_min_size = Vector2( 22, 22 )
+size_flags_horizontal = 6
 texture = ExtResource( 2 )
 region_rect = Rect2( 0, 0, 8, 8 )
 patch_margin_left = 5
@@ -118,7 +127,10 @@ margin_left = 26.0
 margin_top = 26.0
 margin_right = 48.0
 margin_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
 rect_min_size = Vector2( 22, 22 )
+size_flags_horizontal = 6
 texture = ExtResource( 2 )
 region_rect = Rect2( 0, 0, 8, 8 )
 patch_margin_left = 5
@@ -131,7 +143,10 @@ margin_left = 52.0
 margin_top = 26.0
 margin_right = 74.0
 margin_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
 rect_min_size = Vector2( 22, 22 )
+size_flags_horizontal = 6
 texture = ExtResource( 2 )
 region_rect = Rect2( 0, 0, 8, 8 )
 patch_margin_left = 5
@@ -143,7 +158,10 @@ patch_margin_bottom = 5
 margin_top = 52.0
 margin_right = 22.0
 margin_bottom = 74.0
+grow_horizontal = 2
+grow_vertical = 2
 rect_min_size = Vector2( 22, 22 )
+size_flags_horizontal = 6
 texture = ExtResource( 2 )
 region_rect = Rect2( 0, 0, 8, 8 )
 patch_margin_left = 5
@@ -156,7 +174,10 @@ margin_left = 26.0
 margin_top = 52.0
 margin_right = 48.0
 margin_bottom = 74.0
+grow_horizontal = 2
+grow_vertical = 2
 rect_min_size = Vector2( 22, 22 )
+size_flags_horizontal = 6
 texture = ExtResource( 2 )
 region_rect = Rect2( 0, 0, 8, 8 )
 patch_margin_left = 5
@@ -169,7 +190,10 @@ margin_left = 52.0
 margin_top = 52.0
 margin_right = 74.0
 margin_bottom = 74.0
+grow_horizontal = 2
+grow_vertical = 2
 rect_min_size = Vector2( 22, 22 )
+size_flags_horizontal = 6
 texture = ExtResource( 2 )
 region_rect = Rect2( 0, 0, 8, 8 )
 patch_margin_left = 5
@@ -181,12 +205,10 @@ patch_margin_bottom = 5
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 13.0
-margin_top = 17.0
+margin_left = 8.0
+margin_top = 24.0
 margin_right = -6.0
 margin_bottom = -10.0
-custom_constants/vseparation = 4
-custom_constants/hseparation = 4
 columns = 2
 
 [node name="EquipmentSlot1" type="NinePatchRect" parent="TabContainer/Equipment"]
@@ -204,7 +226,8 @@ patch_margin_bottom = 5
 margin_left = 26.0
 margin_right = 74.0
 margin_bottom = 22.0
-rect_min_size = Vector2( 48, 22 )
+rect_min_size = Vector2( 0, 22 )
+size_flags_horizontal = 3
 texture = ExtResource( 3 )
 region_rect = Rect2( 0, 0, 6, 6 )
 patch_margin_left = 4
@@ -229,7 +252,8 @@ margin_left = 26.0
 margin_top = 26.0
 margin_right = 74.0
 margin_bottom = 48.0
-rect_min_size = Vector2( 48, 22 )
+rect_min_size = Vector2( 0, 22 )
+size_flags_horizontal = 3
 texture = ExtResource( 3 )
 region_rect = Rect2( 0, 0, 6, 6 )
 patch_margin_left = 4
@@ -254,7 +278,8 @@ margin_left = 26.0
 margin_top = 52.0
 margin_right = 74.0
 margin_bottom = 74.0
-rect_min_size = Vector2( 48, 22 )
+rect_min_size = Vector2( 0, 22 )
+size_flags_horizontal = 3
 texture = ExtResource( 3 )
 region_rect = Rect2( 0, 0, 6, 6 )
 patch_margin_left = 4
@@ -279,7 +304,8 @@ margin_left = 26.0
 margin_top = 78.0
 margin_right = 74.0
 margin_bottom = 100.0
-rect_min_size = Vector2( 48, 22 )
+rect_min_size = Vector2( 0, 22 )
+size_flags_horizontal = 3
 texture = ExtResource( 3 )
 region_rect = Rect2( 0, 0, 6, 6 )
 patch_margin_left = 4

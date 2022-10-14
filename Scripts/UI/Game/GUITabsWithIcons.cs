@@ -8,6 +8,7 @@ public class GUITabsWithIcons:TabContainer {
         base._Ready();
         for(int i = 0; i < GetTabCount(); i++) {
             SetTabIcon(i, icons[i]);
+            SetTabTitle(i, "");
         }
     }
 }
