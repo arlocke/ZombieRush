@@ -64,7 +64,6 @@ public class Player:Creature {
     //Movement
     [Export]
     Vector2 movementInput;
-    public Vector2 movementDirection;
     public float movementVelocity; //not a vector
     public bool dashing;
     [Export]
@@ -206,6 +205,11 @@ public class Player:Creature {
             movementVelocity = dashSpeed;
         }
     }
+    /// <param name="r">Check the Right hand item if true, or check the Left hand item if false. Defaults to Right.</param>
+    public bool ActiveItemValid(bool r = true) {
+        return activeItems.ContainsKey(activeSlot) &&
+        (r ? IsInstanceValid(activeItems[activeSlot].handR) : IsInstanceValid(activeItems[activeSlot].handL));
+    }
     public void EquipItem(Item i) {
         if(IsInstanceValid(i)) {
             if(IsInstanceValid(i.GetParent()))
@@ -253,7 +257,7 @@ public class Player:Creature {
             Pickup newPickup = pickupRef.Instance<Pickup>();
             GetParent().GetParent().GetNode<YSort>("Pickups").AddChild(newPickup);
             newPickup.GlobalPosition = i.GlobalPosition;
-            if(i.GetParent() != null)
+            if(IsInstanceValid(i.GetParent()))
                 i.GetParent().RemoveChild(i);
             newPickup.AddChild(i);
             newPickup.payload = i;
@@ -329,14 +333,15 @@ public class Player:Creature {
         base.Heal(healAmount);
         playerGUI.UpdateHP();
     }
-    public override void TakeDamage(float takenDamage) {
-        base.TakeDamage(takenDamage);
+    public override bool TakeDamage(float takenDamage) {
+        bool dead = base.TakeDamage(takenDamage);
         playerGUI.UpdateHP();
+        return dead;
     }
     public override void Die() {
         base.Die();
     }
-    public Vector2 GetDirectionToInput(bool right) {
+    public Vector2 GetDirectionToInput(bool right = true) {
         Vector2 lookDir = new Vector2();
         if(inputDeviceType == InputDeviceType.MouseKeyboard) {
             Vector2 mousePos = GetGlobalMousePosition();
@@ -352,12 +357,12 @@ public class Player:Creature {
         return lookDir;
     }
     public void UpdateAim() {
-        if(!canAim) return;
         lookDirR = GetDirectionToInput(true);
         lookDirL = GetDirectionToInput(false);
         //ARMS/ITEMS
+        if(canAim)
+            UpdateArmDirection(true);
         UpdateArmDirection(false);
-        UpdateArmDirection(true);
         //EYES
         Vector2 eyeDir;
         float lookDirDeadzone = inputDeviceType == InputDeviceType.MouseKeyboard ? 64 : 0.25f;
@@ -372,22 +377,30 @@ public class Player:Creature {
         Vector2 lD = right ? lookDirR : lookDirL;
         if(!lD.IsEqualApprox(Vector2.Zero)) {
             bool thisFacingRight = holding ? lD.x >= 0 : (movementInput.x != 0 ? movementInput.x > 0 : facingRight);
-            if(right)
+            bool flip = false;
+            if(right && facingRight != thisFacingRight) {
                 facingRight = thisFacingRight;
+                flip = true;
+            }
             if(holding) {
                 float angle = Mathf.Atan((lD.y) / (lD.x));
                 Node2D currArm = right ? armR : armL;
-                currArm.Rotation = angle;
+                bool angleToInput = true;
                 ItemSlot currSl;
                 if(activeItems.TryGetValue(activeSlot, out currSl)) {
                     Item currItem = right ? currSl.handR : currSl.handL;
                     if(IsInstanceValid(currItem)) {
                         currItem.SetFacingRight(thisFacingRight);
                         if(!forceAngleToInput && currItem is WeaponMelee) {
-                            currArm.RotationDegrees = thisFacingRight ? 125 : -125;
+                            currArm.RotationDegrees = Mathf.Lerp(currArm.RotationDegrees * (flip ? -1 : 1), thisFacingRight ? 125 : -125, 0.1f);
+                            Node2D currUpperArm = currArm.GetNode<Node2D>("UpperArm" + (right ? "R" : "L"));
+                            currUpperArm.RotationDegrees = Mathf.Lerp(currUpperArm.RotationDegrees, 0, 0.1f);
+                            angleToInput = false;
                         }
                     }
                 }
+                if(angleToInput)
+                    currArm.Rotation = angle;
                 currArm.Scale = new Vector2((thisFacingRight ? 1 : -1), 1);
                 currArm.GetParent<Node2D>().ShowBehindParent = facingRight != right;
             }
@@ -418,7 +431,7 @@ public class Player:Creature {
         } else if(ie.IsActionPressed("dash_p" + playerNum)) {
             Dash();
         } else if(ie.IsActionPressed("interact_p" + playerNum)) {
-            if(closestInteractable != null) {
+            if(IsInstanceValid(closestInteractable)) {
                 closestInteractable.Interact(this);
             }
         } else if(playerNum == 1 && ie.IsActionPressed("swap_weapons_p" + playerNum)) {
@@ -431,27 +444,25 @@ public class Player:Creature {
             lookDirection.x = 100;
         } else if(playerNum != 1 && ie.IsActionPressed("look_left_p" + playerNum)) {
             lookDirection.x = -100;
-        } else if(activeItems.ContainsKey(activeSlot)) {
-            if(ie.IsActionPressed("item_use_p" + playerNum)) {              //Use/Attack 1
-                if(IsInstanceValid(activeItems[activeSlot].handR))
-                    activeItems[activeSlot].handR.Use();
-            } else if(ie.IsActionReleased("item_use_p" + playerNum)) {
-                if(IsInstanceValid(activeItems[activeSlot].handR))
-                    activeItems[activeSlot].handR.CancelUse();
-            } else if(ie.IsActionPressed("item_use2_p" + playerNum)) {             //Use/Attack 2
-                if(IsInstanceValid(activeItems[activeSlot].handL))
-                    activeItems[activeSlot].handL.Use();
-                else if(IsInstanceValid(activeItems[activeSlot].handR))
-                    activeItems[activeSlot].handR.AltUse();
-            } else if(ie.IsActionReleased("item_use2_p" + playerNum)) {
-                if(IsInstanceValid(activeItems[activeSlot].handL))
-                    activeItems[activeSlot].handL.CancelUse();
-            } else if(ie.IsActionPressed("item_custom_p" + playerNum)) {
-                if(IsInstanceValid(activeItems[activeSlot].handR))
-                    activeItems[activeSlot].handR.Custom();
-                if(IsInstanceValid(activeItems[activeSlot].handL))
-                    activeItems[activeSlot].handL.Custom();
-            }
+        } else if(ie.IsActionPressed("item_use_p" + playerNum)) {              //Use/Attack 1
+            if(ActiveItemValid())
+                activeItems[activeSlot].handR.Use();
+        } else if(ie.IsActionReleased("item_use_p" + playerNum)) {
+            if(ActiveItemValid())
+                activeItems[activeSlot].handR.CancelUse();
+        } else if(ie.IsActionPressed("item_use2_p" + playerNum)) {             //Use/Attack 2
+            if(ActiveItemValid(false))
+                activeItems[activeSlot].handL.Use();
+            else if(ActiveItemValid())
+                activeItems[activeSlot].handR.AltUse();
+        } else if(ie.IsActionReleased("item_use2_p" + playerNum)) {
+            if(ActiveItemValid(false))
+                activeItems[activeSlot].handL.CancelUse();
+        } else if(ie.IsActionPressed("item_custom_p" + playerNum)) {
+            if(ActiveItemValid())
+                activeItems[activeSlot].handR.Custom();
+            if(ActiveItemValid(false))
+                activeItems[activeSlot].handL.Custom();
         } else if(ie.IsActionPressed("add_hp_p" + playerNum)) {                 //Add HP TEST
             Heal(3);
         } else if(ie.IsActionPressed("remove_hp_p" + playerNum)) {                 //Remove HP TEST

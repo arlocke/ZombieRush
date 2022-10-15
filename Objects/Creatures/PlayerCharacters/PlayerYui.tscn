@@ -15,5 +15,14 @@ parameters/Walk/blend_position = Vector2( 0, 0 )
 [node name="BodySprite" parent="Body" index="0"]
 frame = 0
 
+[node name="Face" parent="Body" index="1"]
+position = Vector2( 0, 0 )
+
 [node name="EyesAnimationTree" parent="Body/Face" index="1"]
 parameters/playback = SubResource( 6 )
+
+[node name="NavigationAgent2D" parent="." index="4"]
+path_desired_distance = 1.0
+avoidance_enabled = true
+radius = 10.0
+neighbor_dist = 500.0

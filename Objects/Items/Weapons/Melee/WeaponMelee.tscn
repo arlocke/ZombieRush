@@ -71,5 +71,6 @@ position = Vector2( 0, 14 )
 script = ExtResource( 10 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+visible = false
 position = Vector2( -4, -2 )
 shape = SubResource( 4 )

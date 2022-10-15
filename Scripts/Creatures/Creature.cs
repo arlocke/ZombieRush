@@ -12,6 +12,8 @@ public class Creature:KinematicBody2D {     //Stats
     [Export]
     public float maxHp = 5;
     [Export]
+    public int dexterity = 1;
+    [Export]
     public float moveSpeed;
     [Export]
     public float meleeAttackDamage; //base melee damage when unequipped, or added to melee weapons 
@@ -26,6 +28,7 @@ public class Creature:KinematicBody2D {     //Stats
     public Texture corpseTexture;
     [Export]
     public PackedScene corpseRef;
+    public Vector2 movementDirection;
     public bool facingRight = true;
 
     //Team data
@@ -47,11 +50,14 @@ public class Creature:KinematicBody2D {     //Stats
         navAgent.Connect("velocity_computed", this, "Move");
         navAgent.MaxSpeed = moveSpeed;
     }
-    public virtual void TakeDamage(float takenDamage) {
+    ///<returns> Whether or not the creature died from the damage </returns>
+    public virtual bool TakeDamage(float takenDamage) {
         hp = Mathf.Clamp(hp - takenDamage, 0, maxHp);
         if(hp <= 0) {
             Die();
+            return true;
         }
+        return false;
     }
     public virtual void Heal(float healAmount) {
         hp = Mathf.Clamp(hp + healAmount, 0, maxHp);
@@ -81,13 +87,18 @@ public class Creature:KinematicBody2D {     //Stats
         if(!navAgent.IsNavigationFinished()) {
             Vector2 moveDir = GlobalPosition.DirectionTo(navAgent.GetNextLocation());
             Vector2 vel = moveDir * moveSpeed;
-            navAgent.SetVelocity(vel);
+            if(navAgent.AvoidanceEnabled)
+                navAgent.SetVelocity(vel);
+            else
+                Move(vel);
         }
     }
-
     public Rect2 GetSpriteRectWorld(Vector2 pos) {
         if(pos.IsEqualApprox(Vector2.Zero))
             pos = GlobalPosition;
         return new Rect2(pos - bodySprite.GetRect().Size / 2 + new Vector2(0, bodySprite.Offset.y), bodySprite.GetRect().Size);
+    }
+    public float DstTaxi(Node2D other) {
+        return Mathf.Abs(GlobalPosition.x - other.GlobalPosition.x) + Mathf.Abs(GlobalPosition.y - other.GlobalPosition.y);
     }
 }

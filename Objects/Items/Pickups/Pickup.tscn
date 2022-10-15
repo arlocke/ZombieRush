@@ -15,6 +15,7 @@ startingHeight = 4.0
 bounceVelMin = -5.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource( 1 )
 
 [node name="ShadowSprite" type="Sprite" parent="."]

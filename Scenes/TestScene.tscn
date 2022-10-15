@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Objects/Creatures/PlayerCharacters/PlayerBusinessGuy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Items/Pickups/Pickup.tscn" type="PackedScene" id=2]
@@ -14,13 +14,17 @@
 [ext_resource path="res://Objects/Managers/CameraGame.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Objects/Creatures/PlayerCharacters/PlayerYui.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Objects/Items/Weapons/Melee/WeaponMelee.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Scripts/Creatures/AICoordinator.cs" type="Script" id=15]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 163, 70, 922, 65, 945, 535, 122, 516 )
+vertices = PoolVector2Array( 66, -12, 1092, -13, 1096, 589, 70, 584 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
-outlines = [ PoolVector2Array( 163, 70, 922, 65, 945, 535, 122, 516 ) ]
+outlines = [ PoolVector2Array( 66, -12, 1092, -13, 1096, 589, 70, 584 ) ]
 
 [node name="Node2D" type="Node2D"]
+
+[node name="AICoordinator" type="Node" parent="."]
+script = ExtResource( 15 )
 
 [node name="PlayerManager" parent="." instance=ExtResource( 9 )]
 playerGUIRef = ExtResource( 10 )
@@ -29,88 +33,62 @@ playerGUIRef = ExtResource( 10 )
 padding = Vector2( 16, 16 )
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
+cell_size = 32.0
+edge_connection_margin = 4.0
 
 [node name="MasterYSort" type="YSort" parent="Navigation2D"]
 
 [node name="Zombies" type="YSort" parent="Navigation2D/MasterYSort"]
 
 [node name="Zombie" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 760, 337 )
-meleeAttackDamage = 0.0
-meleeAttackRangeSqr = 0.0
+position = Vector2( 574, 374 )
 
 [node name="Zombie2" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 763, 284 )
-meleeAttackDamage = 0.0
-meleeAttackRangeSqr = 0.0
+position = Vector2( 577, 321 )
 
 [node name="Zombie3" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 757, 397 )
-meleeAttackDamage = 0.0
-meleeAttackRangeSqr = 0.0
+position = Vector2( 571, 434 )
 
 [node name="Zombie4" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 787, 306 )
-meleeAttackDamage = 0.0
-meleeAttackRangeSqr = 0.0
+position = Vector2( 601, 343 )
 
 [node name="Zombie5" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 785, 375 )
-meleeAttackDamage = 0.0
-meleeAttackRangeSqr = 0.0
+position = Vector2( 599, 412 )
 
 [node name="Zombie6" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 807, 334 )
-meleeAttackDamage = 0.0
-meleeAttackRangeSqr = 0.0
+position = Vector2( 621, 371 )
 
 [node name="Zombie7" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 833, 307 )
-meleeAttackDamage = 0.0
-meleeAttackRangeSqr = 0.0
+position = Vector2( 647, 344 )
 
 [node name="Zombie8" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 829, 371 )
-meleeAttackDamage = 0.0
-meleeAttackRangeSqr = 0.0
+position = Vector2( 643, 408 )
 
 [node name="Zombie9" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 862, 266 )
-meleeAttackDamage = 0.0
-meleeAttackRangeSqr = 0.0
+position = Vector2( 676, 303 )
 
 [node name="Zombie10" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 801, 238 )
-meleeAttackDamage = 0.0
-meleeAttackRangeSqr = 0.0
+position = Vector2( 615, 275 )
 
 [node name="Zombie11" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 771, 236 )
-meleeAttackDamage = 0.0
-meleeAttackRangeSqr = 0.0
+position = Vector2( 585, 273 )
 
 [node name="Zombie12" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 873, 218 )
-meleeAttackDamage = 0.0
-meleeAttackRangeSqr = 0.0
+position = Vector2( 687, 255 )
 
 [node name="Zombie13" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 891, 363 )
-meleeAttackDamage = 0.0
-meleeAttackRangeSqr = 0.0
+position = Vector2( 705, 400 )
 
 [node name="Players" type="YSort" parent="Navigation2D/MasterYSort"]
 
 [node name="PlayerYui" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 13 )]
 position = Vector2( 385, 339 )
 teamFaction = 1
-canMove = false
-actionable = false
+canAim = false
 
 [node name="PlayerBusinessGuy" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 1 )]
 position = Vector2( 384, 375 )
-canMove = false
-actionable = false
+canAim = false
 
 [node name="Pickups" type="YSort" parent="Navigation2D/MasterYSort"]
 
