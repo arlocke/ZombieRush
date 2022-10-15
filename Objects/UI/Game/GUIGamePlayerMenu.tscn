@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://GUI/MainTheme.tres" type="Theme" id=1]
 [ext_resource path="res://Sprites/UI/General/sb_transConcave.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/UI/General/sb_transFlat.png" type="Texture" id=3]
+[ext_resource path="res://Objects/Items/Weapons/Guns/GunAk-47.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scripts/UI/Game/GUITabsWithIcons.cs" type="Script" id=5]
 [ext_resource path="res://Sprites/UI/Icons/icon_inventory.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/Items/Guns/glock18Med_Gray.png" type="Texture" id=7]
@@ -17,7 +18,7 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -47.0
-margin_top = -75.0
+margin_top = -85.0
 margin_right = 41.0
 margin_bottom = 69.0
 grow_horizontal = 2
@@ -62,13 +63,17 @@ patch_margin_right = 5
 patch_margin_bottom = 5
 
 [node name="InventoryItem1" type="Button" parent="TabContainer/Inventory/InventorySlot1"]
-modulate = Color( 1, 0, 0.984314, 1 )
+self_modulate = Color( 0.992157, 0, 1, 1 )
 margin_right = 22.0
 margin_bottom = 22.0
 theme = ExtResource( 1 )
 action_mode = 0
 clip_text = true
 icon_align = 1
+
+[node name="GunAk-47" parent="TabContainer/Inventory/InventorySlot1/InventoryItem1" instance=ExtResource( 4 )]
+position = Vector2( 13, 13 )
+rotation = -0.785397
 
 [node name="InventorySlot2" type="NinePatchRect" parent="TabContainer/Inventory"]
 margin_left = 26.0
