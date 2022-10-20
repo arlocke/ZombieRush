@@ -15,7 +15,7 @@
 [ext_resource path="res://Objects/Creatures/Corpse.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Animation/Creatures/PlayerWalk.tres" type="Animation" id=14]
 [ext_resource path="res://Animation/Creatures/ASM_Player.tres" type="AnimationNodeStateMachine" id=15]
-[ext_resource path="res://Objects/Items/Weapons/Melee/WeaponMelee.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Objects/UI/Game/GUIGamePlayerMenu.tscn" type="PackedScene" id=17]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=50]
 
@@ -534,6 +534,7 @@ activeItems = {
 maxAmmo = {
 }
 pickupRef = ExtResource( 10 )
+playerMenuGUIRef = ExtResource( 17 )
 
 [node name="AnimationTreeBody" parent="." index="0"]
 tree_root = ExtResource( 15 )
@@ -552,7 +553,7 @@ anims/RESET = SubResource( 49 )
 [node name="BodySprite" parent="Body" index="0"]
 texture = ExtResource( 5 )
 offset = Vector2( -2, -19 )
-frame = 0
+frame = 3
 
 [node name="Face" type="Node2D" parent="Body" index="1"]
 
@@ -656,9 +657,6 @@ region_rect = Rect2( 19, 104, 9, 4 )
 
 [node name="HandRSocket" type="Node2D" parent="Body/ShoulderR/ArmR/UpperArmR/ForearmR" index="0"]
 position = Vector2( 5, 0 )
-
-[node name="WeaponMelee" parent="Body/ShoulderR/ArmR/UpperArmR/ForearmR/HandRSocket" index="0" instance=ExtResource( 16 )]
-position = Vector2( 0, -11.268 )
 
 [node name="InteractableText" type="Label" parent="." index="5"]
 visible = false

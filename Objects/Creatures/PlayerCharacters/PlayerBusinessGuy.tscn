@@ -38,5 +38,21 @@ frame = 0
 [node name="ArmL" parent="Body/ShoulderL" index="0"]
 position = Vector2( 3.99226, -13 )
 
+[node name="UpperArmL" parent="Body/ShoulderL/ArmL" index="0"]
+texture = ExtResource( 2 )
+region_rect = Rect2( 6, 88, 8, 5 )
+
+[node name="ForearmL" parent="Body/ShoulderL/ArmL/UpperArmL" index="0"]
+texture = ExtResource( 2 )
+region_rect = Rect2( 16, 88, 10, 5 )
+
 [node name="ArmR" parent="Body/ShoulderR" index="0"]
 position = Vector2( -3.99225, -13 )
+
+[node name="UpperArmR" parent="Body/ShoulderR/ArmR" index="1"]
+texture = ExtResource( 2 )
+region_rect = Rect2( 6, 97, 8, 5 )
+
+[node name="ForearmR" parent="Body/ShoulderR/ArmR/UpperArmR" index="0"]
+texture = ExtResource( 2 )
+region_rect = Rect2( 16, 97, 10, 5 )

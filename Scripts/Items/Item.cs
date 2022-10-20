@@ -4,7 +4,22 @@ using System;
 public enum ItemSlotType {
     Primary,
     Secondary,
-    Utility
+    Utility,
+    None        //Fists out
+}
+public enum ItemTier {
+    Common,
+    Uncommon,
+    Rare,
+    Epic,
+    Legendary,
+    Godly,
+    Nether,
+    Enigma,
+    Silent,
+    Raw,
+    Quantum,
+    Final
 }
 public class Item:Node2D {
     [Export]
@@ -12,7 +27,7 @@ public class Item:Node2D {
     [Export]
     public float itemSize = 1;
     [Export]
-    public int tier;
+    public ItemTier tier;
     [Export]
     public ItemSlotType slotType;
     public Creature holder;

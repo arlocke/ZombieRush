@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scripts/UI/Game/GUIPlayerInventory.cs" type="Script" id=1]
+[ext_resource path="res://Objects/UI/Game/GUIItemSlot.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Objects/UI/Game/GUIItemTile.tscn" type="PackedScene" id=3]
+
+[node name="Inventory" type="GridContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 24.0
+margin_right = -6.0
+margin_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/vseparation = 4
+custom_constants/hseparation = 4
+columns = 3
+script = ExtResource( 1 )
+itemTileRef = ExtResource( 3 )
+itemSlotRef = ExtResource( 2 )
