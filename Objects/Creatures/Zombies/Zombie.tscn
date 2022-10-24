@@ -83,3 +83,4 @@ monitorable = false
 
 [node name="NavigationAgent2D" parent="." index="5"]
 avoidance_enabled = true
+radius = 6.0

@@ -8,10 +8,10 @@
 
 [node name="GunDesertEagle" instance=ExtResource( 2 )]
 itemName = "Desert Eagle"
+slotType = 1
 damage = 9.0
 attackRate = 0.5
 fireMode = 0
-slotType = 1
 bulletSpeed = 940.0
 magMaxSize = 7
 currentMagSize = 7

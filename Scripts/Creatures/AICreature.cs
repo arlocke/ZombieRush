@@ -47,6 +47,7 @@ public class AICreature:Creature {
     [Export]
     public float rangedAttackRangeSqr;
     public float attackTimer;
+    [Export]
     public float stateTimer;
     [Export]
     public float moveSpeedWalk;

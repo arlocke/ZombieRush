@@ -42,42 +42,68 @@ edge_connection_margin = 4.0
 
 [node name="Zombie" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 574, 374 )
+stateTimer = 0.0
+moveSpeedWalk = 0.0
 
 [node name="Zombie2" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 577, 321 )
+stateTimer = 0.0
+moveSpeedWalk = 0.0
 
 [node name="Zombie3" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 571, 434 )
+stateTimer = 0.0
+moveSpeedWalk = 0.0
 
 [node name="Zombie4" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 601, 343 )
+stateTimer = 0.0
+moveSpeedWalk = 0.0
 
 [node name="Zombie5" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 599, 412 )
+stateTimer = 0.0
+moveSpeedWalk = 0.0
 
 [node name="Zombie6" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 621, 371 )
+stateTimer = 0.0
+moveSpeedWalk = 0.0
 
 [node name="Zombie7" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 647, 344 )
+stateTimer = 0.0
+moveSpeedWalk = 0.0
 
 [node name="Zombie8" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 643, 408 )
+stateTimer = 0.0
+moveSpeedWalk = 0.0
 
 [node name="Zombie9" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 676, 303 )
+stateTimer = 0.0
+moveSpeedWalk = 0.0
 
 [node name="Zombie10" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 615, 275 )
+stateTimer = 0.0
+moveSpeedWalk = 0.0
 
 [node name="Zombie11" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 585, 273 )
+stateTimer = 0.0
+moveSpeedWalk = 0.0
 
 [node name="Zombie12" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 687, 255 )
+stateTimer = 0.0
+moveSpeedWalk = 0.0
 
 [node name="Zombie13" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 705, 400 )
+stateTimer = 0.0
+moveSpeedWalk = 0.0
 
 [node name="Players" type="YSort" parent="Navigation2D/MasterYSort"]
 
@@ -96,21 +122,31 @@ canAim = false
 position = Vector2( 423, 412 )
 
 [node name="WeaponMelee" parent="Navigation2D/MasterYSort/Pickups/PickupKatana" instance=ExtResource( 14 )]
+tier = 4
 
 [node name="PickupGlock" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 2 )]
 position = Vector2( 423, 304 )
 
 [node name="GunGlock18" parent="Navigation2D/MasterYSort/Pickups/PickupGlock" instance=ExtResource( 8 )]
+tier = 3
 
 [node name="PickupDeagle" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 2 )]
 position = Vector2( 423, 375 )
 
 [node name="GunDesertEagle" parent="Navigation2D/MasterYSort/Pickups/PickupDeagle" instance=ExtResource( 3 )]
+tier = 4
+
+[node name="PickupDeagle2" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 2 )]
+position = Vector2( 446, 375 )
+
+[node name="GunDesertEagle" parent="Navigation2D/MasterYSort/Pickups/PickupDeagle2" instance=ExtResource( 3 )]
+tier = 4
 
 [node name="PickupAK" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 2 )]
 position = Vector2( 423, 339 )
 
 [node name="GunAk-47" parent="Navigation2D/MasterYSort/Pickups/PickupAK" instance=ExtResource( 11 )]
+tier = 2
 
 [node name="PickupAmmo9mm" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 5 )]
 position = Vector2( 342, 304 )

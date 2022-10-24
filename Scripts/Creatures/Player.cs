@@ -13,6 +13,9 @@ public struct ItemSlot {
         handR = iR;
         handL = iL;
     }
+    public override string ToString() {
+        return (handR != null ? handR.ToString() : "Empty") + ", " + (handL != null ? handL.ToString() : "Empty");
+    }
 }
 
 
@@ -75,6 +78,8 @@ public class Player:Creature {
 
     //Inventory
     public ItemSlotType activeSlot;
+    public ItemSlotType lastActiveSlot;
+    public Item[] inventory = new Item[9];
     [Export]
     public System.Collections.Generic.Dictionary<ItemSlotType, ItemSlot> activeItems = new System.Collections.Generic.Dictionary<ItemSlotType, ItemSlot>();
     public Godot.Collections.Dictionary<AmmoType, int> heldAmmo = new Godot.Collections.Dictionary<AmmoType, int>();
@@ -86,9 +91,14 @@ public class Player:Creature {
     public GUIGamePlayer playerGUI;
     public CameraGame cam;
 
+    //Managers
+    public PlayerManager playerManager;
+
     //Prefabs
     [Export]
     public PackedScene pickupRef;
+    [Export]
+    public PackedScene playerMenuGUIRef;
 
     // Start is called before the first frame update
     public override void _Ready() {
@@ -210,44 +220,144 @@ public class Player:Creature {
         return activeItems.ContainsKey(activeSlot) &&
         (r ? IsInstanceValid(activeItems[activeSlot].handR) : IsInstanceValid(activeItems[activeSlot].handL));
     }
+    public void ResetActiveItems() {
+        foreach(KeyValuePair<ItemSlotType, ItemSlot> itemSlot in activeItems) {
+            if(IsInstanceValid(itemSlot.Value.handR)) {
+                Item item = itemSlot.Value.handR;
+                item.GetParent().RemoveChild(item);
+                item.Visible = false;
+                AttachItemToHand(item, true);
+            }
+            if(IsInstanceValid(itemSlot.Value.handL)) {
+                Item item = itemSlot.Value.handL;
+                item.GetParent().RemoveChild(item);
+                item.Visible = false;
+                AttachItemToHand(item, false);
+            }
+        }
+    }
+    public void AttachItemToHand(Item i, bool right = true) {
+        (right ? handRSocket : handLSocket).AddChild(i);
+        i.SetFacingRight(!facingRight); //The gun only updates facing right if it's different which creates issues. Duct tape to force updates. Improve?
+        i.SetFacingRight(facingRight);
+        i.Rotation = 0;
+        i.Position = i.hand1Socket.Position * -1;
+    }
     public void EquipItem(Item i) {
         if(IsInstanceValid(i)) {
             if(IsInstanceValid(i.GetParent()))
                 i.GetParent().RemoveChild(i);
 
             bool equipHandR = !(i.slotType == ItemSlotType.Secondary && i is Gun);
+            Node menuGUI = GetNodeOrNull("GUIGamePlayerMenu");
+            bool menuExists = IsInstanceValid(menuGUI);
             if(activeItems.ContainsKey(i.slotType)) {
-                DropItem(equipHandR ? activeItems[i.slotType].handR : activeItems[i.slotType].handL);
+                DropItem(equipHandR ? activeItems[i.slotType].handR : activeItems[i.slotType].handL, !menuExists);
             } else
                 activeItems.Add(i.slotType, new ItemSlot(null, null));
             ItemSlot newSlot;
             if(activeItems.TryGetValue(i.slotType, out newSlot)) {
                 if(equipHandR) {
                     newSlot.handR = i;
-                    handRSocket.AddChild(i);
                 } else {
                     newSlot.handL = i;
-                    handLSocket.AddChild(i);
                 }
                 activeItems[i.slotType] = newSlot;
             }
-            ChangeItemSlot(i.slotType);
-            i.SetFacingRight(!facingRight); //The gun only updates facing right if it's different which creates issues. Duct tape to force updates. Improve?
-            i.SetFacingRight(facingRight);
-            armR.Visible = true;
-            armL.Visible = true;
             i.Setup(this);
-            i.holder = this;
-            i.Rotation = 0;
-            i.Position = i.hand1Socket.Position * -1;
-            //something for 2 handed guns
-            holding = true;
-            bodySprite.FlipH = false;
+            if(menuExists) {
+                menuGUI.GetNode<GUIPlayerEquipment>("TabContainer/Equipment").AddItemTile(i, (int)i.slotType * 2 + (!equipHandR ? 1 : 0));
+
+            } else {
+                AttachItemToHand(i, equipHandR);
+                ChangeItemSlot(i.slotType);
+                armR.Visible = true;
+                armL.Visible = true;
+                //something for 2 handed guns
+                holding = true;
+                bodySprite.FlipH = false;
+            }
         }
     }
-    public void DropItem(Item i) {
+    public bool AddToInventory(Item i) {
+        if(!IsInstanceValid(i)) return false;
+        for(int index = 0; index < inventory.Length; index++) {
+            if(!IsInstanceValid(inventory[index])) { //Empty slot
+                inventory[index] = i;
+                Node oldParent = i.GetParent();
+                oldParent.RemoveChild(i);
+                AddChild(i);
+                if(oldParent is Pickup)
+                    oldParent.QueueFree();
+                i.Visible = false;
+                Node menuGUI = GetNodeOrNull("GUIGamePlayerMenu");
+                if(IsInstanceValid(menuGUI))
+                    menuGUI.GetNode<GUIPlayerInventory>("TabContainer/Inventory").AddItemTile(i, index);
+                return true;
+            }
+        }
+        return false;
+    }
+    public void SwapInventorySlots(int from, int to) {
+        Item i1 = inventory[from];
+        Item i2 = inventory[to];
+        inventory[to] = i1;
+        inventory[from] = i2;
+    }
+    public bool DropFromInventory(int index) {
+        if(index >= inventory.Length || !IsInstanceValid(inventory[index])) return false;
+        DropItem(inventory[index], false);
+        inventory[index] = null;
+        return true;
+    }
+    public void SwapEquipmentSlots(int from, int to) {
+        ItemSlot slotFrom, slotTo;
+        Item itemFrom, itemTo;
+        ItemSlotType fromSlotType = (ItemSlotType)Mathf.FloorToInt((float)from / 2);
+        if(activeItems.TryGetValue(fromSlotType, out slotFrom)) {
+            ItemSlotType toSlotType = (ItemSlotType)Mathf.FloorToInt((float)to / 2);
+            if(fromSlotType != toSlotType) { //If the items aren't being swapped in the same slot
+                if(!activeItems.TryGetValue(toSlotType, out slotTo)) {
+                    activeItems.Add(toSlotType, new ItemSlot(null, null));
+                    slotTo = activeItems[toSlotType];
+                }
+                bool fromRight = (from % 2 == 0);
+                bool toRight = (to % 2 == 0);
+                itemFrom = fromRight ? slotFrom.handR : slotFrom.handL;
+                itemTo = toRight ? slotTo.handR : slotTo.handL;
+                if(fromRight)
+                    slotFrom.handR = itemTo;
+                else
+                    slotFrom.handL = itemTo;
+                if(toRight)
+                    slotTo.handR = itemFrom;
+                else
+                    slotTo.handL = itemFrom;
+                activeItems[fromSlotType] = slotFrom;
+                activeItems[toSlotType] = slotTo;
+            } else {                                //If the items are in the same slot, and are just being swapped left to right
+                itemFrom = slotFrom.handR;
+                itemTo = slotFrom.handL;
+                slotFrom.handR = itemTo;
+                slotFrom.handL = itemFrom;
+                activeItems[fromSlotType] = slotFrom;
+            }
+        }
+    }
+    public void DropFromEquipment(Item i, bool keepPosition = true) {
+        ItemSlot s;
+        if(activeItems.TryGetValue(i.slotType, out s)) {
+            if(s.handR == i)
+                s.handR = null;
+            else if(s.handL == i)
+                s.handL = null;
+            activeItems[i.slotType] = s;
+        }
+        DropItem(i, keepPosition);
+    }
+    public void DropItem(Item i, bool keepPosition = true) {
         if(IsInstanceValid(i)) {
-            i.GlobalRotation = armR.GlobalRotation;
+            float itemRot = i.GlobalRotation;
             if(armR.Scale.x < 0)
                 i.GetNode<Sprite>("Sprite").FlipH = true;
             i.ZIndex = 0;
@@ -256,13 +366,14 @@ public class Player:Creature {
             i.holder = null;
             Pickup newPickup = pickupRef.Instance<Pickup>();
             GetParent().GetParent().GetNode<YSort>("Pickups").AddChild(newPickup);
-            newPickup.GlobalPosition = i.GlobalPosition;
+            newPickup.GlobalPosition = keepPosition ? i.GlobalPosition : GlobalPosition + (armR.Position * Vector2.Down);
             if(IsInstanceValid(i.GetParent()))
                 i.GetParent().RemoveChild(i);
             newPickup.AddChild(i);
             newPickup.payload = i;
             newPickup.interactionName = i.itemName;
             newPickup.DropRandomDirection(false, -armR.Position.y);
+            i.GlobalRotation = itemRot;
             holding = false;
         }
     }
@@ -270,20 +381,22 @@ public class Player:Creature {
         ChangeItemSlot(activeSlot == ItemSlotType.Primary ? ItemSlotType.Secondary : ItemSlotType.Primary);
     }
     public void ChangeItemSlot(ItemSlotType st) {
+        lastActiveSlot = activeSlot;
         ItemSlot oldSlot;
         if(activeItems.TryGetValue(activeSlot, out oldSlot)) {
             DeactivateItem(oldSlot.handR);
             DeactivateItem(oldSlot.handL);
         }
         ItemSlot newSlot;
-        if(activeItems.TryGetValue(st, out newSlot)) {
+        if(activeItems.TryGetValue(st, out newSlot) && (IsInstanceValid(newSlot.handR) || IsInstanceValid(newSlot.handL))) {
             ActivateItem(newSlot.handR);
             ActivateItem(newSlot.handL);
             holding = true;
+            activeSlot = st;
         } else {
             holding = false;
+            activeSlot = ItemSlotType.None;
         }
-        activeSlot = st;
     }
     public void ActivateItem(Item i) {
         if(IsInstanceValid(i)) {
@@ -406,6 +519,13 @@ public class Player:Creature {
             }
         }
     }
+    public void SpawnPlayerMenuGUI() {
+        ChangeItemSlot(ItemSlotType.None);
+        GUIGamePlayerMenu menu = playerMenuGUIRef.Instance<GUIGamePlayerMenu>();
+        AddChild(menu);
+        menu.RectPosition = bodySprite.GetRect().Size * new Vector2(0.5f, -1);
+        menu.SetPlayer(this);
+    }
     public override void _Input(InputEvent ie) {
         base._Input(ie);
         if(ie.IsActionPressed("move_right_p" + playerNum)) {                 //MOVEMENT
@@ -428,14 +548,15 @@ public class Player:Creature {
         } else if(ie.IsActionReleased("move_down_p" + playerNum)) {
             if(movementInput.y > 0)
                 movementInput.y = 0;
-        } else if(ie.IsActionPressed("dash_p" + playerNum)) {
+        } else if(ie.IsActionPressed("dash_p" + playerNum)) {               //DASH
             Dash();
-        } else if(ie.IsActionPressed("interact_p" + playerNum)) {
+        } else if(ie.IsActionPressed("interact_p" + playerNum)) {           //INTERACT
             if(IsInstanceValid(closestInteractable)) {
                 closestInteractable.Interact(this);
             }
-        } else if(playerNum == 1 && ie.IsActionPressed("swap_weapons_p" + playerNum)) {
-            SwapWeapons();
+        } else if(playerNum == 1 && ie.IsActionPressed("swap_weapons_p" + playerNum)) { //SWAP WEAPONS
+            if(!IsInstanceValid(GetNodeOrNull<GUIGamePlayerMenu>("GUIGamePlayerMenu")))
+                SwapWeapons();
         } else if(playerNum != 1 && ie.IsActionPressed("look_up_p" + playerNum)) {
             lookDirection.y = -100;
         } else if(playerNum != 1 && ie.IsActionPressed("look_down_p" + playerNum)) {
@@ -463,6 +584,20 @@ public class Player:Creature {
                 activeItems[activeSlot].handR.Custom();
             if(ActiveItemValid(false))
                 activeItems[activeSlot].handL.Custom();
+        } else if(ie.IsActionPressed("player_menu_p" + playerNum)) {            //Player Menu (Inventory and Active Items) open/close
+            GUIGamePlayerMenu menuGUI = GetNodeOrNull<GUIGamePlayerMenu>("GUIGamePlayerMenu");
+            if(!IsInstanceValid(menuGUI))
+                SpawnPlayerMenuGUI();
+            else {
+                menuGUI.Close();
+                ChangeItemSlot(lastActiveSlot);
+            }
+        }
+        /////////TEST INPUTS///////////
+        else if(ie.IsActionPressed("add_to_inv_p" + playerNum)) {                 //Add to Inventory
+            if(IsInstanceValid(closestInteractable) && closestInteractable is Pickup && (closestInteractable as Pickup).payload is Item) {
+                AddToInventory((closestInteractable as Pickup).payload as Item);
+            }
         } else if(ie.IsActionPressed("add_hp_p" + playerNum)) {                 //Add HP TEST
             Heal(3);
         } else if(ie.IsActionPressed("remove_hp_p" + playerNum)) {                 //Remove HP TEST

@@ -1,26 +1,199 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://GUI/MainTheme.tres" type="Theme" id=1]
-[ext_resource path="res://Sprites/UI/General/sb_transConcave.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/UI/General/sb_transFlat.png" type="Texture" id=3]
-[ext_resource path="res://Objects/Items/Weapons/Guns/GunAk-47.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Objects/UI/Game/GUIInventory.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Objects/UI/Game/GUIEquipment.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scripts/UI/Game/GUITabsWithIcons.cs" type="Script" id=5]
 [ext_resource path="res://Sprites/UI/Icons/icon_inventory.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/Items/Guns/glock18Med_Gray.png" type="Texture" id=7]
+[ext_resource path="res://Scripts/UI/Game/GUIGamePlayerMenu.cs" type="Script" id=9]
+
+[sub_resource type="Animation" id=3]
+resource_name = "Close"
+length = 0.25
+step = 0.05
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.25 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("TabContainer:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.15, 0.18, 0.1801, 0.180118, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -18, -144 ), Vector2( -18, -172 ), Vector2( -18, -89 ), Vector2( -18, -50 ), Vector2( -18, -30 ), Vector2( -18, -33 ), Vector2( -18, -13 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("TabContainer:rect_size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.05, 0.15, 0.18, 0.180114, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 88, 154 ), Vector2( 107, 182 ), Vector2( 96, 99 ), Vector2( 50.4, 60 ), Vector2( 49, 43 ), Vector2( 19, 23 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("TabContainer:tabs_visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.000434416, 0.18 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("TabContainer:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.180059, 0.240936 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "Open"
+length = 0.25
+step = 0.05
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.107673 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "Init"
+} ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("TabContainer:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.15, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -18, -24 ), Vector2( -18, -89 ), Vector2( -18, -172 ), Vector2( -18, -144 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("TabContainer:rect_size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.05, 0.15, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 20, 34 ), Vector2( 96, 99 ), Vector2( 107, 182 ), Vector2( 88, 154 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("TabContainer:tabs_visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.000868833 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("TabContainer:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.000906421, 0.0154092 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("TabContainer:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -18, -24 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("TabContainer:rect_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 20, 34 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("TabContainer:tabs_visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.00130325 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [node name="GUIGamePlayerMenu" type="Control"]
-anchor_right = 1.0
+anchor_top = 1.0
 anchor_bottom = 1.0
+margin_right = 90.0
+script = ExtResource( 9 )
 
 [node name="TabContainer" type="TabContainer" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -47.0
-margin_top = -85.0
-margin_right = 41.0
-margin_bottom = 69.0
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = -18.0
+margin_top = -24.0
+margin_right = 2.0
+margin_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -33,287 +206,14 @@ use_hidden_tabs_for_min_size = true
 script = ExtResource( 5 )
 icons = [ ExtResource( 6 ), ExtResource( 7 ) ]
 
-[node name="Inventory" type="GridContainer" parent="TabContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 24.0
-margin_right = -6.0
-margin_bottom = -10.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_constants/vseparation = 4
-custom_constants/hseparation = 4
-columns = 3
+[node name="Inventory" parent="TabContainer" instance=ExtResource( 2 )]
 
-[node name="InventorySlot1" type="NinePatchRect" parent="TabContainer/Inventory"]
-margin_right = 22.0
-margin_bottom = 22.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 22, 22 )
-size_flags_horizontal = 6
-texture = ExtResource( 2 )
-region_rect = Rect2( 0, 0, 8, 8 )
-patch_margin_left = 5
-patch_margin_top = 5
-patch_margin_right = 5
-patch_margin_bottom = 5
-
-[node name="InventoryItem1" type="Button" parent="TabContainer/Inventory/InventorySlot1"]
-self_modulate = Color( 0.992157, 0, 1, 1 )
-margin_right = 22.0
-margin_bottom = 22.0
-theme = ExtResource( 1 )
-action_mode = 0
-clip_text = true
-icon_align = 1
-
-[node name="GunAk-47" parent="TabContainer/Inventory/InventorySlot1/InventoryItem1" instance=ExtResource( 4 )]
-position = Vector2( 13, 13 )
-rotation = -0.785397
-
-[node name="InventorySlot2" type="NinePatchRect" parent="TabContainer/Inventory"]
-margin_left = 26.0
-margin_right = 48.0
-margin_bottom = 22.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 22, 22 )
-size_flags_horizontal = 6
-texture = ExtResource( 2 )
-region_rect = Rect2( 0, 0, 8, 8 )
-patch_margin_left = 5
-patch_margin_top = 5
-patch_margin_right = 5
-patch_margin_bottom = 5
-
-[node name="InventorySlot3" type="NinePatchRect" parent="TabContainer/Inventory"]
-margin_left = 52.0
-margin_right = 74.0
-margin_bottom = 22.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 22, 22 )
-size_flags_horizontal = 6
-texture = ExtResource( 2 )
-region_rect = Rect2( 0, 0, 8, 8 )
-patch_margin_left = 5
-patch_margin_top = 5
-patch_margin_right = 5
-patch_margin_bottom = 5
-
-[node name="InventoryItem1" type="Button" parent="TabContainer/Inventory/InventorySlot3"]
-self_modulate = Color( 1, 0.866667, 0, 1 )
-margin_right = 22.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 22, 22 )
-action_mode = 0
-
-[node name="InventorySlot4" type="NinePatchRect" parent="TabContainer/Inventory"]
-margin_top = 26.0
-margin_right = 22.0
-margin_bottom = 48.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 22, 22 )
-size_flags_horizontal = 6
-texture = ExtResource( 2 )
-region_rect = Rect2( 0, 0, 8, 8 )
-patch_margin_left = 5
-patch_margin_top = 5
-patch_margin_right = 5
-patch_margin_bottom = 5
-
-[node name="InventorySlot5" type="NinePatchRect" parent="TabContainer/Inventory"]
-margin_left = 26.0
-margin_top = 26.0
-margin_right = 48.0
-margin_bottom = 48.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 22, 22 )
-size_flags_horizontal = 6
-texture = ExtResource( 2 )
-region_rect = Rect2( 0, 0, 8, 8 )
-patch_margin_left = 5
-patch_margin_top = 5
-patch_margin_right = 5
-patch_margin_bottom = 5
-
-[node name="InventorySlot6" type="NinePatchRect" parent="TabContainer/Inventory"]
-margin_left = 52.0
-margin_top = 26.0
-margin_right = 74.0
-margin_bottom = 48.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 22, 22 )
-size_flags_horizontal = 6
-texture = ExtResource( 2 )
-region_rect = Rect2( 0, 0, 8, 8 )
-patch_margin_left = 5
-patch_margin_top = 5
-patch_margin_right = 5
-patch_margin_bottom = 5
-
-[node name="InventorySlot7" type="NinePatchRect" parent="TabContainer/Inventory"]
-margin_top = 52.0
-margin_right = 22.0
-margin_bottom = 74.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 22, 22 )
-size_flags_horizontal = 6
-texture = ExtResource( 2 )
-region_rect = Rect2( 0, 0, 8, 8 )
-patch_margin_left = 5
-patch_margin_top = 5
-patch_margin_right = 5
-patch_margin_bottom = 5
-
-[node name="InventorySlot8" type="NinePatchRect" parent="TabContainer/Inventory"]
-margin_left = 26.0
-margin_top = 52.0
-margin_right = 48.0
-margin_bottom = 74.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 22, 22 )
-size_flags_horizontal = 6
-texture = ExtResource( 2 )
-region_rect = Rect2( 0, 0, 8, 8 )
-patch_margin_left = 5
-patch_margin_top = 5
-patch_margin_right = 5
-patch_margin_bottom = 5
-
-[node name="InventorySlot9" type="NinePatchRect" parent="TabContainer/Inventory"]
-margin_left = 52.0
-margin_top = 52.0
-margin_right = 74.0
-margin_bottom = 74.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 22, 22 )
-size_flags_horizontal = 6
-texture = ExtResource( 2 )
-region_rect = Rect2( 0, 0, 8, 8 )
-patch_margin_left = 5
-patch_margin_top = 5
-patch_margin_right = 5
-patch_margin_bottom = 5
-
-[node name="Equipment" type="GridContainer" parent="TabContainer"]
+[node name="Equipment" parent="TabContainer" instance=ExtResource( 3 )]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 24.0
-margin_right = -6.0
-margin_bottom = -10.0
-columns = 2
+margin_top = 11.0
 
-[node name="EquipmentSlot1" type="NinePatchRect" parent="TabContainer/Equipment"]
-margin_right = 22.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 22, 22 )
-texture = ExtResource( 2 )
-region_rect = Rect2( 0, 0, 8, 8 )
-patch_margin_left = 5
-patch_margin_top = 5
-patch_margin_right = 5
-patch_margin_bottom = 5
-
-[node name="EquipmentStats1" type="NinePatchRect" parent="TabContainer/Equipment"]
-margin_left = 26.0
-margin_right = 74.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 0, 22 )
-size_flags_horizontal = 3
-texture = ExtResource( 3 )
-region_rect = Rect2( 0, 0, 6, 6 )
-patch_margin_left = 4
-patch_margin_top = 4
-patch_margin_right = 4
-patch_margin_bottom = 4
-
-[node name="EquipmentSlot2" type="NinePatchRect" parent="TabContainer/Equipment"]
-margin_top = 26.0
-margin_right = 22.0
-margin_bottom = 48.0
-rect_min_size = Vector2( 22, 22 )
-texture = ExtResource( 2 )
-region_rect = Rect2( 0, 0, 8, 8 )
-patch_margin_left = 5
-patch_margin_top = 5
-patch_margin_right = 5
-patch_margin_bottom = 5
-
-[node name="EquipmentStats2" type="NinePatchRect" parent="TabContainer/Equipment"]
-margin_left = 26.0
-margin_top = 26.0
-margin_right = 74.0
-margin_bottom = 48.0
-rect_min_size = Vector2( 0, 22 )
-size_flags_horizontal = 3
-texture = ExtResource( 3 )
-region_rect = Rect2( 0, 0, 6, 6 )
-patch_margin_left = 4
-patch_margin_top = 4
-patch_margin_right = 4
-patch_margin_bottom = 4
-
-[node name="EquipmentSlot3" type="NinePatchRect" parent="TabContainer/Equipment"]
-margin_top = 52.0
-margin_right = 22.0
-margin_bottom = 74.0
-rect_min_size = Vector2( 22, 22 )
-texture = ExtResource( 2 )
-region_rect = Rect2( 0, 0, 8, 8 )
-patch_margin_left = 5
-patch_margin_top = 5
-patch_margin_right = 5
-patch_margin_bottom = 5
-
-[node name="EquipmentStats3" type="NinePatchRect" parent="TabContainer/Equipment"]
-margin_left = 26.0
-margin_top = 52.0
-margin_right = 74.0
-margin_bottom = 74.0
-rect_min_size = Vector2( 0, 22 )
-size_flags_horizontal = 3
-texture = ExtResource( 3 )
-region_rect = Rect2( 0, 0, 6, 6 )
-patch_margin_left = 4
-patch_margin_top = 4
-patch_margin_right = 4
-patch_margin_bottom = 4
-
-[node name="EquipmentSlot4" type="NinePatchRect" parent="TabContainer/Equipment"]
-margin_top = 78.0
-margin_right = 22.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 22, 22 )
-texture = ExtResource( 2 )
-region_rect = Rect2( 0, 0, 8, 8 )
-patch_margin_left = 5
-patch_margin_top = 5
-patch_margin_right = 5
-patch_margin_bottom = 5
-
-[node name="EquipmentStats4" type="NinePatchRect" parent="TabContainer/Equipment"]
-margin_left = 26.0
-margin_top = 78.0
-margin_right = 74.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 0, 22 )
-size_flags_horizontal = 3
-texture = ExtResource( 3 )
-region_rect = Rect2( 0, 0, 6, 6 )
-patch_margin_left = 4
-patch_margin_top = 4
-patch_margin_right = 4
-patch_margin_bottom = 4
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Open"
+anims/Close = SubResource( 3 )
+anims/Open = SubResource( 1 )
+anims/RESET = SubResource( 2 )

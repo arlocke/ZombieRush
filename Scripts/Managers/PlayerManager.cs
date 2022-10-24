@@ -27,6 +27,7 @@ public class PlayerManager:Node {
         cam.targets.Add(p);
         p.cam = cam;
         p.inputDeviceType = p.playerNum == 1 ? InputDeviceType.MouseKeyboard : InputDeviceType.Controller;
+        p.playerManager = this;
     }
 
 }
