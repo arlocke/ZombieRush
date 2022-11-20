@@ -1,13 +1,13 @@
 [gd_resource type="AnimationNodeStateMachine" load_steps=8 format=2]
 
 [sub_resource type="AnimationNodeAnimation" id=7]
-animation = "ZombieAttack"
+animation = "ZombieGruntAttack1"
 
 [sub_resource type="AnimationNodeAnimation" id=1]
-animation = "ZombieIdle"
+animation = "ZombieGruntIdle1"
 
 [sub_resource type="AnimationNodeAnimation" id=2]
-animation = "ZombieIdle"
+animation = "ZombieGruntIdle1"
 
 [sub_resource type="AnimationNodeBlendSpace1D" id=3]
 blend_point_0/node = SubResource( 1 )
@@ -18,10 +18,10 @@ min_space = 0.0
 value_label = "Holding"
 
 [sub_resource type="AnimationNodeAnimation" id=4]
-animation = "PlayerWalk"
+animation = "ZombieGruntRun1"
 
 [sub_resource type="AnimationNodeAnimation" id=5]
-animation = "PlayerWalkHolding"
+animation = "ZombieGruntRun1"
 
 [sub_resource type="AnimationNodeBlendSpace1D" id=6]
 blend_point_0/node = SubResource( 4 )
@@ -39,4 +39,4 @@ states/Idle/position = Vector2( 79.319, -87.028 )
 states/Walk/node = SubResource( 6 )
 states/Walk/position = Vector2( 279.319, -87.028 )
 start_node = "Idle"
-graph_offset = Vector2( -195.681, -244.028 )
+graph_offset = Vector2( -191.681, -214.028 )

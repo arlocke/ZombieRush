@@ -23,7 +23,6 @@ public class Creature:KinematicBody2D {     //Stats
     public AnimationPlayer animPlayer;
     public AnimationNodeStateMachinePlayback animStateMachine;
     public Node2D body;
-    public Sprite bodySprite;
     [Export]
     public Texture corpseTexture;
     [Export]
@@ -45,7 +44,6 @@ public class Creature:KinematicBody2D {     //Stats
         animStateMachine = (AnimationNodeStateMachinePlayback)animTree.Get("parameters/playback");
         animPlayer = GetNode<AnimationPlayer>("AnimationPlayerBody");
         body = GetNode<Node2D>("Body");
-        bodySprite = GetNode<Sprite>("Body/BodySprite");
         navAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
         navAgent.Connect("velocity_computed", this, "Move");
         navAgent.MaxSpeed = moveSpeed;
@@ -81,22 +79,24 @@ public class Creature:KinematicBody2D {     //Stats
     public void Move(Vector2 vel) {
         if(vel != null) {
             MoveAndSlide(vel);
+            if(vel.x != 0)
+                facingRight = vel.x > 0;
         }
     }
     public void MoveOnPath(float dt) {
         if(!navAgent.IsNavigationFinished()) {
-            Vector2 moveDir = GlobalPosition.DirectionTo(navAgent.GetNextLocation());
-            Vector2 vel = moveDir * moveSpeed;
+            movementDirection = GlobalPosition.DirectionTo(navAgent.GetNextLocation());
+            Vector2 vel = movementDirection * moveSpeed;
             if(navAgent.AvoidanceEnabled)
                 navAgent.SetVelocity(vel);
             else
                 Move(vel);
         }
     }
-    public Rect2 GetSpriteRectWorld(Vector2 pos) {
+    public virtual Rect2 GetSpriteRectWorld(Vector2 pos) {
         if(pos.IsEqualApprox(Vector2.Zero))
             pos = GlobalPosition;
-        return new Rect2(pos - bodySprite.GetRect().Size / 2 + new Vector2(0, bodySprite.Offset.y), bodySprite.GetRect().Size);
+        return new Rect2(GlobalPosition, GlobalPosition);
     }
     public float DstTaxi(Node2D other) {
         return Mathf.Abs(GlobalPosition.x - other.GlobalPosition.x) + Mathf.Abs(GlobalPosition.y - other.GlobalPosition.y);

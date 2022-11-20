@@ -65,13 +65,16 @@ public class AICreature:Creature {
             case BehaviorState.Idle:
                 //standing still jacking off, mashing head against wall etc...
                 stateTimer -= dt;
+                animStateMachine.Travel("Idle");
                 if(stateTimer < 0)
                     Wander();
                 break;
             case BehaviorState.Wandering:
+                animStateMachine.Travel("Walk");
                 MoveWander(dt);
                 break;
             case BehaviorState.Chasing:
+                animStateMachine.Travel("Walk");
                 if(!IsInstanceValid(targetCreature)) {
                     UpdateTargets();
                 }
@@ -83,6 +86,7 @@ public class AICreature:Creature {
             case BehaviorState.Attacking:
                 break;
         }
+        body.Scale = new Vector2(facingRight ? -1 : 1, 1);
     }
     public void UpdateReactions(float dt) {
         if(reactions.Count == 0) return;
@@ -148,6 +152,8 @@ public class AICreature:Creature {
     }
     public void MoveWander(float dt) {
         stateTimer -= dt;
+        if(movementDirection.x != 0)
+            facingRight = movementDirection.x > 0;
         if(MoveAndCollide(movementDirection * moveSpeedWalk * dt) != null || stateTimer < 0) {
             if(GD.Randf() > 0.5f) {  //Continue wandering
                 movementDirection = movementDirection.Rotated((Mathf.Pi / 2) * Mathf.Ceil((float)GD.RandRange(0, 3)));
