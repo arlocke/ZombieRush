@@ -550,9 +550,11 @@ anims/PlayerWalk = ExtResource( 14 )
 anims/PlayerWalkHolding = ExtResource( 6 )
 anims/RESET = SubResource( 49 )
 
-[node name="BodySprite" parent="Body" index="0"]
+[node name="BodySprite" type="Sprite" parent="Body" index="0"]
 texture = ExtResource( 5 )
 offset = Vector2( -2, -19 )
+hframes = 10
+vframes = 3
 frame = 3
 
 [node name="Face" type="Node2D" parent="Body" index="1"]

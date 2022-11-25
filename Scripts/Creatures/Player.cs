@@ -59,6 +59,7 @@ public class Player:Creature {
     public AnimationTree eyesAnimTree;
     public AnimationNodeStateMachinePlayback eyesAnimStateMachine;
     public AnimationPlayer animPlayerArms;
+    public Sprite bodySprite;
 
     //Aiming
     [Export]
@@ -127,6 +128,7 @@ public class Player:Creature {
         eyesAnimTree = GetNode<AnimationTree>("Body/Face/EyesAnimationTree");
         eyesAnimStateMachine = (AnimationNodeStateMachinePlayback)eyesAnimTree.Get("parameters/playback");
         animPlayerArms = armR.GetNode<AnimationPlayer>("AnimationPlayerArms");
+        bodySprite = GetNode<Sprite>("Body/BodySprite");
         holding = false;
         canAim = true;
         canMove = true;
@@ -603,5 +605,10 @@ public class Player:Creature {
         } else if(ie.IsActionPressed("remove_hp_p" + playerNum)) {                 //Remove HP TEST
             TakeDamage(2);
         }
+    }
+    public override Rect2 GetSpriteRectWorld(Vector2 pos) {
+        if(pos.IsEqualApprox(Vector2.Zero))
+            pos = GlobalPosition;
+        return new Rect2(pos - bodySprite.GetRect().Size / 2 + new Vector2(0, bodySprite.Offset.y), bodySprite.GetRect().Size);
     }
 }
