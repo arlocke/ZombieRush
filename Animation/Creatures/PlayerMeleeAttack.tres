@@ -41,7 +41,7 @@ tracks/2/keys = {
 "values": [ -16.2644, -42.9507, -0.685413, 0.0 ]
 }
 tracks/3/type = "method"
-tracks/3/path = NodePath("..")
+tracks/3/path = NodePath("../../PlayerBusinessGuy2")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -58,7 +58,7 @@ tracks/3/keys = {
 } ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("..:canAim")
+tracks/4/path = NodePath("../../PlayerBusinessGuy2:canAim")
 tracks/4/interp = 0
 tracks/4/loop_wrap = true
 tracks/4/imported = false
