@@ -23,6 +23,10 @@ GlobalData="*res://Scripts/Helper/GlobalData.cs"
 
 window/vsync/use_vsync=false
 
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/vnen.tiled_importer/plugin.cfg" )
+
 [global]
 
 snap=false
@@ -36,6 +40,17 @@ common/drop_mouse_on_gui_input_disabled=true
 texture={
 "compress/mode": 3,
 "flags/filter": false
+}
+vnen.tiled_importer={
+"add_background": true,
+"collision_layer": 1,
+"custom_properties": true,
+"embed_internal_images": true,
+"image_flags": 0,
+"post_import_script": "",
+"save_tiled_properties": false,
+"tile_metadata": false,
+"uv_clip": true
 }
 
 [input]
@@ -225,3 +240,7 @@ quality/intended_usage/framebuffer_allocation.mobile=1
 2d/snapping/use_gpu_pixel_snap=true
 quality/filters/msaa=2
 environment/default_environment="res://default_env.tres"
+
+[tiled_importer]
+
+enable_json_format=true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Objects/Creatures/PlayerCharacters/PlayerBusinessGuy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Items/Pickups/Pickup.tscn" type="PackedScene" id=2]
@@ -15,13 +15,27 @@
 [ext_resource path="res://Objects/Creatures/PlayerCharacters/PlayerYui.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Objects/Items/Weapons/Melee/WeaponMelee.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scripts/Creatures/AICoordinator.cs" type="Script" id=15]
+[ext_resource path="res://TileMaps/Test/TestCity.tmx" type="PackedScene" id=16]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 256, 144 )
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 66, -12, 1092, -13, 1096, 589, 70, 584 )
+vertices = PoolVector2Array( 66, -12, 2109, -13, 2109, 2034, 70, 2022 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
-outlines = [ PoolVector2Array( 66, -12, 1092, -13, 1096, 589, 70, 584 ) ]
+outlines = [ PoolVector2Array( 66, -12, 2109, -13, 2109, 2034, 70, 2022 ) ]
 
 [node name="Node2D" type="Node2D"]
+
+[node name="TestCity" parent="." instance=ExtResource( 16 )]
+position = Vector2( 0, 32 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="TestCity"]
+position = Vector2( 505, 1187 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TestCity/StaticBody2D"]
+position = Vector2( 71, 45 )
+shape = SubResource( 2 )
 
 [node name="AICoordinator" type="Node" parent="."]
 script = ExtResource( 15 )
@@ -30,6 +44,10 @@ script = ExtResource( 15 )
 playerGUIRef = ExtResource( 10 )
 
 [node name="CameraGame" parent="PlayerManager" instance=ExtResource( 12 )]
+limit_left = 0
+limit_top = 0
+limit_right = 2048
+limit_bottom = 2048
 padding = Vector2( 16, 16 )
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
@@ -82,13 +100,20 @@ position = Vector2( 705, 400 )
 [node name="Players" type="YSort" parent="Navigation2D/MasterYSort"]
 
 [node name="PlayerYui" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 13 )]
-position = Vector2( 385, 339 )
+position = Vector2( 565, 1496 )
 teamFaction = 1
 canAim = false
 
 [node name="PlayerBusinessGuy" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 1 )]
-position = Vector2( 384, 375 )
-canAim = false
+position = Vector2( 528, 1480 )
+
+[node name="PlayerYui2" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 13 )]
+position = Vector2( 520, 1536 )
+scale = Vector2( 1.00388, 1 )
+
+[node name="PlayerBusinessGuy2" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 1 )]
+position = Vector2( 552, 1552 )
+scale = Vector2( 1.00388, 1 )
 
 [node name="Pickups" type="YSort" parent="Navigation2D/MasterYSort"]
 

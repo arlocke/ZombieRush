@@ -45,6 +45,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector2( 0, 1 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("ShadowSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 4 ]
+}
 
 [sub_resource type="AnimationNodeAnimation" id=27]
 animation = "EyesBlinkC"
@@ -536,14 +548,14 @@ maxAmmo = {
 pickupRef = ExtResource( 10 )
 playerMenuGUIRef = ExtResource( 17 )
 
-[node name="AnimationTreeBody" parent="." index="0"]
+[node name="AnimationTreeBody" parent="." index="1"]
 tree_root = ExtResource( 15 )
 active = true
 parameters/playback = SubResource( 50 )
 parameters/Idle/blend_position = 0
 parameters/Walk/blend_position = 0
 
-[node name="AnimationPlayerBody" parent="." index="1"]
+[node name="AnimationPlayerBody" parent="." index="2"]
 anims/PlayerIdle = ExtResource( 4 )
 anims/PlayerIdleHolding = ExtResource( 7 )
 anims/PlayerWalk = ExtResource( 14 )
@@ -555,7 +567,6 @@ texture = ExtResource( 5 )
 offset = Vector2( -2, -19 )
 hframes = 10
 vframes = 3
-frame = 3
 
 [node name="Face" type="Node2D" parent="Body" index="1"]
 
