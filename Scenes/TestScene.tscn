@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Objects/Creatures/PlayerCharacters/PlayerBusinessGuy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Items/Pickups/Pickup.tscn" type="PackedScene" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://Objects/Items/Weapons/Melee/WeaponMelee.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scripts/Creatures/AICoordinator.cs" type="Script" id=15]
 [ext_resource path="res://TileMaps/Test/TestCity.tmx" type="PackedScene" id=16]
+[ext_resource path="res://Objects/Creatures/NPCs/Succy.tscn" type="PackedScene" id=18]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 256, 144 )
@@ -97,23 +98,288 @@ position = Vector2( 687, 255 )
 [node name="Zombie13" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 705, 400 )
 
+[node name="Zombie14" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 729, 283 )
+
+[node name="Zombie15" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 732, 230 )
+
+[node name="Zombie16" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 726, 343 )
+
+[node name="Zombie17" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 756, 252 )
+
+[node name="Zombie18" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 754, 321 )
+
+[node name="Zombie19" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 776, 280 )
+
+[node name="Zombie20" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 802, 253 )
+
+[node name="Zombie21" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 798, 317 )
+
+[node name="Zombie22" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 831, 212 )
+
+[node name="Zombie23" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 770, 184 )
+
+[node name="Zombie24" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 740, 182 )
+
+[node name="Zombie25" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 842, 164 )
+
+[node name="Zombie26" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 860, 309 )
+
+[node name="Zombie27" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 593, 560 )
+
+[node name="Zombie28" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 596, 507 )
+
+[node name="Zombie29" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 590, 620 )
+
+[node name="Zombie30" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 620, 529 )
+
+[node name="Zombie31" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 618, 598 )
+
+[node name="Zombie32" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 640, 557 )
+
+[node name="Zombie33" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 666, 530 )
+
+[node name="Zombie34" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 662, 594 )
+
+[node name="Zombie35" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 695, 489 )
+
+[node name="Zombie36" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 634, 461 )
+
+[node name="Zombie37" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 604, 459 )
+
+[node name="Zombie38" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 706, 441 )
+
+[node name="Zombie39" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 724, 586 )
+
+[node name="Zombie40" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 748, 469 )
+
+[node name="Zombie41" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 751, 416 )
+
+[node name="Zombie42" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 745, 529 )
+
+[node name="Zombie43" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 775, 438 )
+
+[node name="Zombie44" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 773, 507 )
+
+[node name="Zombie45" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 795, 466 )
+
+[node name="Zombie46" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 821, 439 )
+
+[node name="Zombie47" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 817, 503 )
+
+[node name="Zombie48" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 850, 398 )
+
+[node name="Zombie49" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 789, 370 )
+
+[node name="Zombie50" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 759, 368 )
+
+[node name="Zombie51" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 861, 350 )
+
+[node name="Zombie52" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 879, 495 )
+
+[node name="Zombie53" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 266, 658 )
+
+[node name="Zombie54" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 269, 605 )
+
+[node name="Zombie55" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 263, 718 )
+
+[node name="Zombie56" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 293, 627 )
+
+[node name="Zombie57" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 291, 696 )
+
+[node name="Zombie58" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 313, 655 )
+
+[node name="Zombie59" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 339, 628 )
+
+[node name="Zombie60" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 335, 692 )
+
+[node name="Zombie61" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 368, 587 )
+
+[node name="Zombie62" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 307, 559 )
+
+[node name="Zombie63" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 277, 557 )
+
+[node name="Zombie64" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 379, 539 )
+
+[node name="Zombie65" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 397, 684 )
+
+[node name="Zombie66" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 421, 567 )
+
+[node name="Zombie67" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 424, 514 )
+
+[node name="Zombie68" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 418, 627 )
+
+[node name="Zombie69" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 448, 536 )
+
+[node name="Zombie70" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 446, 605 )
+
+[node name="Zombie71" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 468, 564 )
+
+[node name="Zombie72" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 494, 537 )
+
+[node name="Zombie73" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 490, 601 )
+
+[node name="Zombie74" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 523, 496 )
+
+[node name="Zombie75" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 462, 468 )
+
+[node name="Zombie76" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 432, 466 )
+
+[node name="Zombie77" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 534, 448 )
+
+[node name="Zombie78" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 552, 593 )
+
+[node name="Zombie79" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 285, 844 )
+
+[node name="Zombie80" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 288, 791 )
+
+[node name="Zombie81" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 282, 904 )
+
+[node name="Zombie82" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 312, 813 )
+
+[node name="Zombie83" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 310, 882 )
+
+[node name="Zombie84" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 332, 841 )
+
+[node name="Zombie85" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 358, 814 )
+
+[node name="Zombie86" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 354, 878 )
+
+[node name="Zombie87" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 387, 773 )
+
+[node name="Zombie88" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 326, 745 )
+
+[node name="Zombie89" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 296, 743 )
+
+[node name="Zombie90" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 398, 725 )
+
+[node name="Zombie91" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 416, 870 )
+
+[node name="Zombie92" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 440, 753 )
+
+[node name="Zombie93" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 443, 700 )
+
+[node name="Zombie94" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 437, 813 )
+
+[node name="Zombie95" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 467, 722 )
+
+[node name="Zombie96" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 465, 791 )
+
+[node name="Zombie97" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 487, 750 )
+
+[node name="Zombie98" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 513, 723 )
+
+[node name="Zombie99" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 509, 787 )
+
+[node name="Zombie100" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 542, 682 )
+
+[node name="Zombie101" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 481, 654 )
+
+[node name="Zombie102" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 451, 652 )
+
+[node name="Zombie103" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 553, 634 )
+
+[node name="Zombie104" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
+position = Vector2( 571, 779 )
+
 [node name="Players" type="YSort" parent="Navigation2D/MasterYSort"]
 
 [node name="PlayerYui" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 13 )]
-position = Vector2( 565, 1496 )
+position = Vector2( 385, 246 )
 teamFaction = 1
 canAim = false
 
 [node name="PlayerBusinessGuy" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 1 )]
-position = Vector2( 528, 1480 )
-
-[node name="PlayerYui2" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 13 )]
-position = Vector2( 520, 1536 )
-scale = Vector2( 1.00388, 1 )
-
-[node name="PlayerBusinessGuy2" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 1 )]
-position = Vector2( 552, 1552 )
-scale = Vector2( 1.00388, 1 )
+position = Vector2( 348, 230 )
 
 [node name="Pickups" type="YSort" parent="Navigation2D/MasterYSort"]
 
@@ -182,6 +448,11 @@ startingHVel = 0.15
 [node name="PickupAmmo764" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 7 )]
 position = Vector2( 280, 339 )
 startingHVel = 0.15
+
+[node name="NPCs" type="YSort" parent="Navigation2D/MasterYSort"]
+
+[node name="Succy" parent="Navigation2D/MasterYSort/NPCs" instance=ExtResource( 18 )]
+position = Vector2( 512, 202 )
 
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
 visible = false

@@ -6,20 +6,8 @@ public enum InputDeviceType {
     MouseKeyboard,
     Controller,
 }
-public struct ItemSlot {
-    public Item handR;
-    public Item handL;
-    public ItemSlot(Item iR, Item iL) {
-        handR = iR;
-        handL = iL;
-    }
-    public override string ToString() {
-        return (handR != null ? handR.ToString() : "Empty") + ", " + (handL != null ? handL.ToString() : "Empty");
-    }
-}
 
-
-public class Player:Creature {
+public class Player:Character {
     //Input Info
     public InputDeviceType inputDeviceType;
 
@@ -31,35 +19,9 @@ public class Player:Creature {
     public Interactable closestInteractable;
     public Label interactableText;
 
-    //Animation Data
-    [Export]
-    public bool holding = false; //all this affects is idle animation
-    [Export]
-    public bool canMove;
-    [Export]
-    public bool canAim;
-    [Export]
-    public bool actionable;
-    public Vector2 lookDirR;
-    public Vector2 lookDirL;
-
     //Movement variables
     //public float moveSpeed = 1f;
     public float collisionOffset = 0.05f; // Distance from rigidbody to check for collisions
-
-    //Children
-    Node2D shoulderR;
-    Node2D shoulderL;
-    public Node2D armR;
-    public Node2D armL;
-    public Node2D handRSocket;
-    public Node2D handLSocket;
-    public Node2D face;
-    public Sprite eyes;
-    public AnimationTree eyesAnimTree;
-    public AnimationNodeStateMachinePlayback eyesAnimStateMachine;
-    public AnimationPlayer animPlayerArms;
-    public Sprite bodySprite;
 
     //Aiming
     [Export]
@@ -68,21 +30,8 @@ public class Player:Creature {
     //Movement
     [Export]
     Vector2 movementInput;
-    public float movementVelocity; //not a vector
-    public bool dashing;
-    [Export]
-    public float movementFriction;
-    [Export]
-    public float dashSpeed;
-    [Export]
-    public float maxCancelDashSpeed; //the fastest you can go before you can start walking again
-
+  
     //Inventory
-    public ItemSlotType activeSlot;
-    public ItemSlotType lastActiveSlot;
-    public Item[] inventory = new Item[9];
-    [Export]
-    public System.Collections.Generic.Dictionary<ItemSlotType, ItemSlot> activeItems = new System.Collections.Generic.Dictionary<ItemSlotType, ItemSlot>();
     public Godot.Collections.Dictionary<AmmoType, int> heldAmmo = new Godot.Collections.Dictionary<AmmoType, int>();
     [Export]
     public Godot.Collections.Dictionary<AmmoType, int> maxAmmo = new Godot.Collections.Dictionary<AmmoType, int>();
