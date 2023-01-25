@@ -6,7 +6,11 @@ public enum TeamType {
     Humans,
 }
 
-public class Creature:KinematicBody2D {     //Stats
+public class Creature:KinematicBody2D {     
+    
+    //Stats
+    [Export]
+    public string charName;
     [Export]
     public float hp = 5;
     [Export]
