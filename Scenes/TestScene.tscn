@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Objects/Creatures/PlayerCharacters/PlayerBusinessGuy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Items/Pickups/Pickup.tscn" type="PackedScene" id=2]
@@ -20,6 +20,10 @@
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 256, 144 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=3]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=4]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 66, -12, 2109, -13, 2109, 2034, 70, 2022 )
@@ -60,316 +64,420 @@ edge_connection_margin = 4.0
 [node name="Zombies" type="YSort" parent="Navigation2D/MasterYSort"]
 
 [node name="Zombie" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 574, 374 )
+position = Vector2( 654, 425 )
+state = 5
 
 [node name="Zombie2" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 577, 321 )
+position = Vector2( 657, 372 )
+state = 5
 
 [node name="Zombie3" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 571, 434 )
+state = 5
 
 [node name="Zombie4" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 601, 343 )
+position = Vector2( 681, 394 )
+state = 5
 
 [node name="Zombie5" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 599, 412 )
+state = 5
 
 [node name="Zombie6" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 621, 371 )
+position = Vector2( 701, 422 )
+state = 5
 
 [node name="Zombie7" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 647, 344 )
+state = 5
 
 [node name="Zombie8" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 643, 408 )
+state = 5
 
 [node name="Zombie9" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 676, 303 )
+state = 5
 
 [node name="Zombie10" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 615, 275 )
+position = Vector2( 725, 368 )
+state = 5
 
 [node name="Zombie11" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
-position = Vector2( 585, 273 )
+position = Vector2( 695, 366 )
+state = 5
 
 [node name="Zombie12" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 687, 255 )
+state = 5
 
 [node name="Zombie13" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 705, 400 )
+state = 5
 
 [node name="Zombie14" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 729, 283 )
+state = 5
 
 [node name="Zombie15" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 732, 230 )
+state = 5
 
 [node name="Zombie16" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 726, 343 )
+state = 5
 
 [node name="Zombie17" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 756, 252 )
+state = 5
 
 [node name="Zombie18" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 754, 321 )
+state = 5
 
 [node name="Zombie19" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 776, 280 )
+state = 5
 
 [node name="Zombie20" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 802, 253 )
+state = 5
 
 [node name="Zombie21" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 798, 317 )
+state = 5
 
 [node name="Zombie22" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 831, 212 )
+state = 5
 
 [node name="Zombie23" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 770, 184 )
+state = 5
 
 [node name="Zombie24" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 740, 182 )
+state = 5
 
 [node name="Zombie25" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 842, 164 )
+state = 5
 
 [node name="Zombie26" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 860, 309 )
+state = 5
 
 [node name="Zombie27" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 593, 560 )
+state = 5
 
 [node name="Zombie28" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 596, 507 )
+state = 5
 
 [node name="Zombie29" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 590, 620 )
+state = 5
 
 [node name="Zombie30" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 620, 529 )
+state = 5
 
 [node name="Zombie31" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 618, 598 )
+state = 5
 
 [node name="Zombie32" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 640, 557 )
+state = 5
 
 [node name="Zombie33" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 666, 530 )
+state = 5
 
 [node name="Zombie34" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 662, 594 )
+state = 5
 
 [node name="Zombie35" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 695, 489 )
+state = 5
 
 [node name="Zombie36" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 634, 461 )
+state = 5
 
 [node name="Zombie37" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 604, 459 )
+state = 5
 
 [node name="Zombie38" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 706, 441 )
+state = 5
 
 [node name="Zombie39" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 724, 586 )
+state = 5
 
 [node name="Zombie40" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 748, 469 )
+state = 5
 
 [node name="Zombie41" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 751, 416 )
+state = 5
 
 [node name="Zombie42" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 745, 529 )
+state = 5
 
 [node name="Zombie43" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 775, 438 )
+state = 5
 
 [node name="Zombie44" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 773, 507 )
+state = 5
 
 [node name="Zombie45" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 795, 466 )
+state = 5
 
 [node name="Zombie46" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 821, 439 )
+state = 5
 
 [node name="Zombie47" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 817, 503 )
+state = 5
 
 [node name="Zombie48" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 850, 398 )
+state = 5
 
 [node name="Zombie49" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 789, 370 )
+state = 5
 
 [node name="Zombie50" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 759, 368 )
+state = 5
 
 [node name="Zombie51" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 861, 350 )
+state = 5
 
 [node name="Zombie52" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 879, 495 )
+state = 5
 
 [node name="Zombie53" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 266, 658 )
+state = 5
 
 [node name="Zombie54" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 269, 605 )
+state = 5
 
 [node name="Zombie55" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 263, 718 )
+state = 5
 
 [node name="Zombie56" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 293, 627 )
+state = 5
 
 [node name="Zombie57" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 291, 696 )
+state = 5
 
 [node name="Zombie58" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 313, 655 )
+state = 5
 
 [node name="Zombie59" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 339, 628 )
+state = 5
 
 [node name="Zombie60" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 335, 692 )
+state = 5
 
 [node name="Zombie61" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 368, 587 )
+state = 5
 
 [node name="Zombie62" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 307, 559 )
+state = 5
 
 [node name="Zombie63" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 277, 557 )
+state = 5
 
 [node name="Zombie64" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 379, 539 )
+state = 5
 
 [node name="Zombie65" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 397, 684 )
+state = 5
 
 [node name="Zombie66" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 421, 567 )
+state = 5
 
 [node name="Zombie67" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 424, 514 )
+state = 5
 
 [node name="Zombie68" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 418, 627 )
+state = 5
 
 [node name="Zombie69" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 448, 536 )
+state = 5
 
 [node name="Zombie70" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 446, 605 )
+state = 5
 
 [node name="Zombie71" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 468, 564 )
+state = 5
 
 [node name="Zombie72" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 494, 537 )
+state = 5
 
 [node name="Zombie73" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 490, 601 )
+state = 5
 
 [node name="Zombie74" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 523, 496 )
+state = 5
 
 [node name="Zombie75" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 462, 468 )
+state = 5
 
 [node name="Zombie76" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 432, 466 )
+state = 5
 
 [node name="Zombie77" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 534, 448 )
+state = 5
 
 [node name="Zombie78" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 552, 593 )
+state = 5
 
 [node name="Zombie79" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 285, 844 )
+state = 5
 
 [node name="Zombie80" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 288, 791 )
+state = 5
 
 [node name="Zombie81" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 282, 904 )
+state = 5
 
 [node name="Zombie82" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 312, 813 )
+state = 5
 
 [node name="Zombie83" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 310, 882 )
+state = 5
 
 [node name="Zombie84" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 332, 841 )
+state = 5
 
 [node name="Zombie85" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 358, 814 )
+state = 5
 
 [node name="Zombie86" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 354, 878 )
+state = 5
 
 [node name="Zombie87" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 387, 773 )
+state = 5
 
 [node name="Zombie88" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 326, 745 )
+state = 5
 
 [node name="Zombie89" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 296, 743 )
+state = 5
 
 [node name="Zombie90" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 398, 725 )
+state = 5
 
 [node name="Zombie91" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 416, 870 )
+state = 5
 
 [node name="Zombie92" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 440, 753 )
+state = 5
 
 [node name="Zombie93" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 443, 700 )
+state = 5
 
 [node name="Zombie94" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 437, 813 )
+state = 5
 
 [node name="Zombie95" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 467, 722 )
+state = 5
 
 [node name="Zombie96" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 465, 791 )
+state = 5
 
 [node name="Zombie97" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 487, 750 )
+state = 5
 
 [node name="Zombie98" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 513, 723 )
+state = 5
 
 [node name="Zombie99" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 509, 787 )
+state = 5
 
 [node name="Zombie100" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 542, 682 )
+state = 5
 
 [node name="Zombie101" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 481, 654 )
+state = 5
 
 [node name="Zombie102" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 451, 652 )
+state = 5
 
 [node name="Zombie103" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 553, 634 )
+state = 5
 
 [node name="Zombie104" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource( 4 )]
 position = Vector2( 571, 779 )
+state = 5
 
 [node name="Players" type="YSort" parent="Navigation2D/MasterYSort"]
 
@@ -454,7 +562,18 @@ startingHVel = 0.15
 [node name="Succy" parent="Navigation2D/MasterYSort/NPCs" instance=ExtResource( 18 )]
 position = Vector2( 512, 202 )
 
+[node name="AnimationTreeBody" parent="Navigation2D/MasterYSort/NPCs/Succy" index="1"]
+parameters/playback = SubResource( 3 )
+
+[node name="BodySprite" parent="Navigation2D/MasterYSort/NPCs/Succy/Body" index="0"]
+frame = 1
+
+[node name="EyesAnimationTree" parent="Navigation2D/MasterYSort/NPCs/Succy/Body/Face" index="1"]
+parameters/playback = SubResource( 4 )
+
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
 visible = false
 position = Vector2( -70, 12 )
 navpoly = SubResource( 1 )
+
+[editable path="Navigation2D/MasterYSort/NPCs/Succy"]

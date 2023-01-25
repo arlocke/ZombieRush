@@ -2,7 +2,6 @@
 
 [ext_resource path="res://Objects/Creatures/Player.tscn" type="PackedScene" id=1]
 
-
 [sub_resource type="AnimationNodeStateMachinePlayback" id=1]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=6]
@@ -13,11 +12,20 @@
 parameters/playback = SubResource( 1 )
 parameters/Walk/blend_position = Vector2( 0, 0 )
 
+[node name="BodySprite" parent="Body" index="0"]
+frame = 2
+
+[node name="Face" parent="Body" index="1"]
+position = Vector2( 0, 1 )
+
 [node name="EyesAnimationTree" parent="Body/Face" index="1"]
 parameters/playback = SubResource( 6 )
 
-[node name="NavigationAgent2D" parent="." index="6"]
+[node name="NavigationAgent2D" parent="." index="5"]
 path_desired_distance = 1.0
 avoidance_enabled = true
 radius = 10.0
 neighbor_dist = 500.0
+
+[node name="InteractableText" parent="." index="6"]
+visible = true

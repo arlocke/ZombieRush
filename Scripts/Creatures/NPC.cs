@@ -11,7 +11,7 @@ public class NPC : Character {
     }
 
     public bool Interact(Player pc) {
-        GetNode<CanvasLayer>("DialogueHandler").Call("initDialogue", dialogueResource);
+        GetNode<Control>("DialogueHandler").Call("initDialogue", "succy_talk", dialogueResource);
         return true;
     }
 }

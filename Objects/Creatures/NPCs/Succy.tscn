@@ -16,17 +16,26 @@ dialogueResource = ExtResource( 3 )
 parameters/playback = SubResource( 1 )
 
 [node name="BodySprite" parent="Body" index="0"]
-frame = 1
+frame = 0
+
+[node name="Face" parent="Body" index="1"]
+position = Vector2( 0, 0 )
 
 [node name="EyesAnimationTree" parent="Body/Face" index="1"]
 parameters/playback = SubResource( 2 )
 
-[node name="DialogueHandler" type="CanvasLayer" parent="." index="7"]
+[node name="DialogueHandler" type="Control" parent="." index="7"]
 script = ExtResource( 4 )
 
 [node name="Dialogue" type="RichTextLabel" parent="DialogueHandler" index="0"]
 margin_left = 15.0
-margin_top = -102.0
-margin_right = 107.0
-margin_bottom = -62.0
+margin_top = -106.0
+margin_right = 136.0
+margin_bottom = -6.0
+rect_min_size = Vector2( 100, 100 )
+bbcode_text = "penis"
+text = "penis"
+fit_content_height = true
 script = ExtResource( 2 )
+
+[connection signal="gui_input" from="DialogueHandler" to="DialogueHandler" method="_on_DialogueHandler_gui_input"]
