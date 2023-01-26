@@ -1,13 +1,15 @@
 using Godot;
 using System;
 
-public enum ItemSlotType {
+public enum ItemSlotType
+{
     Primary,
     Secondary,
     Utility,
     None        //Fists out
 }
-public enum ItemTier {
+public enum ItemTier
+{
     Common,
     Uncommon,
     Rare,
@@ -21,7 +23,8 @@ public enum ItemTier {
     Quantum,
     Final
 }
-public class Item:Node2D {
+public class Item : Node2D
+{
     [Export]
     public string itemName;
     [Export]
@@ -35,33 +38,46 @@ public class Item:Node2D {
     public Node2D hand1Socket;
     public Node2D hand2Socket;
 
-    public override void _Ready() {
+    public override void _Ready()
+    {
         SetFacingRight(true);
         hand1Socket = GetNode<Node2D>("Hand1Socket");
         hand2Socket = GetNode<Node2D>("Hand2Socket");
     }
-    public virtual void Setup(Creature c) {
+    public virtual void Setup(Creature c)
+    {
         holder = c;
     }
-    public virtual void SetFacingRight(bool r) {
-        if(r != facingRight) {
+    public virtual void SetFacingRight(bool r)
+    {
+        if (r != facingRight)
+        {
             facingRight = r;
             ShowBehindParent = facingRight;
         }
     }
-    public virtual void Use() {         //Shoot for guns, attack for melee, use for utility
+    public virtual bool CanUse()
+    {
+        return true;
+    }
+    public virtual void Use()
+    {         //Shoot for guns, attack for melee, use for utility
 
     }
-    public virtual void CancelUse() {
+    public virtual void CancelUse()
+    {
 
     }
-    public virtual void AltUse() {      //Zoom for primary guns
+    public virtual void AltUse()
+    {      //Zoom for primary guns
 
     }
-    public virtual void CancelAltUse() {
+    public virtual void CancelAltUse()
+    {
 
     }
-    public virtual void Custom() {
+    public virtual void Custom()
+    {
 
     }
 }

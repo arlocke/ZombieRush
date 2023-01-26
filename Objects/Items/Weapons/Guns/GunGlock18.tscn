@@ -5,9 +5,11 @@
 [sub_resource type="AnimationNodeStateMachinePlayback" id=1]
 
 [node name="GunGlock18" instance=ExtResource( 1 )]
-attackRate = 0.05
 itemSize = 0.5
 slotType = 1
+attackRate = 0.05
+sprayRecoverTime = 0.3
+inaccuracyMax = 10.0
 bulletSpeed = 750.0
 magMaxSize = 19
 currentMagSize = 19
