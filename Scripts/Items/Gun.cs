@@ -1,11 +1,13 @@
 using Godot;
-public enum FireMode {
+public enum FireMode
+{
     Single,
     Auto,
     Burst,
 }
 
-public enum GunState {
+public enum GunState
+{
     Idle,
     TriggerHeld,
     Reloading,
@@ -13,12 +15,24 @@ public enum GunState {
     //cancelling
 }
 
-public class Gun:Weapon {
+public class Gun : Weapon
+{
     [Export]
     public FireMode fireMode;
     public GunState state;
     public string animState = "Idle";
+    [Export]
     public float fireTimer;
+    [Export]
+    public float timeSinceLastShot;
+    public int sprayCount;
+    public float sprayTimer;
+    [Export]
+    public float sprayRecoverTime = 0.5f;
+    [Export]
+    public float inaccuracyMin = 1;     //Maximum innacuracy of shots at the beginning of a spray in degrees away from the aim angle
+    [Export]
+    public float inaccuracyMax = 20;     //Maximum innacuracy of shots at the end of a spray in degrees away from the aim angle
     [Export]
     public float range;
     [Export]
@@ -37,56 +51,82 @@ public class Gun:Weapon {
     ////////////Components
     public Node2D bulletSpawnSocket;
 
-    public override void _Ready() {
+    public override void _Ready()
+    {
         base._Ready();
         UpdateAnimTreeVars();
         bulletSpawnSocket = GetNode<Node2D>("BulletSpawnSocket");
     }
-    public override void _PhysicsProcess(float dt) {
-        if(fireTimer > 0) {
+    public override void _PhysicsProcess(float dt)
+    {
+
+        if (fireTimer > 0)
             fireTimer -= dt;
-        }
-        if(fireTimer <= 0) {
-            if(state == GunState.TriggerHeld && currentMagSize > 0) {
+        if (fireTimer <= 0)
+        {
+            if (currentMagSize > 0 && state == GunState.TriggerHeld)
+            {
                 Shoot();
-            } else {
-                fireTimer = 0;
             }
+            else
+            {
+                timeSinceLastShot += dt;
+            }
+
         }
     }
-    public override void Use() {
+    public override bool CanUse()
+    {
+        return fireTimer <= 0 && currentMagSize > 0;
+    }
+    public override void Use()
+    {
         base.Use();
         PullTrigger();
     }
-    public override void CancelUse() {
+    public override void CancelUse()
+    {
         base.CancelUse();
         ReleaseTrigger();
     }
-    public override void Custom() {
+    public override void Custom()
+    {
         base.Custom();
-        if(currentMagSize < magMaxSize && IsInstanceValid(holder)) {
+        if (currentMagSize < magMaxSize && IsInstanceValid(holder))
+        {
             int amt = (holder as Player).RemoveAmmo(ammoType, magMaxSize - currentMagSize);
             //reload animation
             FinishReload(currentMagSize + amt);
         }
     }
-    public void PullTrigger() {
-        if(state == GunState.Idle) {
+    public void PullTrigger()
+    {
+        if (state == GunState.Idle)
+        {
             state = GunState.TriggerHeld;
         }
     }
-    public void ReleaseTrigger() {
-        if(state == GunState.TriggerHeld && currentMagSize > 0) {
+    public void ReleaseTrigger()
+    {
+        if (state == GunState.TriggerHeld && currentMagSize > 0)
+        {
             state = GunState.Idle;
         }
     }
-    public void Shoot() {
+    public void Shoot()
+    {
         fireTimer += attackRate;
+        if (timeSinceLastShot > 0)
+            sprayCount = (int)((float)sprayCount * (1 - (Mathf.Min(timeSinceLastShot, sprayRecoverTime)) / sprayRecoverTime));
+
+        timeSinceLastShot = fireTimer * -1;
+        //Update spray count based on timer
+        float bulletRot = bulletSpawnSocket.GlobalRotation + Mathf.Deg2Rad((float)GD.RandRange(-1, 1) * Mathf.Lerp(inaccuracyMin, inaccuracyMax, Mathf.Pow((float)sprayCount / (float)magMaxSize, 2)));
 
         Bullet newBullet = bulletRef.Instance<Bullet>();
         GetTree().Root.AddChild(newBullet);
         newBullet.GlobalPosition = bulletSpawnSocket.GlobalPosition;
-        newBullet.GlobalRotation = bulletSpawnSocket.GlobalRotation;
+        newBullet.GlobalRotation = bulletRot;
         newBullet.speed = bulletSpeed;
         newBullet.distanceRemaining = range;
         newBullet.damage = damage;
@@ -97,31 +137,40 @@ public class Gun:Weapon {
         newMuzzleFlash.GlobalPosition = bulletSpawnSocket.GlobalPosition;
         newMuzzleFlash.GlobalRotation = bulletSpawnSocket.GlobalRotation;
 
-        if(Scale.x < 0) {
+        if (Scale.x < 0)
+        {
             newBullet.Rotate(Mathf.Pi);
             newMuzzleFlash.Rotate(Mathf.Pi);
         }
 
+        sprayCount++;
         currentMagSize--;
-        if(currentMagSize <= 0) {
+        if (currentMagSize <= 0)
+        {
             state = GunState.Empty;
-        } else if(fireMode == FireMode.Single || fireMode == FireMode.Burst) {
+        }
+        else if (fireMode == FireMode.Single || fireMode == FireMode.Burst)
+        {
             state = GunState.Idle;
         }
         SetAnimState("ActionBack");
         animTree.Set("parameters/conditions/Loaded", currentMagSize > 0);
     }
-    public void StartReload() {
+    public void StartReload()
+    {
         state = GunState.Reloading;
     }
-    public void FinishReload(int ammoToAdd) {
+    public void FinishReload(int ammoToAdd)
+    {
         state = GunState.Idle;
-
+        sprayCount = 0;
         currentMagSize = ammoToAdd;
         animTree.Set("parameters/conditions/Loaded", currentMagSize > 0);
     }
-    public override void SetFacingRight(bool r) {
-        if(r != facingRight) {
+    public override void SetFacingRight(bool r)
+    {
+        if (r != facingRight)
+        {
             facingRight = r;
             ShowBehindParent = facingRight;
             //ZIndex = facingRight ? -1 : 1;
@@ -130,18 +179,23 @@ public class Gun:Weapon {
             animTree.Set("parameters/ActionForward/BlendSpace1D/blend_position", facingRight ? 1 : -1);
         }
     }
-    public void UpdateAnimTreeVars() {
-        if(animTree != null) {
+    public void UpdateAnimTreeVars()
+    {
+        if (animTree != null)
+        {
             animTree.Set("parameters/" + animState + "/TimeScale/scale", Mathf.Max(1 / attackRate, 5));
         }
     }
-    public void UpdateAnimFacingRight() {
-        switch(state) {
+    public void UpdateAnimFacingRight()
+    {
+        switch (state)
+        {
             case GunState.Empty:
                 break;
         }
     }
-    public void SetAnimState(string s) {
+    public void SetAnimState(string s)
+    {
         animState = s;
         animStateMachine.Travel(animState);
         animTree.Set("parameters/" + animState + "/BlendSpace1D/blend_position", facingRight ? 1 : -1);
