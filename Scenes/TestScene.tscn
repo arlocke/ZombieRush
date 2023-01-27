@@ -53,7 +53,6 @@ limit_left = 0
 limit_top = 0
 limit_right = 2048
 limit_bottom = 2048
-padding = Vector2( 16, 16 )
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
 cell_size = 32.0
@@ -484,17 +483,35 @@ state = 5
 [node name="PlayerYui" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 13 )]
 position = Vector2( 385, 246 )
 teamFaction = 1
-canAim = false
 
 [node name="PlayerBusinessGuy" parent="Navigation2D/MasterYSort/Players" instance=ExtResource( 1 )]
 position = Vector2( 348, 230 )
+canAim = true
 
 [node name="Pickups" type="YSort" parent="Navigation2D/MasterYSort"]
 
 [node name="PickupKatana" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 2 )]
-position = Vector2( 423, 412 )
+position = Vector2( 416, 256 )
 
 [node name="WeaponMelee" parent="Navigation2D/MasterYSort/Pickups/PickupKatana" instance=ExtResource( 14 )]
+tier = 4
+
+[node name="PickupKatana2" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 2 )]
+position = Vector2( 448, 224 )
+
+[node name="WeaponMelee" parent="Navigation2D/MasterYSort/Pickups/PickupKatana2" instance=ExtResource( 14 )]
+tier = 4
+
+[node name="PickupKatana3" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 2 )]
+position = Vector2( 416, 224 )
+
+[node name="WeaponMelee" parent="Navigation2D/MasterYSort/Pickups/PickupKatana3" instance=ExtResource( 14 )]
+tier = 4
+
+[node name="PickupKatana4" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 2 )]
+position = Vector2( 448, 256 )
+
+[node name="WeaponMelee" parent="Navigation2D/MasterYSort/Pickups/PickupKatana4" instance=ExtResource( 14 )]
 tier = 4
 
 [node name="PickupGlock" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 2 )]
