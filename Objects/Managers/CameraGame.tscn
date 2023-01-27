@@ -11,6 +11,5 @@ zoom = Vector2( 0.5, 0.5 )
 smoothing_enabled = true
 script = ExtResource( 2 )
 moveSpeed = 5.0
-padding = Vector2( 8, 8 )
 
 [node name="GUIGame" parent="." groups=["Canvases"] instance=ExtResource( 1 )]
