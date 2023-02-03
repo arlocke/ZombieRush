@@ -1,0 +1,153 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://Objects/Items/Pickups/Pickup.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Objects/Items/Weapons/Guns/GunDesertEagle.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Objects/EnvironmentInteractable/RoomExit.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Objects/Items/Pickups/Ammo/PickupAmmo9mm.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Objects/Items/Pickups/Ammo/PickupAmmo50AE.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Objects/Items/Pickups/Ammo/PickupAmmo762.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Objects/Items/Weapons/Guns/GunGlock18.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Objects/Items/Weapons/Guns/GunAk-47.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Objects/Items/Weapons/Melee/WeaponMelee.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Scripts/Creatures/AICoordinator.cs" type="Script" id=15]
+[ext_resource path="res://TileMaps/Test/TestCity.tmx" type="PackedScene" id=16]
+[ext_resource path="res://Objects/Creatures/NPCs/Succy.tscn" type="PackedScene" id=18]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 256, 144 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=5]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=3]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=4]
+
+[sub_resource type="NavigationPolygon" id=1]
+vertices = PoolVector2Array( 66, -12, 2109, -13, 2109, 2034, 70, 2022 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+outlines = [ PoolVector2Array( 66, -12, 2109, -13, 2109, 2034, 70, 2022 ) ]
+
+[node name="Room" type="Node2D" groups=["Rooms"]]
+
+[node name="TestCity" parent="." instance=ExtResource( 16 )]
+visible = false
+position = Vector2( 0, 32 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="TestCity"]
+position = Vector2( 505, 1187 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TestCity/StaticBody2D"]
+position = Vector2( 71, 45 )
+shape = SubResource( 2 )
+
+[node name="AICoordinator" type="Node" parent="."]
+script = ExtResource( 15 )
+
+[node name="Navigation2D" type="Navigation2D" parent="."]
+cell_size = 32.0
+edge_connection_margin = 4.0
+
+[node name="MasterYSort" type="YSort" parent="Navigation2D"]
+
+[node name="Zombies" type="YSort" parent="Navigation2D/MasterYSort"]
+
+[node name="Players" type="YSort" parent="Navigation2D/MasterYSort" groups=["PlayersYSort"]]
+
+[node name="Pickups" type="YSort" parent="Navigation2D/MasterYSort"]
+
+[node name="PickupKatana" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 2 )]
+position = Vector2( 480, 320 )
+
+[node name="WeaponMelee" parent="Navigation2D/MasterYSort/Pickups/PickupKatana" instance=ExtResource( 14 )]
+tier = 4
+
+[node name="AnimationTree" parent="Navigation2D/MasterYSort/Pickups/PickupKatana/WeaponMelee" index="2"]
+parameters/playback = SubResource( 5 )
+
+[node name="PickupKatana2" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 2 )]
+position = Vector2( 480, 376 )
+
+[node name="WeaponMelee" parent="Navigation2D/MasterYSort/Pickups/PickupKatana2" instance=ExtResource( 14 )]
+tier = 4
+
+[node name="PickupGlock" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 2 )]
+position = Vector2( 423, 304 )
+
+[node name="GunGlock18" parent="Navigation2D/MasterYSort/Pickups/PickupGlock" instance=ExtResource( 8 )]
+tier = 3
+
+[node name="PickupDeagle" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 2 )]
+position = Vector2( 423, 375 )
+
+[node name="GunDesertEagle" parent="Navigation2D/MasterYSort/Pickups/PickupDeagle" instance=ExtResource( 3 )]
+tier = 4
+
+[node name="PickupDeagle2" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 2 )]
+position = Vector2( 446, 375 )
+
+[node name="GunDesertEagle" parent="Navigation2D/MasterYSort/Pickups/PickupDeagle2" instance=ExtResource( 3 )]
+tier = 4
+
+[node name="PickupAK" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 2 )]
+position = Vector2( 423, 339 )
+
+[node name="GunAk-47" parent="Navigation2D/MasterYSort/Pickups/PickupAK" instance=ExtResource( 11 )]
+tier = 2
+
+[node name="PickupAmmo9mm" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 5 )]
+position = Vector2( 342, 304 )
+startingHeight = 4.0
+
+[node name="PickupAmmo9mm2" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 5 )]
+position = Vector2( 311, 304 )
+startingHeight = 4.0
+
+[node name="PickupAmmo9mm3" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 5 )]
+position = Vector2( 280, 304 )
+startingHeight = 4.0
+
+[node name="PickupAmmo50AE" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 6 )]
+position = Vector2( 342, 374 )
+startingHVel = 0.15
+
+[node name="PickupAmmo762" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 7 )]
+position = Vector2( 342, 339 )
+startingHVel = 0.15
+
+[node name="PickupAmmo763" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 7 )]
+position = Vector2( 311, 339 )
+startingHVel = 0.15
+
+[node name="PickupAmmo50AE2" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 6 )]
+position = Vector2( 311, 374 )
+startingHVel = 0.15
+
+[node name="PickupAmmo50AE3" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 6 )]
+position = Vector2( 280, 374 )
+startingHVel = 0.15
+
+[node name="PickupAmmo764" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource( 7 )]
+position = Vector2( 280, 339 )
+startingHVel = 0.15
+
+[node name="NPCs" type="YSort" parent="Navigation2D/MasterYSort"]
+
+[node name="Succy" parent="Navigation2D/MasterYSort/NPCs" instance=ExtResource( 18 )]
+position = Vector2( 512, 202 )
+
+[node name="AnimationTreeBody" parent="Navigation2D/MasterYSort/NPCs/Succy" index="1"]
+parameters/playback = SubResource( 3 )
+
+[node name="EyesAnimationTree" parent="Navigation2D/MasterYSort/NPCs/Succy/Body/Face" index="1"]
+parameters/playback = SubResource( 4 )
+
+[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
+visible = false
+position = Vector2( -70, 12 )
+navpoly = SubResource( 1 )
+
+[node name="RoomExit" parent="." instance=ExtResource( 4 )]
+position = Vector2( 176, 224 )
+
+[editable path="Navigation2D/MasterYSort/Pickups/PickupKatana/WeaponMelee"]
+[editable path="Navigation2D/MasterYSort/NPCs/Succy"]

@@ -26,6 +26,3 @@ path_desired_distance = 1.0
 avoidance_enabled = true
 radius = 10.0
 neighbor_dist = 500.0
-
-[node name="InteractableText" parent="." index="6"]
-visible = true
