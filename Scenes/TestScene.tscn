@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Objects/Creatures/PlayerCharacters/PlayerBusinessGuy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Items/Pickups/Pickup.tscn" type="PackedScene" id=2]
@@ -8,9 +8,7 @@
 [ext_resource path="res://Objects/Items/Pickups/Ammo/PickupAmmo50AE.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Objects/Items/Pickups/Ammo/PickupAmmo762.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Objects/Items/Weapons/Guns/GunGlock18.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Objects/Managers/PlayerManager.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Objects/Items/Weapons/Guns/GunAk-47.tscn" type="PackedScene" id=11]
-[ext_resource path="res://Objects/Managers/CameraGame.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Objects/Creatures/PlayerCharacters/PlayerYui.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Objects/Items/Weapons/Melee/WeaponMelee.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scripts/Creatures/AICoordinator.cs" type="Script" id=15]
@@ -43,14 +41,6 @@ shape = SubResource( 2 )
 
 [node name="AICoordinator" type="Node" parent="."]
 script = ExtResource( 15 )
-
-[node name="PlayerManager" parent="." instance=ExtResource( 9 )]
-
-[node name="CameraGame" parent="PlayerManager" instance=ExtResource( 12 )]
-limit_left = 0
-limit_top = 0
-limit_right = 2048
-limit_bottom = 2048
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
 cell_size = 32.0

@@ -1,5 +1,6 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
+[ext_resource path="res://Scripts/Managers/RoomManager.cs" type="Script" id=1]
 [ext_resource path="res://Objects/Items/Pickups/Pickup.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Objects/Items/Weapons/Guns/GunDesertEagle.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Objects/EnvironmentInteractable/RoomExit.tscn" type="PackedScene" id=4]
@@ -28,6 +29,7 @@ polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 outlines = [ PoolVector2Array( 66, -12, 2109, -13, 2109, 2034, 70, 2022 ) ]
 
 [node name="Room" type="Node2D" groups=["Rooms"]]
+script = ExtResource( 1 )
 
 [node name="TestCity" parent="." instance=ExtResource( 16 )]
 visible = false
@@ -138,6 +140,9 @@ position = Vector2( 512, 202 )
 [node name="AnimationTreeBody" parent="Navigation2D/MasterYSort/NPCs/Succy" index="1"]
 parameters/playback = SubResource( 3 )
 
+[node name="BodySprite" parent="Navigation2D/MasterYSort/NPCs/Succy/Body" index="0"]
+frame = 3
+
 [node name="EyesAnimationTree" parent="Navigation2D/MasterYSort/NPCs/Succy/Body/Face" index="1"]
 parameters/playback = SubResource( 4 )
 
@@ -147,7 +152,8 @@ position = Vector2( -70, 12 )
 navpoly = SubResource( 1 )
 
 [node name="RoomExit" parent="." instance=ExtResource( 4 )]
-position = Vector2( 176, 224 )
+position = Vector2( 256, 224 )
+destination = "res://Scenes/TestScene_ExitsA.tscn"
 
 [editable path="Navigation2D/MasterYSort/Pickups/PickupKatana/WeaponMelee"]
 [editable path="Navigation2D/MasterYSort/NPCs/Succy"]

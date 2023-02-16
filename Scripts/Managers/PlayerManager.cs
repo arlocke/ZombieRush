@@ -1,11 +1,12 @@
 using Godot;
 using Godot.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class PlayerManager : Node
 {
     [Export]
-    List<PackedScene> playersToLoad;
+    List<PackedScene> playersToLoad = new List<PackedScene>();
     [Export]
     List<Player> players;
     CanvasLayer gameGUI;
@@ -17,7 +18,15 @@ public class PlayerManager : Node
         gameGUI = GetTree().GetNodesInGroup("Canvases")[0] as CanvasLayer;
         cam = GetNode<CameraGame>("CameraGame");
         players = new List<Player>();
-        if (playersToLoad.Count > 0)
+        Array foundPlayers = GetTree().GetNodesInGroup("Players");
+        if (foundPlayers.Count > 0)
+        { //There are already spawned players, no need to make more. For testing and stuff
+            foreach (Player p in foundPlayers)
+            {
+                AddPlayer(p);
+            }
+        }
+        else if (playersToLoad.Count > 0)
         {
             Array spawnPoints = GetTree().GetNodesInGroup("PlayerSpawns");
             YSort playersYSort = GetTree().GetNodesInGroup("PlayersYSort")[0] as YSort;
@@ -28,14 +37,6 @@ public class PlayerManager : Node
                 if (spawnPoints.Count > 0)
                     newPlayer.GlobalPosition = (spawnPoints[i % spawnPoints.Count] as Node2D).GlobalPosition;
                 AddPlayer(newPlayer);
-            }
-        }
-        else
-        {
-            Array newPlayers = GetTree().GetNodesInGroup("Players");
-            foreach (Player p in newPlayers)
-            {
-                AddPlayer(p);
             }
         }
     }

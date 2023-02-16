@@ -11,6 +11,7 @@ public enum InputDeviceType
 public class Player : Character
 {
     //Input Info
+    [Export]
     public InputDeviceType inputDeviceType;
 
     //Player info

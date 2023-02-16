@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/Managers/PlayerManager.cs" type="Script" id=1]
 [ext_resource path="res://Objects/UI/Game/GUIGamePlayer.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Objects/Creatures/PlayerCharacters/PlayerYui.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Objects/Managers/CameraGame.tscn" type="PackedScene" id=4]
 
 [node name="PlayerManager" type="Node"]
 script = ExtResource( 1 )
-playersToLoad = [  ]
+playersToLoad = [ ExtResource( 3 ) ]
 playerGUIRef = ExtResource( 2 )
+
+[node name="CameraGame" parent="." instance=ExtResource( 4 )]

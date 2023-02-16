@@ -3,7 +3,7 @@
 [ext_resource path="res://Objects/UI/Game/GUIGame.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Managers/CameraGame.cs" type="Script" id=2]
 
-[node name="CameraGame" type="Camera2D"]
+[node name="CameraGame" type="Camera2D" groups=["Cameras"]]
 position = Vector2( 389, 331 )
 scale = Vector2( 1.00194, 1 )
 current = true
