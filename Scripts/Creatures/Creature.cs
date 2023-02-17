@@ -1,13 +1,15 @@
 using Godot;
 using System.Collections.Generic;
 
-public enum TeamType {
+public enum TeamType
+{
     Zombies, //will have integer variable which will be team number, theoretically infinite team numbers per team type
     Humans,
 }
 
-public class Creature:KinematicBody2D {     
-    
+public class Creature : KinematicBody2D
+{
+
     //Stats
     [Export]
     public string charName;
@@ -43,7 +45,8 @@ public class Creature:KinematicBody2D {
     [Export]
     public NavigationAgent2D navAgent;
     public List<Vector2> path;
-    public override void _Ready() {
+    public override void _Ready()
+    {
         animTree = GetNode<AnimationTree>("AnimationTreeBody");
         animStateMachine = (AnimationNodeStateMachinePlayback)animTree.Get("parameters/playback");
         animPlayer = GetNode<AnimationPlayer>("AnimationPlayerBody");
@@ -53,56 +56,79 @@ public class Creature:KinematicBody2D {
         navAgent.MaxSpeed = moveSpeed;
     }
     ///<returns> Whether or not the creature died from the damage </returns>
-    public virtual bool TakeDamage(float takenDamage) {
+    public virtual bool TakeDamage(float takenDamage)
+    {
         hp = Mathf.Clamp(hp - takenDamage, 0, maxHp);
-        if(hp <= 0) {
+        if (hp <= 0)
+        {
             Die();
             return true;
         }
         return false;
     }
-    public virtual void Heal(float healAmount) {
+    public virtual void Heal(float healAmount)
+    {
         hp = Mathf.Clamp(hp + healAmount, 0, maxHp);
     }
-    public virtual void Die() {
+    public virtual void Die()
+    {
         Node2D newCorpse = corpseRef.Instance<Corpse>();
         newCorpse.GetNode<Sprite>("Sprite").Texture = corpseTexture;
         newCorpse.Position = Position;
-        if(!facingRight)
+        if (!facingRight)
             newCorpse.Scale = new Vector2(-1, 1);
         GetParent().AddChild(newCorpse);
         QueueFree();
     }
     //Gets fired when this creature sees another creature
-    public virtual void Alert(Creature other) {
+    public virtual void Alert(Creature other)
+    {
 
     }
-    public bool Friendly(Creature other) {
+    public bool Friendly(Creature other)
+    {
         return other != null && other.teamType == teamType && other.teamFaction == teamFaction;
     }
-    public void Move(Vector2 vel) {
-        if(vel != null) {
+    public void Move(Vector2 vel)
+    {
+        if (vel != null)
+        {
             MoveAndSlide(vel);
-            if(vel.x != 0)
+            if (vel.x != 0)
                 facingRight = vel.x > 0;
         }
     }
-    public void MoveOnPath(float dt) {
-        if(!navAgent.IsNavigationFinished()) {
+    public void MoveOnPath(float dt)
+    {
+        if (!navAgent.IsNavigationFinished())
+        {
             movementDirection = GlobalPosition.DirectionTo(navAgent.GetNextLocation());
             Vector2 vel = movementDirection * moveSpeed;
-            if(navAgent.AvoidanceEnabled)
+            if (navAgent.AvoidanceEnabled)
                 navAgent.SetVelocity(vel);
             else
                 Move(vel);
         }
     }
-    public virtual Rect2 GetSpriteRectWorld(Vector2 pos) {
-        if(pos.IsEqualApprox(Vector2.Zero))
+    public virtual Rect2 GetSpriteRectWorld(Vector2 pos)
+    {
+        if (pos.IsEqualApprox(Vector2.Zero))
             pos = GlobalPosition;
         return new Rect2(GlobalPosition, GlobalPosition);
     }
-    public float DstTaxi(Node2D other) {
+    public float DstTaxi(Node2D other)
+    {
         return Mathf.Abs(GlobalPosition.x - other.GlobalPosition.x) + Mathf.Abs(GlobalPosition.y - other.GlobalPosition.y);
+    }
+    public static bool CreatureListsAreEqual(List<Creature> l1, List<Creature> l2)
+    {
+        if (l1.Count != l2.Count)
+            return false;
+        foreach (Creature c in l1)
+        {
+            if (!l2.Contains(c))
+                return false;
+        }
+        return true;
     }
 }

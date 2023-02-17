@@ -9,7 +9,6 @@ var dialogueResource: DialogueResource
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var _DialogueResource
-	print("cunt")
 	connect("actioned", self, "initDialogue")
 
 
@@ -41,4 +40,3 @@ func _on_Balloon_gui_input(event):
 func _input(event):
 	if event.is_action_pressed("ui_accept"):
 		next(dialogueLine.next_id)
-		print("cunt")

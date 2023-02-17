@@ -11,6 +11,7 @@ public enum InputDeviceType
 public class Player : Character
 {
     //Input Info
+    [Export]
     public InputDeviceType inputDeviceType;
 
     //Player info
@@ -593,6 +594,32 @@ public class Player : Character
             }
         }
     }
+    ///<summary>Finds an exit that goes to the given destination room and has the given sort by position index</summary>
+    public void MoveToExit(string exitDest, int exitSortIndex)
+    {
+        RoomExit destinationExit;   //The exit in the destination room that the players will go to
+
+        Array currExits = GetTree().GetNodesInGroup("Exits");
+        List<RoomExit> currExitsToDest = new List<RoomExit>();
+        foreach (Node n in currExits)
+        {   //Find all exits that go to the same destination room as this one
+            RoomExit e = n as RoomExit;
+            if (e.destination == exitDest)
+                currExitsToDest.Add(e);
+        }
+        if (currExitsToDest.Count > 1)
+        {  //If there are multiple exits going to the same room, figure out this exit's position relative to the others
+            destinationExit = RoomExit.SortExitsByPos(currExitsToDest)[exitSortIndex];
+        }
+        else
+        {
+            destinationExit = currExitsToDest[0];
+        }
+
+        destinationExit.overlappedPlayers.Add(this);
+        GlobalPosition = destinationExit.GetNode<Node2D>("SpawnTarget" + playerNum).GlobalPosition;
+    }
+
     public void SpawnPlayerMenuGUI()
     {
         ChangeItemSlot(ItemSlotType.None);

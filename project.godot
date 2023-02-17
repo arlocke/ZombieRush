@@ -29,6 +29,8 @@ config/icon="res://icon.png"
 
 GlobalData="*res://Scripts/Helper/GlobalData.cs"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
+LevelManager="*res://Scripts/Managers/LevelManager.cs"
+PlayerManager="*res://Objects/Managers/PlayerManager.tscn"
 
 [display]
 
