@@ -110,23 +110,36 @@ startingHVel = 0.15
 
 [node name="NPCs" type="YSort" parent="Navigation2D/MasterYSort"]
 
+[node name="RoomExit" parent="Navigation2D/MasterYSort" instance=ExtResource( 4 )]
+position = Vector2( 288, 160 )
+destination = "res://Scenes/TestScene_ExitsB.tscn"
+
+[node name="RoomExit2" parent="Navigation2D/MasterYSort" instance=ExtResource( 4 )]
+position = Vector2( 288, 32 )
+destination = "res://Scenes/TestScene_ExitsB.tscn"
+
+[node name="RoomExit3" parent="Navigation2D/MasterYSort" instance=ExtResource( 4 )]
+position = Vector2( 544, 160 )
+destination = "res://Scenes/TestScene_ExitsB.tscn"
+
+[node name="RoomExit4" parent="Navigation2D/MasterYSort" instance=ExtResource( 4 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 160, 120 )
+destination = "res://Scenes/TestScene.tscn"
+
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
 visible = false
 position = Vector2( -70, 12 )
 navpoly = SubResource( 1 )
 
-[node name="RoomExit" parent="." instance=ExtResource( 4 )]
-position = Vector2( 496, 232 )
-destination = "res://Scenes/TestScene_ExitsB.tscn"
-
 [node name="PlayerSpawn1" type="Node2D" parent="." groups=["PlayerSpawns"]]
-position = Vector2( 448, 176 )
+position = Vector2( 384, 160 )
 
 [node name="PlayerSpawn2" type="Node2D" parent="." groups=["PlayerSpawns"]]
-position = Vector2( 480, 176 )
+position = Vector2( 416, 160 )
 
 [node name="PlayerSpawn3" type="Node2D" parent="." groups=["PlayerSpawns"]]
-position = Vector2( 512, 176 )
+position = Vector2( 448, 160 )
 
 [node name="PlayerSpawn4" type="Node2D" parent="." groups=["PlayerSpawns"]]
-position = Vector2( 544, 176 )
+position = Vector2( 480, 160 )

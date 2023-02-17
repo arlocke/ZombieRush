@@ -6,9 +6,9 @@ using System.Collections.Generic;
 public class RoomExit : Area2D
 {
     [Export(PropertyHint.File, "*.tscn")]
-    string destination;
-    RoomManager destinationLoaded;
-    List<Player> overlappedPlayers = new List<Player>();
+    public string destination;
+    public RoomManager destinationLoaded;
+    public List<Player> overlappedPlayers = new List<Player>();
     public override void _Ready()
     {
         Connect("body_entered", this, "OnBodyEntered");
@@ -19,7 +19,9 @@ public class RoomExit : Area2D
         if (other != null && other.IsInGroup("Players"))
         {
             Player p = (Player)other;
-            if (!overlappedPlayers.Contains(p))
+            if (overlappedPlayers.Contains(p))
+                return;
+            else
                 overlappedPlayers.Add(p);
             if (Creature.CreatureListsAreEqual(p.cam.targets, overlappedPlayers.Cast<Creature>().ToList()))
             {
@@ -38,8 +40,23 @@ public class RoomExit : Area2D
     public void LoadRoom(Player p)
     {
         LevelManager lm = GetTree().Root.GetNode<LevelManager>("LevelManager");
+        int thisExitSortingIndex = 0;
 
-        //Hide Visible Rooms
+        Array currExits = GetTree().GetNodesInGroup("Exits");
+        List<RoomExit> currExitsToDest = new List<RoomExit>();
+        string originRoomPath = (GetTree().GetNodesInGroup("Rooms")[0] as RoomManager).Filename;
+        foreach (Node n in currExits)
+        {   //Find all exits that go to the same destination room as this one
+            RoomExit e = n as RoomExit;
+            if (e.destination == destination)
+                currExitsToDest.Add(e);
+        }
+        if (currExitsToDest.Count > 1)
+        {  //If there are multiple exits going to the same room, figure out this exit's position relative to the others
+            thisExitSortingIndex = SortExitsByPos(currExitsToDest).IndexOf(this);
+        }
+
+        //Hide instanced rooms that aren't the destination
         foreach (KeyValuePair<string, RoomManager> roomPair in lm.instancedRooms)
         {
             if (roomPair.Key != destination)
@@ -60,12 +77,26 @@ public class RoomExit : Area2D
         }
         GetTree().Root.CallDeferred("add_child", destinationLoaded);    //Add the destination room to the hierarchy to load it
         Node2D playersYSort = destinationLoaded.GetNode<Node2D>("Navigation2D/MasterYSort/Players");
+
         for (int i = 0; i < overlappedPlayers.Count; i++)
         {   //Move all of the players to the new destination room
             Player currPlayer = overlappedPlayers[i];
             if (!IsInstanceValid(currPlayer)) continue;
             currPlayer.GetParent().CallDeferred("remove_child", currPlayer);
             playersYSort.CallDeferred("add_child", currPlayer);
+            currPlayer.CallDeferred("MoveToExit", originRoomPath, thisExitSortingIndex);
         }
+        overlappedPlayers.Clear();
+    }
+
+    public static List<RoomExit> SortExitsByPos(List<RoomExit> l)
+    {
+        List<RoomExit> newList = new List<RoomExit>(l);
+        newList.Sort(delegate (RoomExit a, RoomExit b)
+        {
+            int comp = a.Position.x.CompareTo(b.Position.x);
+            return (comp == 0 ? a.Position.y.CompareTo(b.Position.y) : comp);
+        });
+        return newList;
     }
 }

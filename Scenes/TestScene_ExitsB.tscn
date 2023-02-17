@@ -135,7 +135,7 @@ startingHVel = 0.15
 [node name="NPCs" type="YSort" parent="Navigation2D/MasterYSort"]
 
 [node name="Succy" parent="Navigation2D/MasterYSort/NPCs" instance=ExtResource( 18 )]
-position = Vector2( 512, 202 )
+position = Vector2( 640, 160 )
 
 [node name="AnimationTreeBody" parent="Navigation2D/MasterYSort/NPCs/Succy" index="1"]
 parameters/playback = SubResource( 3 )
@@ -146,14 +146,27 @@ frame = 3
 [node name="EyesAnimationTree" parent="Navigation2D/MasterYSort/NPCs/Succy/Body/Face" index="1"]
 parameters/playback = SubResource( 4 )
 
+[node name="RoomExit" parent="Navigation2D/MasterYSort" instance=ExtResource( 4 )]
+position = Vector2( 280, 40 )
+destination = "res://Scenes/TestScene_ExitsA.tscn"
+
+[node name="RoomExit4" parent="Navigation2D/MasterYSort" instance=ExtResource( 4 )]
+position = Vector2( 408, 168 )
+destination = "res://Scenes/TestScene_ExitsA.tscn"
+
+[node name="RoomExit3" parent="Navigation2D/MasterYSort" instance=ExtResource( 4 )]
+position = Vector2( 280, 168 )
+destination = "res://Scenes/TestScene_ExitsA.tscn"
+
+[node name="RoomExit5" parent="Navigation2D/MasterYSort" instance=ExtResource( 4 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 376, 80 )
+destination = "res://Scenes/TestScene.tscn"
+
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
 visible = false
 position = Vector2( -70, 12 )
 navpoly = SubResource( 1 )
-
-[node name="RoomExit" parent="." instance=ExtResource( 4 )]
-position = Vector2( 256, 224 )
-destination = "res://Scenes/TestScene_ExitsA.tscn"
 
 [editable path="Navigation2D/MasterYSort/Pickups/PickupKatana/WeaponMelee"]
 [editable path="Navigation2D/MasterYSort/NPCs/Succy"]
