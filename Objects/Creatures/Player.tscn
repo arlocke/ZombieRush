@@ -24,13 +24,13 @@ rotation = -0.678933
 
 [node name="InteractableText" type="Label" parent="." index="6"]
 visible = false
-margin_left = -40.0
-margin_top = -77.0
-margin_right = 40.0
-margin_bottom = -29.0
+offset_left = -40.0
+offset_top = -77.0
+offset_right = 40.0
+offset_bottom = -29.0
 grow_horizontal = 2
 grow_vertical = 0
-rect_pivot_offset = Vector2( 40, 40 )
+pivot_offset = Vector2( 40, 40 )
 theme = ExtResource( 11 )
 text = "Oy Cunt"
 align = 1

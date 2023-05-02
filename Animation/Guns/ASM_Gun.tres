@@ -1,91 +1,91 @@
-[gd_resource type="AnimationNodeStateMachine" load_steps=19 format=2]
+[gd_resource type="AnimationNodeStateMachine" load_steps=19 format=3 uid="uid://fjifbyhk3nyh"]
 
-[sub_resource type="AnimationNodeAnimation" id=1]
-animation = "GunActionBackR"
+[sub_resource type="AnimationNodeAnimation" id="1"]
+animation = &"GunActionBackR"
 
-[sub_resource type="AnimationNodeAnimation" id=2]
-animation = "GunActionBackL"
+[sub_resource type="AnimationNodeAnimation" id="2"]
+animation = &"GunActionBackL"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id=3]
-blend_point_0/node = SubResource( 1 )
+[sub_resource type="AnimationNodeBlendSpace1D" id="3"]
+blend_point_0/node = SubResource("1")
 blend_point_0/pos = 1.0
-blend_point_1/node = SubResource( 2 )
+blend_point_1/node = SubResource("2")
 blend_point_1/pos = -1.0
 
-[sub_resource type="AnimationNodeTimeScale" id=4]
+[sub_resource type="AnimationNodeTimeScale" id="4"]
 
-[sub_resource type="AnimationNodeBlendTree" id=5]
-graph_offset = Vector2( -261, 82 )
-nodes/BlendSpace1D/node = SubResource( 3 )
-nodes/BlendSpace1D/position = Vector2( -60, 160 )
-nodes/TimeScale/node = SubResource( 4 )
-nodes/TimeScale/position = Vector2( 140, 160 )
-nodes/output/position = Vector2( 300, 160 )
-node_connections = [ "output", 0, "TimeScale", "TimeScale", 0, "BlendSpace1D" ]
+[sub_resource type="AnimationNodeBlendTree" id="5"]
+graph_offset = Vector2(-261, 82)
+nodes/BlendSpace1D/node = SubResource("3")
+nodes/BlendSpace1D/position = Vector2(-60, 160)
+nodes/TimeScale/node = SubResource("4")
+nodes/TimeScale/position = Vector2(140, 160)
+nodes/output/position = Vector2(300, 160)
+node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"BlendSpace1D"]
 
-[sub_resource type="AnimationNodeAnimation" id=6]
-animation = "GunActionForwardR"
+[sub_resource type="AnimationNodeAnimation" id="6"]
+animation = &"GunActionForwardR"
 
-[sub_resource type="AnimationNodeAnimation" id=7]
-animation = "GunActionForwardL"
+[sub_resource type="AnimationNodeAnimation" id="7"]
+animation = &"GunActionForwardL"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id=8]
-blend_point_0/node = SubResource( 6 )
+[sub_resource type="AnimationNodeBlendSpace1D" id="8"]
+blend_point_0/node = SubResource("6")
 blend_point_0/pos = 1.0
-blend_point_1/node = SubResource( 7 )
+blend_point_1/node = SubResource("7")
 blend_point_1/pos = -1.0
 
-[sub_resource type="AnimationNodeTimeScale" id=9]
+[sub_resource type="AnimationNodeTimeScale" id="9"]
 
-[sub_resource type="AnimationNodeBlendTree" id=10]
-graph_offset = Vector2( 43, 17 )
-nodes/BlendSpace1D/node = SubResource( 8 )
-nodes/BlendSpace1D/position = Vector2( 260, 140 )
-nodes/TimeScale/node = SubResource( 9 )
-nodes/TimeScale/position = Vector2( 440, 140 )
-nodes/output/position = Vector2( 600, 140 )
-node_connections = [ "output", 0, "TimeScale", "TimeScale", 0, "BlendSpace1D" ]
+[sub_resource type="AnimationNodeBlendTree" id="10"]
+graph_offset = Vector2(43, 17)
+nodes/BlendSpace1D/node = SubResource("8")
+nodes/BlendSpace1D/position = Vector2(260, 140)
+nodes/TimeScale/node = SubResource("9")
+nodes/TimeScale/position = Vector2(440, 140)
+nodes/output/position = Vector2(600, 140)
+node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"BlendSpace1D"]
 
-[sub_resource type="AnimationNodeAnimation" id=11]
-animation = "GunIdleR"
+[sub_resource type="AnimationNodeAnimation" id="11"]
+animation = &"GunIdleR"
 
-[sub_resource type="AnimationNodeAnimation" id=12]
-animation = "GunIdleL"
+[sub_resource type="AnimationNodeAnimation" id="12"]
+animation = &"GunIdleL"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id=13]
-blend_point_0/node = SubResource( 11 )
+[sub_resource type="AnimationNodeBlendSpace1D" id="13"]
+blend_point_0/node = SubResource("11")
 blend_point_0/pos = 1.0
-blend_point_1/node = SubResource( 12 )
+blend_point_1/node = SubResource("12")
 blend_point_1/pos = -1.0
 
-[sub_resource type="AnimationNodeTimeScale" id=14]
+[sub_resource type="AnimationNodeTimeScale" id="14"]
 
-[sub_resource type="AnimationNodeBlendTree" id=15]
-graph_offset = Vector2( -179, 23 )
-nodes/BlendSpace1D/node = SubResource( 13 )
-nodes/BlendSpace1D/position = Vector2( 0, 120 )
-nodes/TimeScale/node = SubResource( 14 )
-nodes/TimeScale/position = Vector2( 200, 120 )
-nodes/output/position = Vector2( 400, 140 )
-node_connections = [ "output", 0, "TimeScale", "TimeScale", 0, "BlendSpace1D" ]
+[sub_resource type="AnimationNodeBlendTree" id="15"]
+graph_offset = Vector2(-179, 23)
+nodes/BlendSpace1D/node = SubResource("13")
+nodes/BlendSpace1D/position = Vector2(0, 120)
+nodes/TimeScale/node = SubResource("14")
+nodes/TimeScale/position = Vector2(200, 120)
+nodes/output/position = Vector2(400, 140)
+node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"BlendSpace1D"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+[sub_resource type="AnimationNodeStateMachineTransition" id="16"]
 switch_mode = 2
-advance_condition = "Loaded"
+advance_mode = 2
+advance_condition = &"Loaded"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+[sub_resource type="AnimationNodeStateMachineTransition" id="17"]
 switch_mode = 2
-auto_advance = true
+advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+[sub_resource type="AnimationNodeStateMachineTransition" id="18"]
 
 [resource]
-states/ActionBack/node = SubResource( 5 )
-states/ActionBack/position = Vector2( 405, -24.672 )
-states/ActionForward/node = SubResource( 10 )
-states/ActionForward/position = Vector2( 405, 60.328 )
-states/Idle/node = SubResource( 15 )
-states/Idle/position = Vector2( 227, 18.328 )
-transitions = [ "ActionBack", "ActionForward", SubResource( 16 ), "ActionForward", "Idle", SubResource( 17 ), "Idle", "ActionBack", SubResource( 18 ) ]
-start_node = "Idle"
-graph_offset = Vector2( -136, -98.672 )
+states/ActionBack/node = SubResource("5")
+states/ActionBack/position = Vector2(405, -24.672)
+states/ActionForward/node = SubResource("10")
+states/ActionForward/position = Vector2(405, 60.328)
+states/Idle/node = SubResource("15")
+states/Idle/position = Vector2(227, 18.328)
+transitions = ["ActionBack", "ActionForward", SubResource("16"), "ActionForward", "Idle", SubResource("17"), "Idle", "ActionBack", SubResource("18")]
+graph_offset = Vector2(-21, -85.672)

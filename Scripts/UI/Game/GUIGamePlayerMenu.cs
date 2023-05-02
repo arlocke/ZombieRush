@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class GUIGamePlayerMenu:Control {
+public partial class GUIGamePlayerMenu:Control {
     public Player player;
     GUIPlayerInventory inv;
     GUIPlayerEquipment equip;

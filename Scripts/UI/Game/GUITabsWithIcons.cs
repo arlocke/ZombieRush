@@ -1,13 +1,13 @@
 using Godot;
-using System.Collections.Generic;
+using Godot.Collections;
 
-public class GUITabsWithIcons:TabContainer {
+public partial class GUITabsWithIcons:TabContainer {
     [Export]
-    List<Texture> icons;
+    Array<Texture2D> _icons;
     public override void _Ready() {
         base._Ready();
         for(int i = 0; i < GetTabCount(); i++) {
-            SetTabIcon(i, icons[i]);
+            SetTabIcon(i, _icons[i]);
             SetTabTitle(i, "");
         }
     }

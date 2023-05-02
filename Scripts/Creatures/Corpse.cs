@@ -1,6 +1,6 @@
 using Godot;
 using System;
 
-public class Corpse : Node2D{
-    
+public partial class Corpse:Node2D {
+
 }

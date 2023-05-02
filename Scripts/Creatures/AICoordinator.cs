@@ -1,7 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 
-public class AICoordinator:Node {
+public partial class AICoordinator:Node {
     ///<summary>Creatures and the creatures that are chasing them</summary>
     public Dictionary<Creature, List<AICreature>> chasingCreatures = new Dictionary<Creature, List<AICreature>>();
     ///<summary>Creatures being directed by this coordinator.</summary>
@@ -10,10 +10,10 @@ public class AICoordinator:Node {
     public float updateCreaturesTimer;
     [Export]
     public int updateCreaturesIndex;
-    public override void _PhysicsProcess(float dt) {
+    public override void _PhysicsProcess(double dt) {
         if(directedCreatures.Count > 0) {
             //Update Creatures
-            updateCreaturesTimer -= dt;
+            updateCreaturesTimer -= (float)dt;
             if(++updateCreaturesIndex > 4)
                 updateCreaturesIndex = 0;
             if(updateCreaturesTimer < 0) {
@@ -23,7 +23,7 @@ public class AICoordinator:Node {
                     if(IsInstanceValid(c)) {
                         c.UpdateTargets();
                         if(IsInstanceValid(c.targetCreature))
-                            c.navAgent.SetTargetLocation(c.targetCreature.Position);
+                            c.navAgent.TargetPosition = c.targetCreature.Position;
                     }
                 }
             }

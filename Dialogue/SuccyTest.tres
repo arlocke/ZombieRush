@@ -1,29 +1,35 @@
-[gd_resource type="Resource" load_steps=2 format=2]
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://c3dvexanqhn8k"]
 
-[ext_resource path="res://addons/dialogue_manager/dialogue_resource.gd" type="Script" id=1]
+[sub_resource type="GDScript" id="GDScript_hlaq0"]
+script/source = "@icon(\"./assets/icon.svg\")
+
+class_name DialogueResource extends Resource
+
+
+const DialogueManager = preload(\"res://addons/dialogue_manager/dialogue_manager.gd\")
+
+
+@export var titles: Dictionary = {}
+@export var character_names: PackedStringArray = []
+@export var first_title: String = \"\"
+@export var lines: Dictionary = {}
+
+
+func get_next_dialogue_line(title: String, extra_game_states: Array = [], mutation_behaviour: DialogueManager.MutationBehaviour = DialogueManager.MutationBehaviour.Wait) -> DialogueLine:
+	return await Engine.get_singleton(\"DialogueManager\").get_next_dialogue_line(self, title, extra_game_states, mutation_behaviour)
+
+
+func get_titles() -> PackedStringArray:
+	return titles.keys()
+"
 
 [resource]
-script = ExtResource( 1 )
-resource_version = 3
-syntax_version = 2
-raw_text = "~ succy_talk
-
-Succy: Welcome to Zombie Rush you fucking faggot
-Succy: Kill yourself there's nothing to this world
-Succy: Actually the answer is just to be gay with your dad
-Succy: Go fuck some zombies... I mean kill them
-Succy: Here are some choices
-- First one
-	Succy: You picked the first one.
-- Second one
-	Succy: You picked the second one.
-- Start again => succy_talk
-- End the conversation => END
-Succy: For more information about conditional dialogue, mutations, and all the fun stuff, see the online documentation."
-errors = [  ]
+script = SubResource("GDScript_hlaq0")
 titles = {
 "succy_talk": "2"
 }
+character_names = []
+first_title = ""
 lines = {
 "0": {
 "next_id": "2",
@@ -32,10 +38,10 @@ lines = {
 },
 "10": {
 "character": "Succy",
-"character_replacements": [  ],
+"character_replacements": [],
 "next_id": "13",
 "parent_id": "9",
-"replacements": [  ],
+"replacements": [],
 "text": "You picked the second one.",
 "translation_key": "You picked the second one.",
 "type": "dialogue"
@@ -43,7 +49,7 @@ lines = {
 "11": {
 "next_id": "2",
 "next_id_after": "13",
-"replacements": [  ],
+"replacements": [],
 "text": "Start again",
 "translation_key": "Start again",
 "type": "response"
@@ -51,61 +57,61 @@ lines = {
 "12": {
 "next_id": "end",
 "next_id_after": "13",
-"replacements": [  ],
+"replacements": [],
 "text": "End the conversation",
 "translation_key": "End the conversation",
 "type": "response"
 },
 "13": {
 "character": "Succy",
-"character_replacements": [  ],
+"character_replacements": [],
 "next_id": "",
-"replacements": [  ],
+"replacements": [],
 "text": "For more information about conditional dialogue, mutations, and all the fun stuff, see the online documentation.",
 "translation_key": "For more information about conditional dialogue, mutations, and all the fun stuff, see the online documentation.",
 "type": "dialogue"
 },
 "2": {
 "character": "Succy",
-"character_replacements": [  ],
+"character_replacements": [],
 "next_id": "3",
-"replacements": [  ],
+"replacements": [],
 "text": "Welcome to Zombie Rush you fucking faggot",
 "translation_key": "Welcome to Zombie Rush you fucking faggot",
 "type": "dialogue"
 },
 "3": {
 "character": "Succy",
-"character_replacements": [  ],
+"character_replacements": [],
 "next_id": "4",
-"replacements": [  ],
+"replacements": [],
 "text": "Kill yourself there's nothing to this world",
 "translation_key": "Kill yourself there's nothing to this world",
 "type": "dialogue"
 },
 "4": {
 "character": "Succy",
-"character_replacements": [  ],
+"character_replacements": [],
 "next_id": "5",
-"replacements": [  ],
+"replacements": [],
 "text": "Actually the answer is just to be gay with your dad",
 "translation_key": "Actually the answer is just to be gay with your dad",
 "type": "dialogue"
 },
 "5": {
 "character": "Succy",
-"character_replacements": [  ],
+"character_replacements": [],
 "next_id": "6",
-"replacements": [  ],
+"replacements": [],
 "text": "Go fuck some zombies... I mean kill them",
 "translation_key": "Go fuck some zombies... I mean kill them",
 "type": "dialogue"
 },
 "6": {
 "character": "Succy",
-"character_replacements": [  ],
+"character_replacements": [],
 "next_id": "7",
-"replacements": [  ],
+"replacements": [],
 "text": "Here are some choices",
 "translation_key": "Here are some choices",
 "type": "dialogue"
@@ -113,18 +119,18 @@ lines = {
 "7": {
 "next_id": "8",
 "next_id_after": "13",
-"replacements": [  ],
-"responses": PoolStringArray( "7", "9", "11", "12" ),
+"replacements": [],
+"responses": PackedStringArray("7", "9", "11", "12"),
 "text": "First one",
 "translation_key": "First one",
 "type": "response"
 },
 "8": {
 "character": "Succy",
-"character_replacements": [  ],
+"character_replacements": [],
 "next_id": "13",
 "parent_id": "7",
-"replacements": [  ],
+"replacements": [],
 "text": "You picked the first one.",
 "translation_key": "You picked the first one.",
 "type": "dialogue"
@@ -132,7 +138,7 @@ lines = {
 "9": {
 "next_id": "10",
 "next_id_after": "13",
-"replacements": [  ],
+"replacements": [],
 "text": "Second one",
 "translation_key": "Second one",
 "type": "response"

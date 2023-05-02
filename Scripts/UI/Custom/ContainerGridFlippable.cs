@@ -2,17 +2,17 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class ContainerGridFlippable:GridContainer {
+public partial class ContainerGridFlippable:GridContainer {
     public override void _Notification(int p_what) {
         switch(p_what) {
-            case NotificationSortChildren:
+            case (int)NotificationSortChildren:
                 Dictionary<int, int> col_minw = new Dictionary<int, int>(); // Max of min_width of all controls in each col (indexed by col).
                 Dictionary<int, int> row_minh = new Dictionary<int, int>(); // Max of min_height of all controls in each row (indexed by row).
                 HashSet<int> col_expanded = new HashSet<int>(); // Columns which have the SIZE_EXPAND flag set.
                 HashSet<int> row_expanded = new HashSet<int>(); // Rows which have the SIZE_EXPAND flag set.
 
-                int hsep = GetConstant("hseparation");
-                int vsep = GetConstant("vseparation");
+                int hsep = GetThemeConstant("hseparation");
+                int vsep = GetThemeConstant("vseparation");
                 int max_col = Mathf.Min(GetChildCount(), Columns);
                 int max_row = (int)Mathf.Ceil((float)GetChildCount() / (float)Columns);
 
@@ -30,20 +30,20 @@ public class ContainerGridFlippable:GridContainer {
 
                     Vector2 ms = c.GetCombinedMinimumSize();
                     if(col_minw.ContainsKey(col)) {
-                        col_minw[col] = (int)Mathf.Max(col_minw[col], ms.x);
+                        col_minw[col] = (int)Mathf.Max(col_minw[col], ms.X);
                     } else {
-                        col_minw[col] = (int)ms.x;
+                        col_minw[col] = (int)ms.X;
                     }
                     if(row_minh.ContainsKey(row)) {
-                        row_minh[row] = Mathf.Max(row_minh[row], (int)ms.y);
+                        row_minh[row] = Mathf.Max(row_minh[row], (int)ms.Y);
                     } else {
-                        row_minh[row] = (int)ms.y;
+                        row_minh[row] = (int)ms.Y;
                     }
 
-                    if((c.SizeFlagsHorizontal & (int)SizeFlags.Expand) > 0) {
+                    if((c.SizeFlagsHorizontal & SizeFlags.Expand) > 0) {
                         col_expanded.Add(col);
                     }
-                    if((c.SizeFlagsVertical & (int)SizeFlags.Expand) > 0) {
+                    if((c.SizeFlagsVertical & SizeFlags.Expand) > 0) {
                         row_expanded.Add(row);
                     }
                 }
@@ -54,19 +54,19 @@ public class ContainerGridFlippable:GridContainer {
                 }
 
                 // Evaluate the remaining space for expanded Columns/rows.
-                Vector2 remaining_space = RectSize;
+                Vector2 remaining_space = Size;
                 foreach(KeyValuePair<int, int> E in col_minw) {
                     if(!col_expanded.Contains(E.Key)) {
-                        remaining_space.x -= E.Value;
+                        remaining_space.X -= E.Value;
                     }
                 }
                 foreach(KeyValuePair<int, int> E in row_minh) {
                     if(!row_expanded.Contains(E.Key)) {
-                        remaining_space.y -= E.Value;
+                        remaining_space.Y -= E.Value;
                     }
                 }
-                remaining_space.x -= vsep * Mathf.Max(max_row - 1, 0);
-                remaining_space.y -= hsep * Mathf.Max(max_col - 1, 0);
+                remaining_space.X -= vsep * Mathf.Max(max_row - 1, 0);
+                remaining_space.Y -= hsep * Mathf.Max(max_col - 1, 0);
 
                 bool can_fit = false;
                 while(!can_fit && col_expanded.Count > 0) {
@@ -77,7 +77,7 @@ public class ContainerGridFlippable:GridContainer {
                         if(col_minw[E] > col_minw[max_index]) {
                             max_index = E;
                         }
-                        if(can_fit && (remaining_space.x / col_expanded.Count) < col_minw[E]) {
+                        if(can_fit && (remaining_space.X / col_expanded.Count) < col_minw[E]) {
                             can_fit = false;
                         }
                     }
@@ -85,7 +85,7 @@ public class ContainerGridFlippable:GridContainer {
                     // If not, the column with maximum minwidth is not expanded.
                     if(!can_fit) {
                         col_expanded.Remove(max_index);
-                        remaining_space.x -= col_minw[max_index];
+                        remaining_space.X -= col_minw[max_index];
                     }
                 }
 
@@ -98,7 +98,7 @@ public class ContainerGridFlippable:GridContainer {
                         if(row_minh[E] > row_minh[max_index]) {
                             max_index = E;
                         }
-                        if(can_fit && (remaining_space.x / row_expanded.Count) < row_minh[E]) {
+                        if(can_fit && (remaining_space.X / row_expanded.Count) < row_minh[E]) {
                             can_fit = false;
                         }
                     }
@@ -106,13 +106,13 @@ public class ContainerGridFlippable:GridContainer {
                     // If not, the row with maximum minheight is not expanded.
                     if(!can_fit) {
                         row_expanded.Remove(max_index);
-                        remaining_space.x -= row_minh[max_index];
+                        remaining_space.X -= row_minh[max_index];
                     }
                 }
 
                 // Finally, fit the nodes.
-                int col_expand = col_expanded.Count > 0 ? (int)remaining_space.x / col_expanded.Count : 0;
-                int row_expand = row_expanded.Count > 0 ? (int)remaining_space.y / row_expanded.Count : 0;
+                int col_expand = col_expanded.Count > 0 ? (int)remaining_space.X / col_expanded.Count : 0;
+                int row_expand = row_expanded.Count > 0 ? (int)remaining_space.Y / row_expanded.Count : 0;
 
                 int col_ofs = 0;
                 int row_ofs = 0;
@@ -139,11 +139,11 @@ public class ContainerGridFlippable:GridContainer {
 
                     FitChildInRect(c, new Rect2(p, s));
 
-                    col_ofs += (int)s.x + hsep;
+                    col_ofs += (int)s.X + hsep;
                 }
                 break;
-            case NotificationThemeChanged:
-                MinimumSizeChanged();
+            case (int)NotificationThemeChanged:
+                //MinimumSizeChanged();     //Fuck if I know
                 break;
         }
     }

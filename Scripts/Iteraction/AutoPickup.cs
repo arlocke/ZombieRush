@@ -1,9 +1,9 @@
 using Godot;
 using System.Collections.Generic;
 
-public class AutoPickup:Pickup {
+public partial class AutoPickup:Pickup {
     List<Player> overlappingPlayers = new List<Player>();
-    public override void _PhysicsProcess(float dt) {
+    public override void _PhysicsProcess(double dt) {
         base._PhysicsProcess(dt);
         foreach(Player p in overlappingPlayers) {
             if(Interact(p))

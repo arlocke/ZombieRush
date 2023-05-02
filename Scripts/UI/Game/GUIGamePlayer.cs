@@ -3,7 +3,7 @@ using Godot.Collections;
 using System;
 using System.Collections.Generic;
 
-public class GUIGamePlayer:VSplitContainer {
+public partial class GUIGamePlayer:VSplitContainer {
     [Export]
     PackedScene hpRef;
     [Export]
@@ -32,10 +32,10 @@ public class GUIGamePlayer:VSplitContainer {
             for(int i = 0; i < dif; i++) {
                 Control newHP;
                 if(inactiveHearts.Count == 0) {
-                    newHP = hpRef.Instance<Control>();
+                    newHP = hpRef.Instantiate<Control>();
                     heartBox.AddChild(newHP);
-                    newHP.AddUserSignal("reborn_completed");
-                    newHP.Connect("reborn_completed", this, "SetHeartBeatSeek", new Godot.Collections.Array { newHP });
+                    newHP.AddUserSignal("reborn_completed", new Godot.Collections.Array() { new Godot.Collections.Dictionary() { { "name", "heart" }, { "type", (int)Variant.Type.Object } } });
+                    newHP.Connect("reborn_completed", Callable.From(() => SetHeartBeatSeek(newHP)));//new Callable(this, MethodName.SetHeartBeatSeek));
                 } else {
                     newHP = inactiveHearts[inactiveHearts.Count - 1];
                     inactiveHearts.RemoveAt(inactiveHearts.Count - 1);
@@ -72,18 +72,18 @@ public class GUIGamePlayer:VSplitContainer {
         if(player == null) return;
         switch(player.playerNum) {
             case 1:
-                SetAnchorsAndMarginsPreset(LayoutPreset.TopLeft, LayoutPresetMode.KeepSize, 3);
+                SetAnchorsAndOffsetsPreset(LayoutPreset.TopLeft, LayoutPresetMode.KeepSize, 3);
                 break;
             case 2:
                 //heartBox.GrowHorizontal = GrowDirection.Begin;
-                //RectScale = new Vector2(-1, 1);
-                SetAnchorsAndMarginsPreset(LayoutPreset.TopRight, LayoutPresetMode.KeepSize, 3);
+                //Scale = new Vector2(-1, 1);
+                SetAnchorsAndOffsetsPreset(LayoutPreset.TopRight, LayoutPresetMode.KeepSize, 3);
                 break;
             case 3:
-                SetAnchorsAndMarginsPreset(LayoutPreset.BottomLeft, LayoutPresetMode.KeepSize, 3);
+                SetAnchorsAndOffsetsPreset(LayoutPreset.BottomLeft, LayoutPresetMode.KeepSize, 3);
                 break;
             case 4:
-                SetAnchorsAndMarginsPreset(LayoutPreset.BottomRight, LayoutPresetMode.KeepSize, 3);
+                SetAnchorsAndOffsetsPreset(LayoutPreset.BottomRight, LayoutPresetMode.KeepSize, 3);
                 break;
         }
     }

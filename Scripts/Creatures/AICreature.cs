@@ -23,7 +23,7 @@ public enum AttackType {
     Melee,
     Ranged,
 }
-public class AICreature:Creature {
+public partial class AICreature:Creature {
     //AI
     [Export]
     public AICoordinator coordinator;
@@ -58,20 +58,20 @@ public class AICreature:Creature {
         reactionTime = (1 - (dexterity / 20)) + (float)GD.RandRange(0.1f, 0.3f);
         coordinator = Owner.GetNode<AICoordinator>("AICoordinator");
     }
-    public override void _PhysicsProcess(float dt) {
+    public override void _PhysicsProcess(double dt) {
         base._PhysicsProcess(dt);
-        UpdateReactions(dt);
+        UpdateReactions((float)dt);
         switch(state) {
             case BehaviorState.Idle:
                 //standing still jacking off, mashing head against wall etc...
-                stateTimer -= dt;
+                stateTimer -= (float)dt;
                 animStateMachine.Travel("Idle");
                 if(stateTimer < 0)
                     Wander();
                 break;
             case BehaviorState.Wandering:
                 animStateMachine.Travel("Walk");
-                MoveWander(dt);
+                MoveWander((float)dt);
                 break;
             case BehaviorState.Chasing:
                 animStateMachine.Travel("Walk");
@@ -81,7 +81,7 @@ public class AICreature:Creature {
                 if(TargetInRange()) {
                     StartMeleeAttack();
                 }
-                MoveOnPath(dt);
+                MoveOnPath((float)dt);
                 break;
             case BehaviorState.Attacking:
                 break;
@@ -152,8 +152,8 @@ public class AICreature:Creature {
     }
     public void MoveWander(float dt) {
         stateTimer -= dt;
-        if(movementDirection.x != 0)
-            facingRight = movementDirection.x > 0;
+        if(movementDirection.X != 0)
+            facingRight = movementDirection.X > 0;
         if(MoveAndCollide(movementDirection * moveSpeedWalk * dt) != null || stateTimer < 0) {
             if(GD.Randf() > 0.5f) {  //Continue wandering
                 movementDirection = movementDirection.Rotated((Mathf.Pi / 2) * Mathf.Ceil((float)GD.RandRange(0, 3)));

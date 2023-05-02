@@ -1,19 +1,20 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://c8lyk5vsoaagt"]
 
-[ext_resource path="res://Scripts/UI/Game/GUIPlayerEquipment.cs" type="Script" id=1]
-[ext_resource path="res://Objects/UI/Game/GUIItemSlot.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Objects/UI/Game/GUISpacer.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Objects/UI/Game/GUIItemTile.tscn" type="PackedScene" id=4]
+[ext_resource type="Script" path="res://Scripts/UI/Game/GUIPlayerEquipment.cs" id="1"]
+[ext_resource type="PackedScene" path="res://Objects/UI/Game/GUIItemSlot.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://Objects/UI/Game/GUISpacer.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://Objects/UI/Game/GUIItemTile.tscn" id="4"]
 
 [node name="Equipment" type="GridContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 24.0
-margin_right = -6.0
-margin_bottom = -10.0
+offset_left = 8.0
+offset_top = 24.0
+offset_right = -6.0
+offset_bottom = -10.0
 columns = 3
-script = ExtResource( 1 )
-itemTileRef = ExtResource( 4 )
-itemSlotRef = ExtResource( 2 )
-spacer = ExtResource( 3 )
+script = ExtResource("1")
+spacer = ExtResource("3")
+itemTileRef = ExtResource("4")
+itemSlotRef = ExtResource("2")

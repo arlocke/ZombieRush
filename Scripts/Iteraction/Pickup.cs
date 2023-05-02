@@ -1,5 +1,5 @@
 using Godot;
-public class Pickup:Interactable {
+public partial class Pickup:Interactable {
     [Export]
     public Node2D payload;   //Whatever it is the player is picking up.
     public Vector2 payloadOffset = new Vector2();
@@ -32,11 +32,11 @@ public class Pickup:Interactable {
     public float itemSizeMaxShadowFactor = 9;
     [Export]
     public float itemSize = 1;
-    public Sprite shadowSprite;
+    public Sprite2D shadowSprite;
 
     public override void _Ready() {
         base._Ready();
-        shadowSprite = GetNode<Sprite>("ShadowSprite");
+        shadowSprite = GetNode<Sprite2D>("ShadowSprite");
         foreach(Node n in GetChildren()) {
             if(n.IsInGroup("Items")) {
                 payload = (Node2D)n;
@@ -51,16 +51,16 @@ public class Pickup:Interactable {
             SetPayloadOffset();
         }
     }
-    public override void _PhysicsProcess(float dt) {
+    public override void _PhysicsProcess(double dt) {
         if(payload == null) return;
         if(moving) {
-            vel.z -= gravity * dt;
-            height += vel.z * dt;
-            float targetRot = (payload.Rotation < Mathf.Deg2Rad(90) || payload.Rotation > 270) ? 0 : Mathf.Deg2Rad(180);
-            payload.Rotation = Mathf.Lerp(payload.Rotation, targetRot, dt * 3);
+            vel.Z -= (float)(gravity * dt);
+            height += (float)(vel.Z * dt);
+            float targetRot = (payload.Rotation < Mathf.DegToRad(90) || payload.Rotation > 270) ? 0 : Mathf.DegToRad(180);
+            payload.Rotation = Mathf.Lerp(payload.Rotation, targetRot, (float)(dt * 3));
             if(height <= 0) {    //Hits the ground
-                if(vel.z < bounceVelMin) {   //Still got some bounce left
-                    vel.z *= -bounceVelAbsorbtion;
+                if(vel.Z < bounceVelMin) {   //Still got some bounce left
+                    vel.Z *= -bounceVelAbsorbtion;
                     height = 0;
                 } else {
                     moving = false;
@@ -72,15 +72,15 @@ public class Pickup:Interactable {
                     return;
                 }
             }
-            Position = new Vector2(Position.x + vel.x * dt, Position.y + vel.y * dt);
+            Position = new Vector2(Position.X + (float)(vel.X * dt), Position.Y + (float)(vel.Y * dt));
             payload.Position = new Vector2(0, -height) + payloadOffset;
         } else {
             float bobDstFactor = height / startingHeight;
-            height += vel.z * dt * 5;
-            if(vel.z < 0 && height < 0) {
-                vel.z = 1;
-            } else if(vel.z > 0 && height > startingHeight) {
-                vel.z = -1;
+            height += (float)(vel.Z * dt * 5);
+            if(vel.Z < 0 && height < 0) {
+                vel.Z = 1;
+            } else if(vel.Z > 0 && height > startingHeight) {
+                vel.Z = -1;
             }
             //\left\{x<0.5:\left(\frac{\left(x\cdot2\right)^{2}}{2}\right),1-\left(\frac{\left(\left(1-x\right)\cdot2\right)^{2}}{2}\right)\right\}
             float easeDst;
@@ -110,7 +110,7 @@ public class Pickup:Interactable {
         SetPayloadOffset();
         Vector2 heightOffset;
         if(!onGround) {
-            height = startingHeight + payloadOffset.y;
+            height = startingHeight + payloadOffset.Y;
             heightOffset = new Vector2(0, height) - payloadOffset;
             Position += heightOffset;
         } else {
@@ -122,11 +122,11 @@ public class Pickup:Interactable {
     }
 
     void SetPayloadOffset() {
-        Sprite spr;
-        if(payload is Sprite)
-            spr = payload as Sprite;
+        Sprite2D spr;
+        if(payload is Sprite2D)
+            spr = payload as Sprite2D;
         else
-            spr = payload.GetNode<Sprite>("Sprite");
+            spr = payload.GetNode<Sprite2D>("Sprite2D");
 
         payloadOffset = new Vector2(0, -spr.Texture.GetHeight() / spr.Vframes / 2);
     }

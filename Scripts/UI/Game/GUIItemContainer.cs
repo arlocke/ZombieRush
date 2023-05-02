@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class GUIItemContainer:GridContainer {
+public partial class GUIItemContainer:GridContainer {
     public Player player;
     public bool dragging = false;
     public Button draggedTile;
@@ -19,16 +19,16 @@ public class GUIItemContainer:GridContainer {
             }
         }
     }
-    public override void _PhysicsProcess(float dt) {
+    public override void _PhysicsProcess(double dt) {
         base._PhysicsProcess(dt);
         if(!IsInstanceValid(player))
             (GetParent() as GUIGamePlayerMenu).Close();
         if(dragging && IsInstanceValid(draggedTile)) {
-            draggedTile.RectGlobalPosition = GetGlobalMousePosition() + dragOffset;
+            draggedTile.GlobalPosition = GetGlobalMousePosition() + dragOffset;
         }
     }
     public virtual void AddItemSlot() {
-        Control newSlot = itemSlotRef.Instance<Control>();
+        Control newSlot = itemSlotRef.Instantiate<Control>();
         AddChild(newSlot, true);
     }
     public void RemoveSlots() {
@@ -43,56 +43,56 @@ public class GUIItemContainer:GridContainer {
             if(n.IsInGroup("ItemTiles"))
                 n.QueueFree();
         }
-        Button newTile = itemTileRef.Instance<Button>();
+        Button newTile = itemTileRef.Instantiate<Button>();
         slot.AddChild(newTile);
         newTile.SelfModulate = GlobalData.tierColors[i.tier];
         if(IsInstanceValid(i.GetParent()))
             i.GetParent().RemoveChild(i);
         newTile.AddChild(i);
-        i.Position = newTile.RectSize / 2;
+        i.Position = newTile.Size / 2;
         i.ShowBehindParent = false;
         i.RotationDegrees = -45;
         i.Visible = true;
-        newTile.Connect("button_down", this, "GrabItemTile", new Godot.Collections.Array { newTile });
-        newTile.Connect("button_up", this, "ReleaseItemTile");
+        newTile.Connect("button_down", Callable.From(() => GrabItemTile(newTile)));
+        newTile.Connect("button_up", new Callable(this, MethodName.ReleaseItemTile));
     }
     public virtual void GrabItemTile(Button tile) {
         dragging = true;
         draggedTile = tile;
-        dragOffset = tile.RectGlobalPosition - GetGlobalMousePosition();
+        dragOffset = tile.GlobalPosition - GetGlobalMousePosition();
         Control draggedSlot = tile.GetParent<Control>();
         dragFromIndex = GetSlotIndex(draggedSlot);
-        draggedTile.RectGlobalPosition = GetGlobalMousePosition() + dragOffset;
+        draggedTile.GlobalPosition = GetGlobalMousePosition() + dragOffset;
     }
     public virtual bool ReleaseItemTile() {
         dragging = false;
         //Find closest slot
         Control closestSlot = GetNode<Control>("Slot0");
-        float closestDstSqr = closestSlot.RectGlobalPosition.DistanceSquaredTo(draggedTile.RectGlobalPosition);
+        float closestDstSqr = closestSlot.GlobalPosition.DistanceSquaredTo(draggedTile.GlobalPosition);
         for(int i = 1; i < GetChildCount(); i++) {
             Control slot = GetChild<Control>(i);
-            if(!slot.Name.Contains("Slot"))
+            if(!slot.Name.ToString().Contains("Slot"))
                 continue;
-            float d = slot.RectGlobalPosition.DistanceSquaredTo(draggedTile.RectGlobalPosition);
+            float d = slot.GlobalPosition.DistanceSquaredTo(draggedTile.GlobalPosition);
             if(d < closestDstSqr) {
                 closestSlot = slot;
                 closestDstSqr = d;
             }
         }
-        if(closestDstSqr < Mathf.Pow(closestSlot.RectSize.x + 5, 2)) {                //Slot is close enough that we can swap
+        if(closestDstSqr < Mathf.Pow(closestSlot.Size.X + 5, 2)) {                //Slot is close enough that we can swap
             if(closestSlot.GetChildCount() > 0) {
                 Button tileToSwap = closestSlot.GetChildOrNull<Button>(0);
                 if(IsInstanceValid(tileToSwap)) {
                     closestSlot.RemoveChild(tileToSwap);
                     GetNode<Control>("Slot" + dragFromIndex).AddChild(tileToSwap);
-                    tileToSwap.RectPosition = Vector2.Zero;
+                    tileToSwap.Position = Vector2.Zero;
                 }
             }
             draggedTile.GetParent().RemoveChild(draggedTile);
             if(IsInstanceValid(closestSlot)) {
                 closestSlot.AddChild(draggedTile);
             }
-            draggedTile.RectPosition = Vector2.Zero;
+            draggedTile.Position = Vector2.Zero;
             draggedTile = null;
 
             int closestIndex = GetSlotIndex(closestSlot);
@@ -116,11 +116,12 @@ public class GUIItemContainer:GridContainer {
         }
     }
     public int GetSlotIndex(Control c) {
-        int i = c.Name.Length - 1;
-        while(c.Name[i] >= '0' && c.Name[i] <= '9') {
+        string cName = c.Name;
+        int i = cName.Length - 1;
+        while(cName[i] >= '0' && cName[i] <= '9') {
             i--;
         }
-        return Int32.Parse(c.Name.Substring(i + 1));
+        return Int32.Parse(cName.Substring(i + 1));
     }
     public virtual void Close() {
         if(IsInstanceValid(player)) {
