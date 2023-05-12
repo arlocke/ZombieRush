@@ -1,4 +1,4 @@
-[gd_resource type="AnimationNodeStateMachine" load_steps=7 format=3 uid="uid://bxshsgsk2lrej"]
+[gd_resource type="AnimationNodeStateMachine" load_steps=8 format=3 uid="uid://bxshsgsk2lrej"]
 
 [sub_resource type="AnimationNodeAnimation" id="1"]
 animation = &"PlayerIdle"
@@ -28,9 +28,13 @@ blend_point_1/pos = 1.0
 min_space = 0.0
 value_label = "Holding"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6jv7x"]
+advance_mode = 2
+
 [resource]
 states/Idle/node = SubResource("3")
 states/Idle/position = Vector2(79.319, -87.028)
 states/Walk/node = SubResource("6")
 states/Walk/position = Vector2(279.319, -87.028)
-graph_offset = Vector2(-181.681, -221.028)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_6jv7x")]
+graph_offset = Vector2(-117.681, -117.028)

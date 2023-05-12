@@ -5,6 +5,27 @@ public enum TeamType {
     Zombies, //will have integer variable which will be team number, theoretically infinite team numbers per team type
     Humans,
 }
+public enum AnimType {
+    SpriteSheet,
+    Skeleton
+}
+public enum BodyPart {
+    Head,
+    Chest,
+    Pelvis,
+    ArmUpperL,
+    ArmUpperR,
+    ArmForeL,
+    ArmForeR,
+    HandL,
+    HandR,
+    ThighL,
+    ThighR,
+    ShinL,
+    ShinR,
+    FoorL,
+    FootR
+}
 
 public partial class Creature:CharacterBody2D {
 
@@ -43,6 +64,8 @@ public partial class Creature:CharacterBody2D {
     [Export]
     public NavigationAgent2D navAgent;
     public List<Vector2> path;
+    [Export]
+    public AnimType animType = AnimType.SpriteSheet;
     public override void _Ready() {
         animTree = GetNode<AnimationTree>("AnimationTreeBody");
         animStateMachine = (AnimationNodeStateMachinePlayback)animTree.Get("parameters/playback");

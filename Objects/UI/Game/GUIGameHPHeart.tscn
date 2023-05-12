@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bwws0oo3m6rlj"]
+[gd_scene load_steps=20 format=3 uid="uid://bwws0oo3m6rlj"]
 
 [ext_resource type="Texture2D" uid="uid://2kra63rsjaxy" path="res://Sprites/UI/Player/ui_hpHeartAnatomical.png" id="1"]
 
@@ -62,11 +62,10 @@ tracks/1/keys = {
 "values": [true]
 }
 
-[sub_resource type="AnimatedTexture" id="AnimatedTexture_wyc8k"]
-
 [sub_resource type="Animation" id="4"]
 resource_name = "Reborn"
 length = 1.2
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -89,7 +88,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(1.2),
 "transitions": PackedFloat32Array(1),
 "values": [{
-"args": ["reborn_completed", SubResource("AnimatedTexture_wyc8k")],
+"args": ["reborn_completed"],
 "method": &"emit_signal"
 }]
 }
@@ -110,6 +109,7 @@ animation = &"Beat"
 [sub_resource type="AnimationNodeTimeScale" id="12"]
 
 [sub_resource type="AnimationNodeBlendTree" id="13"]
+graph_offset = Vector2(-32, 70)
 nodes/Animation/node = SubResource("11")
 nodes/Animation/position = Vector2(80, 140)
 nodes/Seek/node = SubResource("24")
@@ -138,7 +138,7 @@ animation = &"Reborn"
 [sub_resource type="AnimationNodeTimeSeek" id="18"]
 
 [sub_resource type="AnimationNodeBlendTree" id="19"]
-graph_offset = Vector2(-291, 7)
+graph_offset = Vector2(-257, 36)
 nodes/Animation/node = SubResource("17")
 nodes/Animation/position = Vector2(20, 140)
 nodes/Seek/node = SubResource("18")
@@ -146,14 +146,8 @@ nodes/Seek/position = Vector2(200, 140)
 nodes/output/position = Vector2(340, 140)
 node_connections = [&"output", 0, &"Seek", &"Seek", 0, &"Animation"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="20"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="21"]
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="22"]
 switch_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="23"]
 
 [sub_resource type="AnimationNodeStateMachine" id="9"]
 states/Beat/node = SubResource("13")
@@ -162,8 +156,9 @@ states/Die/node = SubResource("16")
 states/Die/position = Vector2(154, 7)
 states/Reborn/node = SubResource("19")
 states/Reborn/position = Vector2(64, -70)
-transitions = ["Reborn", "Die", SubResource("20"), "Die", "Reborn", SubResource("21"), "Reborn", "Beat", SubResource("22"), "Beat", "Die", SubResource("23")]
-graph_offset = Vector2(-335, -131)
+states/Start/position = Vector2(-80, -10)
+transitions = ["Reborn", "Beat", SubResource("22")]
+graph_offset = Vector2(-235, -142)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="10"]
 

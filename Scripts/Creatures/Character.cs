@@ -37,6 +37,7 @@ public partial class Character:Creature {
     public Node2D handLSocket;
     public Node2D face;
     public Sprite2D eyes;
+    public Sprite2D eyebrows;
     public AnimationTree eyesAnimTree;
     public AnimationNodeStateMachinePlayback eyesAnimStateMachine;
     public AnimationPlayer animPlayerArms;

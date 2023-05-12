@@ -43,7 +43,7 @@ public partial class GUIGamePlayer:VSplitContainer {
                 activeHearts.Add(newHP);
                 AnimationTree newHPAnimTree = newHP.GetNode<AnimationTree>("AnimationTree");
                 ((AnimationNodeStateMachinePlayback)(newHPAnimTree.Get("parameters/playback"))).Travel("Reborn");
-                newHPAnimTree.Set("parameters/Reborn/Seek/seek_position", (float)1 - (float)i * 0.075f);
+                newHPAnimTree.Set("parameters/Reborn/Seek/seek_request", Mathf.Clamp((float)1 - (float)i * 0.075f, 0, 1));
             }
         } else {    //Remove Hearts
             for(int i = 0; i > dif && activeHearts.Count > 0; i--) {
@@ -52,19 +52,22 @@ public partial class GUIGamePlayer:VSplitContainer {
                 inactiveHearts.Add(hpToRemove);
                 AnimationTree hpToRemoveAnimTree = hpToRemove.GetNode<AnimationTree>("AnimationTree");
                 ((AnimationNodeStateMachinePlayback)(hpToRemoveAnimTree.Get("parameters/playback"))).Travel("Die");
-                hpToRemoveAnimTree.Set("parameters/Die/Seek/seek_position", (float)1 + (float)i * 0.125f);
+                hpToRemoveAnimTree.Set("parameters/Die/Seek/seek_request", (float)1 + (float)i * 0.125f);
             }
         }
         ResetAnchors();
     }
     public void SetHeartBeatSeek(Control heart) {
         AnimationTree heartAnimTree = heart.GetNode<AnimationTree>("AnimationTree");
+        AnimationNodeStateMachinePlayback heartStateMachine = (AnimationNodeStateMachinePlayback)heartAnimTree.Get("parameters/playback");
+        heartStateMachine.Travel("Beat");
         if(activeHearts.Count > 0 && activeHearts[0] != heart) {
             AnimationNodeStateMachinePlayback firstHeartStateMachine =
                 (AnimationNodeStateMachinePlayback)(activeHearts[0].GetNode<AnimationTree>("AnimationTree").Get("parameters/playback"));
-            heartAnimTree.Set("parameters/Beat/Seek/seek_position", firstHeartStateMachine.GetCurrentPlayPosition());
+            heartAnimTree.Set("parameters/Beat/Seek/seek_request", firstHeartStateMachine.GetCurrentPlayPosition());
+
         } else {
-            heartAnimTree.Set("parameters/Beat/Seek/seek_position", 0);
+            heartAnimTree.Set("parameters/Beat/Seek/seek_request", 0);
         }
 
     }

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cwfkk3fald4m"]
 
-[ext_resource type="PackedScene" path="res://Objects/Creatures/Player.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://bxea21gdlb4wa" path="res://Objects/Creatures/Player.tscn" id="1"]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="1"]
 
@@ -12,11 +12,11 @@
 parameters/playback = SubResource("1")
 parameters/Walk/blend_position = Vector2(0, 0)
 
-[node name="BodySprite" parent="Body" index="0"]
-frame = 0
-
 [node name="EyesAnimationTree" parent="Body/Face" index="1"]
 parameters/playback = SubResource("6")
+
+[node name="Eyebrows" parent="Body/Face" index="3"]
+frame = 0
 
 [node name="NavigationAgent2D" parent="." index="5"]
 path_desired_distance = 1.0

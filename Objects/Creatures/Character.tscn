@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://bb6ey11wrchn5" path="res://Sprites/Creatures/Characters/Char0_dead.png" id="3"]
 [ext_resource type="AnimationNodeStateMachine" uid="uid://bxshsgsk2lrej" path="res://Animation/Creatures/ASM_Player.tres" id="4"]
 [ext_resource type="PackedScene" uid="uid://klr62akef5w5" path="res://Objects/UI/Game/GUIGamePlayerMenu.tscn" id="5"]
-[ext_resource type="PackedScene" path="res://Objects/Creatures/Creature.tscn" id="6"]
-[ext_resource type="PackedScene" path="res://Objects/Items/Pickups/Pickup.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://tsxepjvgc60v" path="res://Objects/Creatures/Creature.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://drpx68y573siy" path="res://Objects/Items/Pickups/Pickup.tscn" id="7"]
 [ext_resource type="PackedScene" path="res://Objects/Creatures/Corpse.tscn" id="8"]
 [ext_resource type="Texture2D" uid="uid://dgbo0v33nc4el" path="res://Sprites/Creatures/Characters/eyes_femBasic.png" id="9"]
 [ext_resource type="Texture2D" uid="uid://bcmt0sqsklpbw" path="res://Sprites/Creatures/Characters/eyebrows_femBasic.png" id="10"]
@@ -604,6 +604,7 @@ texture = ExtResource("11")
 offset = Vector2(-2, -19)
 hframes = 10
 vframes = 3
+frame = 3
 
 [node name="Face" type="Node2D" parent="Body" index="1"]
 

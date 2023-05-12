@@ -21,7 +21,7 @@ tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/path = NodePath("Body/Face:position")
 tracks/1/interp = 0
-tracks/1/loop_wrap = true
+tracks/1/loop_wrap = false
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.25, 0.75),
 "transitions": PackedFloat32Array(1, 1, 1),

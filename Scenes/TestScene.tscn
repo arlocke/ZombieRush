@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://cn4j6fol55hgd"]
 
-[ext_resource type="PackedScene" path="res://Objects/Creatures/PlayerCharacters/PlayerBusinessGuy.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://bobgdnk50klcl" path="res://Objects/Creatures/PlayerCharacters/PlayerBusinessGuy.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://drpx68y573siy" path="res://Objects/Items/Pickups/Pickup.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://1hgofpvhro7o" path="res://Objects/Items/Weapons/Guns/GunDesertEagle.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://bvc80hy4cplfm" path="res://Objects/Creatures/Zombies/Zombie.tscn" id="4"]
@@ -46,11 +46,11 @@ y_sort_enabled = true
 y_sort_enabled = true
 
 [node name="Zombie" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("4")]
-position = Vector2(654, 425)
+position = Vector2(531, 266)
 state = 5
 
 [node name="Zombie2" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("4")]
-position = Vector2(657, 372)
+position = Vector2(621, 255)
 state = 5
 
 [node name="Zombie3" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("4")]
@@ -86,11 +86,11 @@ position = Vector2(725, 368)
 state = 5
 
 [node name="Zombie11" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("4")]
-position = Vector2(695, 366)
+position = Vector2(693, 371)
 state = 5
 
 [node name="Zombie12" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("4")]
-position = Vector2(687, 255)
+position = Vector2(758, 279)
 state = 5
 
 [node name="Zombie13" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("4")]
@@ -98,7 +98,7 @@ position = Vector2(705, 400)
 state = 5
 
 [node name="Zombie14" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("4")]
-position = Vector2(729, 283)
+position = Vector2(588, 558)
 state = 5
 
 [node name="Zombie15" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("4")]
@@ -154,7 +154,7 @@ position = Vector2(593, 560)
 state = 5
 
 [node name="Zombie28" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("4")]
-position = Vector2(596, 507)
+position = Vector2(612, 523)
 state = 5
 
 [node name="Zombie29" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("4")]
@@ -464,12 +464,12 @@ state = 5
 [node name="Players" type="Node2D" parent="Navigation2D/MasterYSort"]
 y_sort_enabled = true
 
-[node name="PlayerYui" parent="Navigation2D/MasterYSort/Players" instance=ExtResource("13")]
-position = Vector2(385, 246)
-
 [node name="PlayerBusinessGuy" parent="Navigation2D/MasterYSort/Players" instance=ExtResource("1")]
-position = Vector2(348, 230)
+position = Vector2(353, 230)
 teamFaction = 1
+
+[node name="PlayerYui" parent="Navigation2D/MasterYSort/Players" instance=ExtResource("13")]
+position = Vector2(384, 232)
 
 [node name="Pickups" type="Node2D" parent="Navigation2D/MasterYSort"]
 y_sort_enabled = true

@@ -1,46 +1,45 @@
 [gd_resource type="AnimationNodeStateMachine" load_steps=9 format=3 uid="uid://uw1abmdqkd46"]
 
 [sub_resource type="AnimationNodeAnimation" id="7"]
-animation = &"ZombieGruntAttack1"
+animation = &"ZoGrtAtkMeleeSwipeDown"
 
-[sub_resource type="AnimationNodeAnimation" id="1"]
-animation = &"ZombieGruntIdle1"
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2p5pg"]
+animation = &"ZoGrtIdleBasic"
 
-[sub_resource type="AnimationNodeAnimation" id="2"]
-animation = &"ZombieGruntIdle1"
+[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_waom4"]
 
-[sub_resource type="AnimationNodeBlendSpace1D" id="3"]
-blend_point_0/node = SubResource("1")
-blend_point_0/pos = 0.0
-blend_point_1/node = SubResource("2")
-blend_point_1/pos = 1.0
-min_space = 0.0
-value_label = "Holding"
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_5yt7n"]
+graph_offset = Vector2(-240, 41)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_2p5pg")
+nodes/Animation/position = Vector2(-160, 140)
+nodes/TimeSeek/node = SubResource("AnimationNodeTimeSeek_waom4")
+nodes/TimeSeek/position = Vector2(40, 140)
+nodes/output/position = Vector2(200, 140)
+node_connections = [&"output", 0, &"TimeSeek", &"TimeSeek", 0, &"Animation"]
 
-[sub_resource type="AnimationNodeAnimation" id="4"]
-animation = &"ZombieGruntRun1"
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_v82o5"]
+animation = &"ZoGrtWalk1"
 
-[sub_resource type="AnimationNodeAnimation" id="5"]
-animation = &"ZombieGruntRun1"
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_1cu1g"]
 
-[sub_resource type="AnimationNodeBlendSpace1D" id="6"]
-blend_point_0/node = SubResource("4")
-blend_point_0/pos = 0.0
-blend_point_1/node = SubResource("5")
-blend_point_1/pos = 1.0
-min_space = 0.0
-value_label = "Holding"
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_l6umn"]
+graph_offset = Vector2(-254.612, 71.1322)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_v82o5")
+nodes/Animation/position = Vector2(-220, 180)
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_1cu1g")
+nodes/TimeScale/position = Vector2(-40, 180)
+node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"Animation"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cmumn"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7eaj4"]
 advance_mode = 2
 
 [resource]
 states/Attack/node = SubResource("7")
-states/Attack/position = Vector2(177.319, -16.028)
-states/Idle/node = SubResource("3")
-states/Idle/position = Vector2(79.319, -87.028)
-states/Start/position = Vector2(-88, -87.028)
-states/Walk/node = SubResource("6")
-states/Walk/position = Vector2(279.319, -87.028)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_cmumn")]
-graph_offset = Vector2(-411.681, -232.028)
+states/Attack/position = Vector2(174.319, -16.028)
+states/Idle/node = SubResource("AnimationNodeBlendTree_5yt7n")
+states/Idle/position = Vector2(36.319, -87.028)
+states/Move/node = SubResource("AnimationNodeBlendTree_l6umn")
+states/Move/position = Vector2(279.319, -87.028)
+states/Start/position = Vector2(-90, -87.028)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_7eaj4")]
+graph_offset = Vector2(-224.681, -159.028)

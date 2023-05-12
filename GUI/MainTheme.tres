@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=12 format=3 uid="uid://bfgkf7i76fhkf"]
 
-[ext_resource type="FontFile" path="res://GUI/MainFontDynamic.tres" id="1"]
+[ext_resource type="FontFile" uid="uid://cg7y5cn5577tl" path="res://GUI/MainFontDynamic.tres" id="1"]
 [ext_resource type="Texture2D" uid="uid://7eag8yur0qha" path="res://Sprites/UI/General/sb_tab.png" id="2"]
 [ext_resource type="Texture2D" uid="uid://bnbijrp838ahg" path="res://Sprites/UI/General/sb_speechBubble.png" id="3"]
 [ext_resource type="StyleBox" uid="uid://by7r08t1p5myh" path="res://GUI/Styleboxes/sb_buttonNormal.tres" id="4"]

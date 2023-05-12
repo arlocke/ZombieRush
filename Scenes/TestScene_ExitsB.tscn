@@ -1,27 +1,22 @@
-[gd_scene load_steps=19 format=3 uid="uid://4gfrr5aq2o2k"]
+[gd_scene load_steps=16 format=3 uid="uid://4gfrr5aq2o2k"]
 
 [ext_resource type="Script" path="res://Scripts/Managers/RoomManager.cs" id="1"]
-[ext_resource type="PackedScene" path="res://Objects/Items/Pickups/Pickup.tscn" id="2"]
-[ext_resource type="PackedScene" path="res://Objects/Items/Weapons/Guns/GunDesertEagle.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://drpx68y573siy" path="res://Objects/Items/Pickups/Pickup.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://1hgofpvhro7o" path="res://Objects/Items/Weapons/Guns/GunDesertEagle.tscn" id="3"]
 [ext_resource type="PackedScene" path="res://Objects/EnvironmentInteractable/RoomExit.tscn" id="4"]
-[ext_resource type="PackedScene" path="res://Objects/Items/Pickups/Ammo/PickupAmmo9mm.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://dc1cwgbweb0iv" path="res://Objects/Items/Pickups/Ammo/PickupAmmo9mm.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://Objects/Items/Pickups/Ammo/PickupAmmo50AE.tscn" id="6"]
 [ext_resource type="PackedScene" path="res://Objects/Items/Pickups/Ammo/PickupAmmo762.tscn" id="7"]
-[ext_resource type="PackedScene" path="res://Objects/Items/Weapons/Guns/GunGlock18.tscn" id="8"]
-[ext_resource type="PackedScene" path="res://Objects/Items/Weapons/Guns/GunAk-47.tscn" id="11"]
+[ext_resource type="PackedScene" uid="uid://bvrmjcum0xlw0" path="res://Objects/Items/Weapons/Guns/GunGlock18.tscn" id="8"]
+[ext_resource type="PackedScene" uid="uid://disxtkcl0w0y3" path="res://Objects/Items/Weapons/Guns/GunAk-47.tscn" id="11"]
 [ext_resource type="PackedScene" uid="uid://b3u4wfqchgmuh" path="res://Objects/Items/Weapons/Melee/WeaponMelee.tscn" id="14"]
 [ext_resource type="Script" path="res://Scripts/Creatures/AICoordinator.cs" id="15"]
 [ext_resource type="PackedScene" path="res://TileMaps/Test/TestCity.tmx" id="16"]
-[ext_resource type="PackedScene" uid="uid://bt2fss6ac8wba" path="res://Objects/Creatures/NPCs/Succy.tscn" id="18"]
 
 [sub_resource type="RectangleShape2D" id="2"]
 size = Vector2(256, 144)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="5"]
-
-[sub_resource type="AnimationNodeStateMachinePlayback" id="3"]
-
-[sub_resource type="AnimationNodeStateMachinePlayback" id="4"]
 
 [sub_resource type="NavigationPolygon" id="1"]
 vertices = PackedVector2Array(66, -12, 2109, -13, 2109, 2034, 70, 2022)
@@ -137,15 +132,6 @@ startingHVel = 0.15
 [node name="NPCs" type="Node2D" parent="Navigation2D/MasterYSort"]
 y_sort_enabled = true
 
-[node name="Succy" parent="Navigation2D/MasterYSort/NPCs" instance=ExtResource("18")]
-position = Vector2(640, 160)
-
-[node name="AnimationTreeBody" parent="Navigation2D/MasterYSort/NPCs/Succy" index="1"]
-parameters/playback = SubResource("3")
-
-[node name="EyesAnimationTree" parent="Navigation2D/MasterYSort/NPCs/Succy/Body/Face" index="1"]
-parameters/playback = SubResource("4")
-
 [node name="RoomExit" parent="Navigation2D/MasterYSort" instance=ExtResource("4")]
 position = Vector2(280, 40)
 destination = "res://Scenes/TestScene_ExitsA.tscn"
@@ -169,4 +155,3 @@ position = Vector2(-70, 12)
 navigation_polygon = SubResource("1")
 
 [editable path="Navigation2D/MasterYSort/Pickups/PickupKatana/WeaponMelee"]
-[editable path="Navigation2D/MasterYSort/NPCs/Succy"]

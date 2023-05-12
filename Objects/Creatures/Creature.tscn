@@ -1,17 +1,17 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://tsxepjvgc60v"]
 
-[ext_resource path="res://Sprites/Effects/shadowSpot.png" type="Texture2D" id=1]
-[ext_resource path="res://Scripts/Creatures/Creature.cs" type="Script" id=3]
+[ext_resource type="Texture2D" uid="uid://chsmpd8pnc6sd" path="res://Sprites/Effects/shadowSpot.png" id="1"]
+[ext_resource type="Script" path="res://Scripts/Creatures/Creature.cs" id="3"]
 
-[sub_resource type="RectangleShape2D" id=3]
-size = Vector2( 10, 8 )
+[sub_resource type="RectangleShape2D" id="3"]
+size = Vector2(12, 29)
 
 [node name="Creature" type="CharacterBody2D" groups=["Creatures"]]
 collision_mask = 0
-script = ExtResource( 3 )
+script = ExtResource("3")
 
 [node name="ShadowSprite" type="Sprite2D" parent="."]
-texture = ExtResource( 1 )
+texture = ExtResource("1")
 hframes = 4
 vframes = 8
 frame = 4
@@ -21,16 +21,15 @@ anim_player = NodePath("../AnimationPlayerBody")
 
 [node name="AnimationPlayerBody" type="AnimationPlayer" parent="."]
 
+[node name="Body" type="Node2D" parent="."]
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2( 0, -8.239 )
-shape = SubResource( 3 )
-
-[node name="Body" type="Node2D" parent="."]
+position = Vector2(0, -8.239)
+shape = SubResource("3")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_desired_distance = 2.0
 target_desired_distance = 100.0
-path_max_distance = 100.0
 radius = 4.0
 neighbor_distance = 128.0

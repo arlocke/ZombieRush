@@ -75,6 +75,7 @@ public partial class Player:Character {
         interactableText = GetNode<Label>("InteractableText");
         face = GetNode<Node2D>("Body/Face");
         eyes = face.GetNode<Sprite2D>("Eyes");
+        eyebrows = face.GetNode<Sprite2D>("Eyebrows");
         eyesAnimTree = GetNode<AnimationTree>("Body/Face/EyesAnimationTree");
         eyesAnimStateMachine = (AnimationNodeStateMachinePlayback)eyesAnimTree.Get("parameters/playback");
         animPlayerArms = armR.GetNode<AnimationPlayer>("AnimationPlayerArms");
@@ -565,19 +566,28 @@ public partial class Player:Character {
         } else if(playerNum != 1 && ie.IsActionPressed("look_left_p" + playerNum)) {
             lookDirection.X = -100;
         } else if(ie.IsActionPressed("item_use_p" + playerNum)) {              //Use/Attack 1
-            if(ActiveItemValid())
+            if(ActiveItemValid()) {
                 activeItems[activeSlot].handR.Use();
+                eyebrows.Frame = 2;
+            }
         } else if(ie.IsActionReleased("item_use_p" + playerNum)) {
-            if(ActiveItemValid())
+            if(ActiveItemValid()) {
                 activeItems[activeSlot].handR.CancelUse();
+                eyebrows.Frame = 0;
+            }
         } else if(ie.IsActionPressed("item_use2_p" + playerNum)) {             //Use/Attack 2
-            if(ActiveItemValid(false))
+            if(ActiveItemValid(false)) {
                 activeItems[activeSlot].handL.Use();
-            else if(ActiveItemValid())
+                eyebrows.Frame = 2;
+            } else if(ActiveItemValid()) {
                 activeItems[activeSlot].handR.AltUse();
+                eyebrows.Frame = 2;
+            }
         } else if(ie.IsActionReleased("item_use2_p" + playerNum)) {
-            if(ActiveItemValid(false))
+            if(ActiveItemValid(false)) {
                 activeItems[activeSlot].handL.CancelUse();
+                eyebrows.Frame = 0;
+            }
         } else if(ie.IsActionPressed("item_custom_p" + playerNum)) {
             if(ActiveItemValid())
                 activeItems[activeSlot].handR.Custom();

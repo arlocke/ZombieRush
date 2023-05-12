@@ -51,12 +51,17 @@ public partial class AICreature:Creature {
     public float stateTimer;
     [Export]
     public float moveSpeedWalk;
+    //COSMETIC
+    [Export]
+    public Godot.Collections.Dictionary<NodePath, Godot.Collections.Array<NodePath>> cosmeticPartDependents = new Godot.Collections.Dictionary<NodePath, Godot.Collections.Array<NodePath>>();
 
     public override void _Ready() {
         base._Ready();
         //Assuming dex cap for reaction time is 20. Randomize a little so that no zombie will have the same reaction time.
         reactionTime = (1 - (dexterity / 20)) + (float)GD.RandRange(0.1f, 0.3f);
         coordinator = Owner.GetNode<AICoordinator>("AICoordinator");
+        animTree.Set("parameters/Idle/TimeSeek/seek_request", GD.Randf());
+        RandomizeBodyVariations();
     }
     public override void _PhysicsProcess(double dt) {
         base._PhysicsProcess(dt);
@@ -70,11 +75,11 @@ public partial class AICreature:Creature {
                     Wander();
                 break;
             case BehaviorState.Wandering:
-                animStateMachine.Travel("Walk");
+                animStateMachine.Travel("Move");
                 MoveWander((float)dt);
                 break;
             case BehaviorState.Chasing:
-                animStateMachine.Travel("Walk");
+                animStateMachine.Travel("Move");
                 if(!IsInstanceValid(targetCreature)) {
                     UpdateTargets();
                 }
@@ -86,7 +91,7 @@ public partial class AICreature:Creature {
             case BehaviorState.Attacking:
                 break;
         }
-        body.Scale = new Vector2(facingRight ? -1 : 1, 1);
+        body.Scale = new Vector2(facingRight ? 1 : -1, 1);
     }
     public void UpdateReactions(float dt) {
         if(reactions.Count == 0) return;
@@ -175,7 +180,7 @@ public partial class AICreature:Creature {
     }
     public void StartMeleeAttack() {
         SetState(BehaviorState.Attacking);
-        animStateMachine.Travel("Attack");
+        animStateMachine.Start("Attack");
     }
     public void FinishMeleeAttack() {
         if(IsInstanceValid(targetCreature) && Position.DistanceSquaredTo(targetCreature.Position) < meleeAttackRangeSqr) {
@@ -188,6 +193,56 @@ public partial class AICreature:Creature {
         }
     }
     public void SetState(BehaviorState s) {
+        switch(s) {
+            case BehaviorState.Chasing:
+                animTree.Set("parameters/Move/TimeScale/scale", moveSpeed / moveSpeedWalk);
+                break;
+            case BehaviorState.Wandering:
+                animTree.Set("parameters/Move/TimeScale/scale", 1);
+                break;
+        }
         state = s;
+    }
+    public void RandomizeBodyVariations() {
+        if(animType == AnimType.Skeleton) {
+            Godot.Collections.Array<Node> spriteNodes = body.GetNode<Node2D>("Sprites").GetChildren();
+            foreach(NodePath np in cosmeticPartDependents.Keys) {
+                if(np.ToString().Contains("Chest") || np.ToString().Contains("Pelvis"))
+                    RandomizeDependentPartVariations(np, null, 2, spriteNodes);
+            }
+            foreach(Node n in spriteNodes) {
+                if(n is Sprite2D) {
+                    Sprite2D s = n as Sprite2D;
+                    if(s.RegionEnabled) {
+                        s.RegionRect = new Rect2(
+                            new Vector2(s.RegionRect.Position.X + (GD.Randi() % 3) * (s.RegionRect.Size.X + 1),
+                                        s.RegionRect.Position.Y + (s.Name == "Head" ? (GD.Randi() % 2) * (s.RegionRect.Size.Y + 1) : 0)),
+                        s.RegionRect.Size);
+                    }
+                }
+            }
+        }
+    }
+    public void RandomizeDependentPartVariations(NodePath np, Sprite2D prereq, uint prereqChoice, Godot.Collections.Array<Node> spriteNodes) {
+        Sprite2D s = GetNode(np) as Sprite2D;
+        if(IsInstanceValid(s) && s.RegionEnabled) {
+            uint xChoice;
+            if(IsInstanceValid(prereq) && (prereq.Name == "Chest" || prereq.Name == "Pelvis")) {
+                xChoice = GD.Randi() % 2 == 0 ? 0 : prereqChoice;
+            } else {
+                xChoice = GD.Randi() % (prereqChoice + 1);
+            }
+            s.RegionRect = new Rect2(
+                new Vector2(s.RegionRect.Position.X + xChoice * (s.RegionRect.Size.X + 1),
+                            s.RegionRect.Position.Y + (s.Name == "Head" ? (GD.Randi() % 2) * (s.RegionRect.Size.Y + 1) : 0)),
+            s.RegionRect.Size);
+            spriteNodes.Remove(s);
+            if(cosmeticPartDependents.ContainsKey(np)) {
+                foreach(NodePath depNP in cosmeticPartDependents[np]) {
+                    RandomizeDependentPartVariations(depNP, s, xChoice, spriteNodes);
+                }
+                //cosmeticPartDependents.Remove(np);
+            }
+        }
     }
 }
