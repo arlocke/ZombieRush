@@ -1,6 +1,6 @@
 using Godot;
 
-public class PickupAmmo:AutoPickup {
+public partial class PickupAmmo:AutoPickup {
     [Export]
     public int amt;
     [Export]

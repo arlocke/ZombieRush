@@ -1,16 +1,16 @@
 using Godot;
 using System.Collections.Generic;
 
-public class GUIPlayerEquipment:GUIItemContainer {
+public partial class GUIPlayerEquipment:GUIItemContainer {
     [Export]
     public PackedScene spacer;
     public override void Init() {
         for(int i = 0; i < 3; i++) {    //Weapons and utility
             AddItemSlot();
-            AddChild(spacer.Instance());
+            AddChild(spacer.Instantiate());
             AddItemSlot();
         }
-        AddChild(spacer.Instance());
+        AddChild(spacer.Instantiate());
         AddItemSlot();                      //Armor
         foreach(KeyValuePair<ItemSlotType, ItemSlot> itemSlot in player.activeItems) {      //Instance equipment tiles
             if(IsInstanceValid(itemSlot.Value.handR)) {

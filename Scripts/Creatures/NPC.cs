@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class NPC : Character {
+public partial class NPC:Character {
     //Dialogue Variables
     [Export]
     public Resource dialogueResource;

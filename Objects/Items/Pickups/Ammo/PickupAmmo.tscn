@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Objects/Items/Pickups/Pickup.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Sprites/Items/Ammo/Ammo9mm.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Items/Ammo/Ammo9mm.png" type="Texture2D" id=2]
 [ext_resource path="res://Scripts/Iteraction/PickupAmmo.cs" type="Script" id=3]
 
 [node name="PickupAmmo" instance=ExtResource( 1 )]
@@ -10,5 +10,5 @@ itemSize = 0.75
 amt = 50
 ammoType = 0
 
-[node name="Sprite" type="Sprite" parent="." index="2" groups=["Items"]]
+[node name="Sprite2D" type="Sprite2D" parent="." index="2" groups=["Items"]]
 texture = ExtResource( 2 )

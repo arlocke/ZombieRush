@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Objects/Creatures/Character.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Sprites/Creatures/NPCs/char_succ.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Creatures/NPCs/char_succ.png" type="Texture2D" id=2]
 [ext_resource path="res://Scripts/Creatures/NPC.cs" type="Script" id=3]
 [ext_resource path="res://Scripts/Iteraction/InteractableNPC.cs" type="Script" id=4]
 
@@ -45,7 +45,7 @@ visible = false
 [node name="ShoulderR" parent="Body" index="3"]
 visible = false
 
-[node name="Succy" type="Sprite" parent="Body" index="4"]
+[node name="Succy" type="Sprite2D" parent="Body" index="4"]
 position = Vector2( -1.99613, -37 )
 texture = ExtResource( 2 )
 

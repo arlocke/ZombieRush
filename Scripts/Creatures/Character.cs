@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using Godot.Collections;
 
 public struct ItemSlot {
     public Item handR;
@@ -13,7 +13,7 @@ public struct ItemSlot {
     }
 }
 
-public class Character:Creature {
+public partial class Character:Creature {
 
     //Animation Data
     [Export]
@@ -24,6 +24,7 @@ public class Character:Creature {
     public bool canAim;
     [Export]
     public bool actionable; //Can't use any inputs
+    [Export]
     public Vector2 lookDirR;
     public Vector2 lookDirL;
 
@@ -35,11 +36,12 @@ public class Character:Creature {
     public Node2D handRSocket;
     public Node2D handLSocket;
     public Node2D face;
-    public Sprite eyes;
+    public Sprite2D eyes;
+    public Sprite2D eyebrows;
     public AnimationTree eyesAnimTree;
     public AnimationNodeStateMachinePlayback eyesAnimStateMachine;
     public AnimationPlayer animPlayerArms;
-    public Sprite bodySprite;
+    public Sprite2D bodySprite;
 
     //Movement
     public float movementVelocity; //not a vector
@@ -55,7 +57,6 @@ public class Character:Creature {
     public ItemSlotType activeSlot;
     public ItemSlotType lastActiveSlot;
     public Item[] inventory = new Item[9];
-    [Export]
     public System.Collections.Generic.Dictionary<ItemSlotType, ItemSlot> activeItems = new System.Collections.Generic.Dictionary<ItemSlotType, ItemSlot>();
 
 

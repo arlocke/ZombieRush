@@ -3,7 +3,7 @@ using Godot.Collections;
 using System;
 using System.Collections.Generic;
 
-public class GUIGamePlayer:VSplitContainer {
+public partial class GUIGamePlayer:VSplitContainer {
     [Export]
     PackedScene hpRef;
     [Export]
@@ -32,10 +32,10 @@ public class GUIGamePlayer:VSplitContainer {
             for(int i = 0; i < dif; i++) {
                 Control newHP;
                 if(inactiveHearts.Count == 0) {
-                    newHP = hpRef.Instance<Control>();
+                    newHP = hpRef.Instantiate<Control>();
                     heartBox.AddChild(newHP);
-                    newHP.AddUserSignal("reborn_completed");
-                    newHP.Connect("reborn_completed", this, "SetHeartBeatSeek", new Godot.Collections.Array { newHP });
+                    newHP.AddUserSignal("reborn_completed", new Godot.Collections.Array() { new Godot.Collections.Dictionary() { { "name", "heart" }, { "type", (int)Variant.Type.Object } } });
+                    newHP.Connect("reborn_completed", Callable.From(() => SetHeartBeatSeek(newHP)));//new Callable(this, MethodName.SetHeartBeatSeek));
                 } else {
                     newHP = inactiveHearts[inactiveHearts.Count - 1];
                     inactiveHearts.RemoveAt(inactiveHearts.Count - 1);
@@ -43,7 +43,7 @@ public class GUIGamePlayer:VSplitContainer {
                 activeHearts.Add(newHP);
                 AnimationTree newHPAnimTree = newHP.GetNode<AnimationTree>("AnimationTree");
                 ((AnimationNodeStateMachinePlayback)(newHPAnimTree.Get("parameters/playback"))).Travel("Reborn");
-                newHPAnimTree.Set("parameters/Reborn/Seek/seek_position", (float)1 - (float)i * 0.075f);
+                newHPAnimTree.Set("parameters/Reborn/Seek/seek_request", Mathf.Clamp((float)1 - (float)i * 0.075f, 0, 1));
             }
         } else {    //Remove Hearts
             for(int i = 0; i > dif && activeHearts.Count > 0; i--) {
@@ -52,19 +52,22 @@ public class GUIGamePlayer:VSplitContainer {
                 inactiveHearts.Add(hpToRemove);
                 AnimationTree hpToRemoveAnimTree = hpToRemove.GetNode<AnimationTree>("AnimationTree");
                 ((AnimationNodeStateMachinePlayback)(hpToRemoveAnimTree.Get("parameters/playback"))).Travel("Die");
-                hpToRemoveAnimTree.Set("parameters/Die/Seek/seek_position", (float)1 + (float)i * 0.125f);
+                hpToRemoveAnimTree.Set("parameters/Die/Seek/seek_request", (float)1 + (float)i * 0.125f);
             }
         }
         ResetAnchors();
     }
     public void SetHeartBeatSeek(Control heart) {
         AnimationTree heartAnimTree = heart.GetNode<AnimationTree>("AnimationTree");
+        AnimationNodeStateMachinePlayback heartStateMachine = (AnimationNodeStateMachinePlayback)heartAnimTree.Get("parameters/playback");
+        heartStateMachine.Travel("Beat");
         if(activeHearts.Count > 0 && activeHearts[0] != heart) {
             AnimationNodeStateMachinePlayback firstHeartStateMachine =
                 (AnimationNodeStateMachinePlayback)(activeHearts[0].GetNode<AnimationTree>("AnimationTree").Get("parameters/playback"));
-            heartAnimTree.Set("parameters/Beat/Seek/seek_position", firstHeartStateMachine.GetCurrentPlayPosition());
+            heartAnimTree.Set("parameters/Beat/Seek/seek_request", firstHeartStateMachine.GetCurrentPlayPosition());
+
         } else {
-            heartAnimTree.Set("parameters/Beat/Seek/seek_position", 0);
+            heartAnimTree.Set("parameters/Beat/Seek/seek_request", 0);
         }
 
     }
@@ -72,18 +75,18 @@ public class GUIGamePlayer:VSplitContainer {
         if(player == null) return;
         switch(player.playerNum) {
             case 1:
-                SetAnchorsAndMarginsPreset(LayoutPreset.TopLeft, LayoutPresetMode.KeepSize, 3);
+                SetAnchorsAndOffsetsPreset(LayoutPreset.TopLeft, LayoutPresetMode.KeepSize, 3);
                 break;
             case 2:
                 //heartBox.GrowHorizontal = GrowDirection.Begin;
-                //RectScale = new Vector2(-1, 1);
-                SetAnchorsAndMarginsPreset(LayoutPreset.TopRight, LayoutPresetMode.KeepSize, 3);
+                //Scale = new Vector2(-1, 1);
+                SetAnchorsAndOffsetsPreset(LayoutPreset.TopRight, LayoutPresetMode.KeepSize, 3);
                 break;
             case 3:
-                SetAnchorsAndMarginsPreset(LayoutPreset.BottomLeft, LayoutPresetMode.KeepSize, 3);
+                SetAnchorsAndOffsetsPreset(LayoutPreset.BottomLeft, LayoutPresetMode.KeepSize, 3);
                 break;
             case 4:
-                SetAnchorsAndMarginsPreset(LayoutPreset.BottomRight, LayoutPresetMode.KeepSize, 3);
+                SetAnchorsAndOffsetsPreset(LayoutPreset.BottomRight, LayoutPresetMode.KeepSize, 3);
                 break;
         }
     }

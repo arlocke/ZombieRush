@@ -1,12 +1,12 @@
 using Godot;
 
-public class Interactable:Area2D {
+public partial class Interactable:Area2D {
     public bool canInteract;
 
     public string interactionName;
     public override void _Ready() {
-        Connect("body_entered", this, "OnCreatureEntered");
-        Connect("body_exited", this, "OnCreatureExited");
+        Connect("body_entered", new Callable(this, "OnCreatureEntered"));
+        Connect("body_exited", new Callable(this, "OnCreatureExited"));
     }
     public virtual bool Interact(Player pc) {
         //Do nothing and override in children

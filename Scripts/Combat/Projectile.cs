@@ -8,14 +8,14 @@ public enum AmmoType {
     //more types for zombie sludge etc
 }
 
-public class Projectile:HitboxPiercing {
+public partial class Projectile:HitboxPiercing {
     [Export]
     public float speed;
     public float distanceRemaining;
     public AmmoType ammoType;
 
-    public override void _PhysicsProcess(float dt) {
-        Position += Transform.x * speed * dt;
+    public override void _PhysicsProcess(double dt) {
+        Position += Transform.X * (float)(speed * dt);
         distanceRemaining -= speed;
 
         if(distanceRemaining <= 0) {

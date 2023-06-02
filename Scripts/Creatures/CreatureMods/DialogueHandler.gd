@@ -9,15 +9,15 @@ var dialogueResource: DialogueResource
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var _DialogueResource
-	connect("actioned", self, "initDialogue")
+	connect("actioned",Callable(self,"initDialogue"))
 
 
 func initDialogue(title, newDialogueResource = dialogueResource):
 	dialogueResource = newDialogueResource
-	dialogueLine = yield(DialogueManager.get_next_dialogue_line(title, dialogueResource), "completed")
+	dialogueLine = await DialogueManager.get_next_dialogue_line(title, dialogueResource).completed
 	$Dialogue.dialogue_line = dialogueLine
 	$Dialogue.type_out()
-	#initDialogue(yield($Dialogue, "actioned"), dialogueResource)
+	#initDialogue(await $Dialogue.actioned, dialogueResource)
 	
 
 func next(next_id: String) -> void:
@@ -29,7 +29,7 @@ func next(next_id: String) -> void:
 func _on_Balloon_gui_input(event):
 	#if not is_waiting_for_input: return
 	
-	get_tree().set_input_as_handled()
+	get_viewport().set_input_as_handled()
 	
 	if event is InputEventMouseButton and event.is_pressed() and event.button_index == 1:
 		next(dialogueLine.next_id)

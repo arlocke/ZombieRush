@@ -1,156 +1,112 @@
 extends RichTextLabel
 
 
-signal spoke(letter, speed)
-signal paused(duration)
-signal finished()
+signal spoke(letter: String, letter_index: int, speed: float)
+signal paused_typing(duration: float)
+signal finished_typing()
 
 
-export var skip_action: String = "ui_cancel"
-export var seconds_per_step: float = 0.02
+## The action to press to skip typing
+@export var skip_action: String = "ui_cancel"
+
+## The speed with which the text types out
+@export var seconds_per_step: float = 0.02
+
+## Automatically have a brief pause when these characters are encountered
+@export var pause_at_characters: String = ".?!"
 
 
-var dialogue_line: Dictionary
+var dialogue_line: DialogueLine:
+	set(next_dialogue_line):
+		dialogue_line = next_dialogue_line
+		custom_minimum_size = Vector2.ZERO
+		text = dialogue_line.text
+	get:
+		return dialogue_line
 
-var index: int = 0
-var percent_per_index: float = 0
 var last_wait_index: int = -1
 var last_mutation_index: int = -1
 var waiting_seconds: float = 0
-var is_typing: bool = false
-var has_finished: bool = false
 
-
-func _ready() -> void:
-	bbcode_text = ""
+var is_typing: bool = false:
+	set(value):
+		if is_typing != value and value == false:
+			finished_typing.emit()
+		is_typing = value
+	get:
+		return is_typing
 
 
 func _process(delta: float) -> void:
-	if is_typing:
+	if self.is_typing:
 		# Type out text
-		if percent_visible < 1:
-			# If cancel is pressed then skip typing it out
-			if Input.is_action_just_pressed(skip_action):
-				percent_visible = 1
-				# Run any inline mutations that haven't been run yet
-				for i in range(index, get_total_character_count()):
-					mutate_inline_mutations(i)
-				has_finished = true
-				emit_signal("finished")
-				return
-			
-			# Otherwise, see if we are waiting
+		if visible_ratio < 1:
+			# See if we are waiting
 			if waiting_seconds > 0:
 				waiting_seconds = waiting_seconds - delta
-			
 			# If we are no longer waiting then keep typing
 			if waiting_seconds <= 0:
 				type_next(delta, waiting_seconds)
 		else:
-			is_typing = false
-			if has_finished == false:
-				has_finished = true
-				emit_signal("finished")
+			self.is_typing = false
 
 
-func reset_height() -> void:
-	# If there is no dialogue then this label should have no height
-	if dialogue_line.text == "":
-		fit_content_height = false
-		rect_min_size = Vector2(rect_size.x, 0)
-		rect_size = Vector2.ZERO
-		yield(get_tree(), "idle_frame")
-		return
-	
-	fit_content_height = true
-	
-	# For some reason, RichTextLabels within containers don't resize properly when their content 
-	# changes so we make a clone that isn't bound by a VBox
-	var size_check_label = duplicate(0)
-	size_check_label.modulate.a = 0
-	get_tree().current_scene.add_child(size_check_label)
-	size_check_label.rect_size.x = rect_size.x
-	size_check_label.bbcode_text = dialogue_line.text
-	
-	# Give the size check a chance to resize
-	yield(get_tree(), "idle_frame")
-	
-	# Resize our dialogue label with the new size hint
-	rect_min_size = Vector2(rect_size.x, size_check_label.get_content_height())
-	rect_size = Vector2.ZERO
-	
-	# Destroy our clone
-	size_check_label.queue_free()
-	
+func _unhandled_input(event: InputEvent) -> void:
+	if self.is_typing and visible_ratio < 1 and event.is_action_pressed(skip_action):
+		# Run any inline mutations that haven't been run yet
+		for i in range(visible_characters, get_total_character_count()):
+			dialogue_line.mutate_inline_mutations(i)
+		visible_characters = get_total_character_count()
+		self.is_typing = false
+		finished_typing.emit()
+		
 
-
-func type_next(delta: float, seconds_needed: float) -> void:
-	if last_mutation_index != index:
-		last_mutation_index = index
-		mutate_inline_mutations(index)
-	
-	if last_wait_index != index and get_pause(index) > 0:
-		last_wait_index = index
-		waiting_seconds += get_pause(index)
-		emit_signal("paused", get_pause(index))
-	else:
-		percent_visible += percent_per_index
-		index += 1
-		seconds_needed += seconds_per_step * (1.0 / get_speed(index))
-		if seconds_needed > delta:
-			waiting_seconds += seconds_needed
-			if index < text.length():
-				emit_signal("spoke", text[index - 1], get_speed(index))
-		else:
-			type_next(delta, seconds_needed)
-
-
+# Start typing out the text
 func type_out() -> void:
-	bbcode_text = dialogue_line.text
-	percent_visible = 0
-	index = 0
-	has_finished = false
+	text = dialogue_line.text
+	visible_characters = 0
+	self.is_typing = true
 	waiting_seconds = 0
 	
 	# Text isn't calculated until the next frame
-	yield(get_tree(), "idle_frame")
-	if not get_total_character_count():
-		emit_signal("finished")
-		queue_free()
+	await get_tree().process_frame
+	
+	if get_total_character_count() == 0:
+		self.is_typing = false
+	elif seconds_per_step == 0:
+		# Run any inline mutations
+		for i in range(0, get_total_character_count()):
+			dialogue_line.mutate_inline_mutations(i)
+		visible_characters = get_total_character_count()
+		self.is_typing = false
+
+
+# Type out the next character(s)
+func type_next(delta: float, seconds_needed: float) -> void:
+	if visible_characters == get_total_character_count():
 		return
 	
-	if seconds_per_step == 0:
-		is_typing = false
-		percent_visible = 1
-		# Run any inline mutations
-		for i in range(index, get_total_character_count()):
-			mutate_inline_mutations(i)
+	if last_mutation_index != visible_characters:
+		last_mutation_index = visible_characters
+		dialogue_line.mutate_inline_mutations(visible_characters)
+	
+	var additional_waiting_seconds: float = dialogue_line.get_pause(visible_characters)
+	
+	# Pause on characters like "."
+	if visible_characters > 0 and get_parsed_text()[visible_characters - 1] in pause_at_characters.split():
+		additional_waiting_seconds += seconds_per_step * 15
+	
+	# Pause at literal [wait] directives
+	if last_wait_index != visible_characters and additional_waiting_seconds > 0:
+		last_wait_index = visible_characters
+		waiting_seconds += additional_waiting_seconds
+		paused_typing.emit(dialogue_line.get_pause(visible_characters))
 	else:
-		percent_per_index = 100.0 / float(get_total_character_count()) / 100.0
-		is_typing = true
-
-
-# Get the pause for the current typing position if there is one
-func get_pause(at_index: int) -> float:
-	return dialogue_line.pauses.get(at_index, 0)
-
-
-# Get the speed for the current typing position
-func get_speed(at_index: int) -> float:
-	var speed: float = 1
-	for index in dialogue_line.speeds:
-		if index > at_index:
-			return speed
-		speed = dialogue_line.speeds[index]
-	return speed
-
-
-# Run any mutations at the current typing position
-func mutate_inline_mutations(index: int) -> void:
-	for inline_mutation in dialogue_line.inline_mutations:
-		# inline mutations are an array of arrays in the form of [character index, resolvable function]
-		if inline_mutation[0] > index:
-			return
-		if inline_mutation[0] == index:
-			# The DialogueManager can't be referenced directly here so we need to get it by its path
-			get_node("/root/DialogueManager").mutate(inline_mutation[1])
+		visible_characters += 1
+		seconds_needed += seconds_per_step * (1.0 / dialogue_line.get_speed(visible_characters))
+		if seconds_needed > delta:
+			waiting_seconds += seconds_needed
+			if visible_characters < get_total_character_count():
+				spoke.emit(text[visible_characters - 1], visible_characters - 1, dialogue_line.get_speed(visible_characters))
+		else:
+			type_next(delta, seconds_needed)

@@ -1,4 +1,4 @@
 
-public class Bullet:Projectile {
+public partial class Bullet:Projectile {
     //empty 
 }

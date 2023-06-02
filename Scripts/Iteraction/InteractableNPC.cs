@@ -1,8 +1,8 @@
 using Godot;
 using System;
 
-public class InteractableNPC : Interactable {
-    
+public partial class InteractableNPC:Interactable {
+
     public override bool Interact(Player pc) {
 
 

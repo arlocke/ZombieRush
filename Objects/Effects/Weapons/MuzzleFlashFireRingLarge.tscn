@@ -1,32 +1,40 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://ccbeheuf1isix"]
 
-[ext_resource path="res://Sprites/Effects/Weapon/muzzleFlash_RingLarge.png" type="Texture" id=1]
-[ext_resource path="res://Animation/Effects/OneShot8Frames.tres" type="Animation" id=2]
+[ext_resource type="Texture2D" uid="uid://dxvyyf3ovjb6w" path="res://Sprites/Effects/Weapon/muzzleFlash_RingLarge.png" id="1"]
+[ext_resource type="Animation" path="res://Animation/Effects/OneShot8Frames.tres" id="2"]
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id="1"]
 length = 0.001
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [ 0 ]
+"values": [0]
 }
 
-[node name="MuzzleFlashFireRingLarge" type="Sprite"]
-texture = ExtResource( 1 )
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6pfat"]
+_data = {
+"OneShot8Frames": ExtResource("2"),
+"RESET": SubResource("1")
+}
+
+[node name="MuzzleFlashFireRingLarge" type="Sprite2D"]
+texture = ExtResource("1")
 centered = false
-offset = Vector2( 0, -8 )
+offset = Vector2(0, -8)
 hframes = 8
+frame = 7
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "OneShot8Frames"
 reset_on_save = false
-playback_speed = 10.0
-anims/OneShot8Frames = ExtResource( 2 )
-anims/RESET = SubResource( 1 )
+speed_scale = 5.0
+libraries = {
+"": SubResource("AnimationLibrary_6pfat")
+}

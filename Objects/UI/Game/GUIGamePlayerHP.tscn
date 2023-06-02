@@ -1,8 +1,9 @@
-[gd_scene format=2]
+[gd_scene format=3 uid="uid://diybj0yl6yumo"]
 
 [node name="GUIGamePlayerHP" type="GridContainer"]
+anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -48.0
-margin_right = 275.0
+offset_top = -48.0
+offset_right = 275.0
 columns = 10

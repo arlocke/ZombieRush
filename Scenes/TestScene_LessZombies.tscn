@@ -1,0 +1,191 @@
+[gd_scene load_steps=17 format=3 uid="uid://c81a1up0vbqbd"]
+
+[ext_resource type="PackedScene" path="res://TileMaps/Test/TestCity.tmx" id="1_7vi2m"]
+[ext_resource type="Script" path="res://Scripts/Creatures/AICoordinator.cs" id="2_hbent"]
+[ext_resource type="PackedScene" uid="uid://bvc80hy4cplfm" path="res://Objects/Creatures/Zombies/Zombie.tscn" id="3_cvyur"]
+[ext_resource type="PackedScene" uid="uid://bobgdnk50klcl" path="res://Objects/Creatures/PlayerCharacters/PlayerBusinessGuy.tscn" id="4_i85wa"]
+[ext_resource type="PackedScene" uid="uid://cwfkk3fald4m" path="res://Objects/Creatures/PlayerCharacters/PlayerYui.tscn" id="5_rh115"]
+[ext_resource type="PackedScene" uid="uid://drpx68y573siy" path="res://Objects/Items/Pickups/Pickup.tscn" id="6_mjfxp"]
+[ext_resource type="PackedScene" uid="uid://b3u4wfqchgmuh" path="res://Objects/Items/Weapons/Melee/WeaponMelee.tscn" id="7_y8sv7"]
+[ext_resource type="PackedScene" uid="uid://bvrmjcum0xlw0" path="res://Objects/Items/Weapons/Guns/GunGlock18.tscn" id="8_0e1r6"]
+[ext_resource type="PackedScene" uid="uid://1hgofpvhro7o" path="res://Objects/Items/Weapons/Guns/GunDesertEagle.tscn" id="9_7ekb7"]
+[ext_resource type="PackedScene" uid="uid://disxtkcl0w0y3" path="res://Objects/Items/Weapons/Guns/GunAk-47.tscn" id="10_v45yi"]
+[ext_resource type="PackedScene" uid="uid://dc1cwgbweb0iv" path="res://Objects/Items/Pickups/Ammo/PickupAmmo9mm.tscn" id="11_5ex0g"]
+[ext_resource type="PackedScene" path="res://Objects/Items/Pickups/Ammo/PickupAmmo50AE.tscn" id="12_4by0l"]
+[ext_resource type="PackedScene" path="res://Objects/Items/Pickups/Ammo/PickupAmmo762.tscn" id="13_0i25x"]
+[ext_resource type="PackedScene" uid="uid://68077d6qbwp0" path="res://Objects/Test.tscn" id="14_8vb02"]
+
+[sub_resource type="RectangleShape2D" id="2"]
+size = Vector2(256, 144)
+
+[sub_resource type="NavigationPolygon" id="1"]
+vertices = PackedVector2Array(66, -12, 2109, -13, 2109, 2034, 70, 2022)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(66, -12, 2109, -13, 2109, 2034, 70, 2022)])
+
+[node name="Node2D" type="Node2D"]
+
+[node name="TestCity" parent="." instance=ExtResource("1_7vi2m")]
+position = Vector2(0, 32)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="TestCity"]
+position = Vector2(505, 1187)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TestCity/StaticBody2D"]
+position = Vector2(71, 45)
+shape = SubResource("2")
+
+[node name="AICoordinator" type="Node" parent="."]
+script = ExtResource("2_hbent")
+
+[node name="Navigation2D" type="Node2D" parent="."]
+
+[node name="MasterYSort" type="Node2D" parent="Navigation2D"]
+y_sort_enabled = true
+
+[node name="Zombies" type="Node2D" parent="Navigation2D/MasterYSort"]
+y_sort_enabled = true
+
+[node name="Zombie" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("3_cvyur")]
+position = Vector2(197, 209)
+state = 5
+
+[node name="Zombie2" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("3_cvyur")]
+position = Vector2(234, 209)
+state = 5
+
+[node name="Zombie3" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("3_cvyur")]
+position = Vector2(194, 249)
+state = 5
+
+[node name="Zombie4" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("3_cvyur")]
+position = Vector2(277, 210)
+state = 5
+
+[node name="Zombie6" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("3_cvyur")]
+position = Vector2(273, 250)
+state = 5
+
+[node name="Zombie7" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("3_cvyur")]
+position = Vector2(192, 291)
+state = 5
+
+[node name="Zombie8" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("3_cvyur")]
+position = Vector2(229, 292)
+state = 5
+
+[node name="Zombie9" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("3_cvyur")]
+position = Vector2(272, 294)
+state = 5
+
+[node name="Zombie5" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("3_cvyur")]
+position = Vector2(232, 250)
+state = 5
+
+[node name="Players" type="Node2D" parent="Navigation2D/MasterYSort"]
+y_sort_enabled = true
+
+[node name="PlayerBusinessGuy" parent="Navigation2D/MasterYSort/Players" instance=ExtResource("4_i85wa")]
+position = Vector2(353, 230)
+teamFaction = 1
+
+[node name="PlayerYui" parent="Navigation2D/MasterYSort/Players" instance=ExtResource("5_rh115")]
+position = Vector2(384, 232)
+
+[node name="Pickups" type="Node2D" parent="Navigation2D/MasterYSort"]
+y_sort_enabled = true
+
+[node name="PickupKatana" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource("6_mjfxp")]
+position = Vector2(416, 256)
+
+[node name="WeaponMelee" parent="Navigation2D/MasterYSort/Pickups/PickupKatana" instance=ExtResource("7_y8sv7")]
+tier = 4
+
+[node name="PickupKatana2" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource("6_mjfxp")]
+position = Vector2(448, 224)
+
+[node name="WeaponMelee" parent="Navigation2D/MasterYSort/Pickups/PickupKatana2" instance=ExtResource("7_y8sv7")]
+tier = 4
+
+[node name="PickupKatana3" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource("6_mjfxp")]
+position = Vector2(416, 224)
+
+[node name="WeaponMelee" parent="Navigation2D/MasterYSort/Pickups/PickupKatana3" instance=ExtResource("7_y8sv7")]
+tier = 4
+
+[node name="PickupKatana4" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource("6_mjfxp")]
+position = Vector2(448, 256)
+
+[node name="WeaponMelee" parent="Navigation2D/MasterYSort/Pickups/PickupKatana4" instance=ExtResource("7_y8sv7")]
+tier = 4
+
+[node name="PickupGlock" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource("6_mjfxp")]
+position = Vector2(387, 253)
+
+[node name="GunGlock18" parent="Navigation2D/MasterYSort/Pickups/PickupGlock" instance=ExtResource("8_0e1r6")]
+tier = 3
+
+[node name="PickupDeagle" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource("6_mjfxp")]
+position = Vector2(423, 375)
+
+[node name="GunDesertEagle" parent="Navigation2D/MasterYSort/Pickups/PickupDeagle" instance=ExtResource("9_7ekb7")]
+tier = 4
+
+[node name="PickupDeagle2" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource("6_mjfxp")]
+position = Vector2(446, 375)
+
+[node name="GunDesertEagle" parent="Navigation2D/MasterYSort/Pickups/PickupDeagle2" instance=ExtResource("9_7ekb7")]
+tier = 4
+
+[node name="PickupAK" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource("6_mjfxp")]
+position = Vector2(423, 339)
+
+[node name="GunAk-47" parent="Navigation2D/MasterYSort/Pickups/PickupAK" instance=ExtResource("10_v45yi")]
+tier = 2
+
+[node name="PickupAmmo9mm" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource("11_5ex0g")]
+position = Vector2(342, 304)
+startingHeight = 4.0
+
+[node name="PickupAmmo9mm2" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource("11_5ex0g")]
+position = Vector2(311, 304)
+startingHeight = 4.0
+
+[node name="PickupAmmo9mm3" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource("11_5ex0g")]
+position = Vector2(280, 304)
+startingHeight = 4.0
+
+[node name="PickupAmmo50AE" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource("12_4by0l")]
+position = Vector2(342, 374)
+startingHVel = 0.15
+
+[node name="PickupAmmo762" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource("13_0i25x")]
+position = Vector2(342, 339)
+startingHVel = 0.15
+
+[node name="PickupAmmo763" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource("13_0i25x")]
+position = Vector2(311, 339)
+startingHVel = 0.15
+
+[node name="PickupAmmo50AE2" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource("12_4by0l")]
+position = Vector2(311, 374)
+startingHVel = 0.15
+
+[node name="PickupAmmo50AE3" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource("12_4by0l")]
+position = Vector2(280, 374)
+startingHVel = 0.15
+
+[node name="PickupAmmo764" parent="Navigation2D/MasterYSort/Pickups" instance=ExtResource("13_0i25x")]
+position = Vector2(280, 339)
+startingHVel = 0.15
+
+[node name="NPCs" type="Node2D" parent="Navigation2D/MasterYSort"]
+y_sort_enabled = true
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Navigation2D"]
+visible = false
+position = Vector2(-70, 12)
+navigation_polygon = SubResource("1")
+
+[node name="Test" parent="." instance=ExtResource("14_8vb02")]
+position = Vector2(312, 256)
