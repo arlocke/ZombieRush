@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bugjr77myk24o" path="res://Objects/UI/Game/GUIGamePlayer.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://cwfkk3fald4m" path="res://Objects/Creatures/PlayerCharacters/PlayerYui.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://bckqnikdx6g2i" path="res://Objects/Managers/CameraGame.tscn" id="4"]
-[ext_resource type="PackedScene" path="res://Objects/Creatures/PlayerCharacters/PlayerBusinessGuy.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://bobgdnk50klcl" path="res://Objects/Creatures/PlayerCharacters/PlayerBusinessGuy.tscn" id="5"]
 
 [node name="PlayerManager" type="Node"]
 script = ExtResource("1")

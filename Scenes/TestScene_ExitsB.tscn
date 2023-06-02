@@ -1,9 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://4gfrr5aq2o2k"]
+[gd_scene load_steps=17 format=3 uid="uid://4gfrr5aq2o2k"]
 
 [ext_resource type="Script" path="res://Scripts/Managers/RoomManager.cs" id="1"]
 [ext_resource type="PackedScene" uid="uid://drpx68y573siy" path="res://Objects/Items/Pickups/Pickup.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://1hgofpvhro7o" path="res://Objects/Items/Weapons/Guns/GunDesertEagle.tscn" id="3"]
-[ext_resource type="PackedScene" path="res://Objects/EnvironmentInteractable/RoomExit.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://dt16gc830imva" path="res://Objects/EnvironmentInteractable/RoomExit.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://bvc80hy4cplfm" path="res://Objects/Creatures/Zombies/Zombie.tscn" id="4_ko5ad"]
 [ext_resource type="PackedScene" uid="uid://dc1cwgbweb0iv" path="res://Objects/Items/Pickups/Ammo/PickupAmmo9mm.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://Objects/Items/Pickups/Ammo/PickupAmmo50AE.tscn" id="6"]
 [ext_resource type="PackedScene" path="res://Objects/Items/Pickups/Ammo/PickupAmmo762.tscn" id="7"]
@@ -25,6 +26,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(66, -12, 2109, -13, 210
 
 [node name="Room" type="Node2D" groups=["Rooms"]]
 script = ExtResource("1")
+type = 2
 
 [node name="TestCity" parent="." instance=ExtResource("16")]
 visible = false
@@ -47,6 +49,10 @@ y_sort_enabled = true
 
 [node name="Zombies" type="Node2D" parent="Navigation2D/MasterYSort"]
 y_sort_enabled = true
+
+[node name="Zombie" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("4_ko5ad")]
+position = Vector2(598, 237)
+state = 5
 
 [node name="Players" type="Node2D" parent="Navigation2D/MasterYSort" groups=["PlayersYSort"]]
 y_sort_enabled = true

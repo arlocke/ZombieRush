@@ -66,6 +66,8 @@ public partial class Creature:CharacterBody2D {
     public List<Vector2> path;
     [Export]
     public AnimType animType = AnimType.SpriteSheet;
+    [Signal]
+    public delegate void CreatureDiedEventHandler(Creature c);
     public override void _Ready() {
         animTree = GetNode<AnimationTree>("AnimationTreeBody");
         animStateMachine = (AnimationNodeStateMachinePlayback)animTree.Get("parameters/playback");
@@ -94,6 +96,7 @@ public partial class Creature:CharacterBody2D {
         if(!facingRight)
             newCorpse.Scale = new Vector2(-1, 1);
         GetParent().AddChild(newCorpse);
+        EmitSignal(SignalName.CreatureDied, this);
         QueueFree();
     }
     //Gets fired when this creature sees another creature

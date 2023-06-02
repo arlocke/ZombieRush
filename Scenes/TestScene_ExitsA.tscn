@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://ray7dhuwvpdj"]
+[gd_scene load_steps=15 format=3 uid="uid://ray7dhuwvpdj"]
 
 [ext_resource type="Script" path="res://Scripts/Managers/RoomManager.cs" id="1"]
 [ext_resource type="PackedScene" uid="uid://drpx68y573siy" path="res://Objects/Items/Pickups/Pickup.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://1hgofpvhro7o" path="res://Objects/Items/Weapons/Guns/GunDesertEagle.tscn" id="3"]
-[ext_resource type="PackedScene" path="res://Objects/EnvironmentInteractable/RoomExit.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://dt16gc830imva" path="res://Objects/EnvironmentInteractable/RoomExit.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://bvc80hy4cplfm" path="res://Objects/Creatures/Zombies/Zombie.tscn" id="4_ut4tr"]
 [ext_resource type="PackedScene" uid="uid://dc1cwgbweb0iv" path="res://Objects/Items/Pickups/Ammo/PickupAmmo9mm.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://Objects/Items/Pickups/Ammo/PickupAmmo50AE.tscn" id="6"]
 [ext_resource type="PackedScene" path="res://Objects/Items/Pickups/Ammo/PickupAmmo762.tscn" id="7"]
@@ -43,6 +44,18 @@ y_sort_enabled = true
 
 [node name="Zombies" type="Node2D" parent="Navigation2D/MasterYSort"]
 y_sort_enabled = true
+
+[node name="Zombie" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("4_ut4tr")]
+position = Vector2(404, 203)
+state = 5
+
+[node name="Zombie2" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("4_ut4tr")]
+position = Vector2(353, 228)
+state = 5
+
+[node name="Zombie3" parent="Navigation2D/MasterYSort/Zombies" instance=ExtResource("4_ut4tr")]
+position = Vector2(445, 215)
+state = 5
 
 [node name="Players" type="Node2D" parent="Navigation2D/MasterYSort" groups=["PlayersYSort"]]
 y_sort_enabled = true
@@ -139,7 +152,7 @@ navigation_polygon = SubResource("1")
 position = Vector2(384, 160)
 
 [node name="PlayerSpawn2" type="Node2D" parent="." groups=["PlayerSpawns"]]
-position = Vector2(416, 160)
+position = Vector2(295, 198)
 
 [node name="PlayerSpawn3" type="Node2D" parent="." groups=["PlayerSpawns"]]
 position = Vector2(448, 160)

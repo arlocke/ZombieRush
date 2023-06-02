@@ -517,6 +517,7 @@ public partial class Player:Character {
 
         destinationExit.overlappedPlayers.Add(this);
         GlobalPosition = destinationExit.GetNode<Node2D>("SpawnTarget" + playerNum).GlobalPosition;
+        destinationExit.currentRoom.SetupPlayerForRoom(this);
     }
 
     public void SpawnPlayerMenuGUI() {

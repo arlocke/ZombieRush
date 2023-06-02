@@ -12,6 +12,9 @@
 parameters/playback = SubResource("1")
 parameters/Walk/blend_position = Vector2(0, 0)
 
+[node name="BodySprite" parent="Body" index="0"]
+frame = 2
+
 [node name="EyesAnimationTree" parent="Body/Face" index="1"]
 parameters/playback = SubResource("6")
 

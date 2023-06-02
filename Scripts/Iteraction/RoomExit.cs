@@ -6,11 +6,16 @@ using System.Collections.Generic;
 public partial class RoomExit:Area2D {
     [Export(PropertyHint.File, "*.tscn")]
     public string destination;
+    public RoomManager currentRoom;
     public RoomManager destinationLoaded;
     public List<Player> overlappedPlayers = new List<Player>();
+    [Export]
+    public bool locked;
     public override void _Ready() {
         Connect("body_entered", new Callable(this, "OnBodyEntered"));
         Connect("body_exited", new Callable(this, "OnBodyExited"));
+
+        currentRoom = GetTree().GetFirstNodeInGroup("Rooms") as RoomManager;
     }
     public virtual void OnBodyEntered(CollisionObject2D other) {
         if(other != null && other.IsInGroup("Players")) {
@@ -19,7 +24,7 @@ public partial class RoomExit:Area2D {
                 return;
             else
                 overlappedPlayers.Add(p);
-            if(Creature.CreatureListsAreEqual(p.cam.targets, overlappedPlayers.Cast<Creature>().ToList())) {
+            if(!locked && !currentRoom.locked && Creature.CreatureListsAreEqual(p.cam.targets, overlappedPlayers.Cast<Creature>().ToList())) {
                 LoadRoom(p);
             }
         }
