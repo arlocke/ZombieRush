@@ -8,13 +8,16 @@
 [sub_resource type="AnimationNodeStateMachinePlayback" id="2"]
 
 [node name="Player" groups=["Players"] instance=ExtResource("1")]
+collision_mask = 257
+motion_mode = 1
+platform_floor_layers = 0
 canAim = false
 
 [node name="AnimationTreeBody" parent="." index="1"]
 parameters/playback = SubResource("1")
 
 [node name="BodySprite" parent="Body" index="0"]
-frame = 1
+frame = 2
 
 [node name="Face" parent="Body" index="1"]
 position = Vector2(0, 1)

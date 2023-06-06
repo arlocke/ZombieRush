@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://b65ry8olo008i"]
+
+[ext_resource type="Script" path="res://Scripts/Environment/Structure.cs" id="1_vs8uw"]
+[ext_resource type="PackedScene" uid="uid://u7xteeii783o" path="res://Scenes/Buildings/BuildingCityMed1.tscn" id="2_dokhu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_72nfp"]
+size = Vector2(512, 288)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l35tj"]
+size = Vector2(512, 160)
+
+[node name="Structure" type="Area2D"]
+script = ExtResource("1_vs8uw")
+
+[node name="WalkBehindTrigger" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(256, 176)
+shape = SubResource("RectangleShape2D_72nfp")
+
+[node name="TileMap" parent="." instance=ExtResource("2_dokhu")]
+
+[node name="Collision" type="StaticBody2D" parent="."]
+collision_layer = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision"]
+visible = false
+position = Vector2(256, 400)
+shape = SubResource("RectangleShape2D_l35tj")

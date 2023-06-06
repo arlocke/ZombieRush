@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.8" tiledversion="1.8.6" name="City" tilewidth="32" tileheight="32" tilecount="256" columns="16">
+<tileset version="1.10" tiledversion="1.10.1" name="City" tilewidth="32" tileheight="32" tilecount="256" columns="16">
  <image source="../../Sprites/Environment/Tilesets/Road_SpriteMap_2.0.png" width="512" height="512"/>
  <tile id="224">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="1" y="32">
+   <object id="1" x="1" y="0">
     <polygon points="0,0 30,0 30,24 15,31 0,24"/>
    </object>
   </objectgroup>
  </tile>
  <tile id="225">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="1" y="32">
+   <object id="1" x="1" y="0">
     <polygon points="0,0 30,0 30,24 15,31 0,24"/>
    </object>
   </objectgroup>
  </tile>
  <tile id="226">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="1" y="32">
+   <object id="1" x="1" y="0">
     <polygon points="0,0 30,0 30,24 15,31 0,24"/>
    </object>
   </objectgroup>
  </tile>
  <tile id="227">
   <objectgroup draworder="index" id="2">
-   <object id="1" x="1" y="32">
+   <object id="1" x="1" y="0">
     <polygon points="0,0 30,0 30,24 15,31 0,24"/>
    </object>
   </objectgroup>
