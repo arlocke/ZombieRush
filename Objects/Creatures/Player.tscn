@@ -17,7 +17,7 @@ canAim = false
 parameters/playback = SubResource("1")
 
 [node name="BodySprite" parent="Body" index="0"]
-frame = 2
+frame = 1
 
 [node name="Face" parent="Body" index="1"]
 position = Vector2(0, 1)

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://b65ry8olo008i"]
+[gd_scene load_steps=6 format=3 uid="uid://b65ry8olo008i"]
 
 [ext_resource type="Script" path="res://Scripts/Environment/Structure.cs" id="1_vs8uw"]
-[ext_resource type="PackedScene" uid="uid://u7xteeii783o" path="res://Scenes/Buildings/BuildingCityMed1.tscn" id="2_dokhu"]
+[ext_resource type="PackedScene" uid="uid://cwqo52x6b4ysk" path="res://Scenes/Buildings/BuildingCityMed1.tscn" id="2_dokhu"]
+[ext_resource type="PackedScene" uid="uid://cd0hqgmodhmvh" path="res://Objects/EnvironmentInteractable/StructureEntrance.tscn" id="3_denod"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_72nfp"]
 size = Vector2(512, 288)
@@ -18,11 +19,17 @@ position = Vector2(256, 176)
 shape = SubResource("RectangleShape2D_72nfp")
 
 [node name="TileMap" parent="." instance=ExtResource("2_dokhu")]
+layer_2/y_sort_enabled = true
 
 [node name="Collision" type="StaticBody2D" parent="."]
 collision_layer = 256
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collision"]
-visible = false
 position = Vector2(256, 400)
 shape = SubResource("RectangleShape2D_l35tj")
+
+[node name="StructureEntrance" parent="." instance=ExtResource("3_denod")]
+position = Vector2(224, 480)
+
+[node name="StructureEntrance2" parent="." instance=ExtResource("3_denod")]
+position = Vector2(256, 480)

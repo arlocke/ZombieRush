@@ -85,7 +85,7 @@ state = 5
 y_sort_enabled = true
 
 [node name="PlayerYui" parent="Navigation2D/MasterYSort/Players" instance=ExtResource("5_rh115")]
-position = Vector2(311, 706)
+position = Vector2(582, 844)
 motion_mode = 0
 platform_floor_layers = 4294967295
 
@@ -179,10 +179,13 @@ startingHVel = 0.15
 [node name="NPCs" type="Node2D" parent="Navigation2D/MasterYSort"]
 y_sort_enabled = true
 
+[node name="Structures" type="Node2D" parent="Navigation2D/MasterYSort"]
+y_sort_enabled = true
+
+[node name="Structure" parent="Navigation2D/MasterYSort/Structures" instance=ExtResource("13_uj3dn")]
+position = Vector2(332, 309)
+
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="Navigation2D"]
 visible = false
 position = Vector2(-70, 12)
 navigation_polygon = SubResource("1")
-
-[node name="Structure" parent="." instance=ExtResource("13_uj3dn")]
-position = Vector2(332, 309)

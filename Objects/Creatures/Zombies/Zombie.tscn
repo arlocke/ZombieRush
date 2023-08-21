@@ -1538,9 +1538,9 @@ metadata/_edit_lock_ = true
 metadata/_edit_lock_ = true
 
 [node name="ArmUpperL" type="Sprite2D" parent="Body/Sprites" index="0"]
-position = Vector2(6.22379, -15.8154)
-rotation = -0.0973389
-scale = Vector2(0.999998, 0.999998)
+position = Vector2(6.23796, -15.7742)
+rotation = -0.103396
+scale = Vector2(0.999996, 0.999996)
 texture = ExtResource("7_6oesl")
 centered = false
 offset = Vector2(-3, -2)
@@ -1549,9 +1549,9 @@ region_rect = Rect2(48, 8, 5, 7)
 metadata/_edit_lock_ = true
 
 [node name="ArmForeL" type="Sprite2D" parent="Body/Sprites" index="1"]
-position = Vector2(6.70972, -10.8391)
-rotation = -0.0961456
-scale = Vector2(0.999996, 0.999996)
+position = Vector2(6.75402, -10.801)
+rotation = -0.275833
+scale = Vector2(0.999994, 0.999994)
 texture = ExtResource("7_6oesl")
 centered = false
 offset = Vector2(-2.00001, -1.00001)
@@ -1560,9 +1560,9 @@ region_rect = Rect2(48, 24, 4, 7)
 metadata/_edit_lock_ = true
 
 [node name="HandL" type="Sprite2D" parent="Body/Sprites" index="2"]
-position = Vector2(6.09818, -6.76189)
-rotation = -0.0961456
-scale = Vector2(0.999996, 0.999996)
+position = Vector2(6.88102, -6.68014)
+rotation = -0.444311
+scale = Vector2(0.999994, 0.999994)
 texture = ExtResource("7_6oesl")
 centered = false
 offset = Vector2(-3.00001, -1.00001)
@@ -1571,8 +1571,8 @@ region_rect = Rect2(18, 62, 5, 4)
 metadata/_edit_lock_ = true
 
 [node name="FootL" type="Sprite2D" parent="Body/Sprites" index="3"]
-position = Vector2(3.0246, -1.96638)
-rotation = -0.0119423
+position = Vector2(3.01854, -1.97346)
+rotation = -0.00899549
 scale = Vector2(0.999998, 0.999998)
 texture = ExtResource("7_6oesl")
 centered = false
@@ -1582,8 +1582,8 @@ region_rect = Rect2(0, 62, 5, 4)
 metadata/_edit_lock_ = true
 
 [node name="ShinL" type="Sprite2D" parent="Body/Sprites" index="4"]
-position = Vector2(3.20824, -4.96074)
-rotation = 0.0612496
+position = Vector2(3.1569, -4.97026)
+rotation = 0.0461359
 scale = Vector2(0.999998, 0.999998)
 texture = ExtResource("7_6oesl")
 centered = false
@@ -1593,8 +1593,8 @@ region_rect = Rect2(48, 56, 4, 6)
 metadata/_edit_lock_ = true
 
 [node name="ThighL" type="Sprite2D" parent="Body/Sprites" index="5"]
-position = Vector2(2.12327, -8.93853)
-rotation = -0.0213001
+position = Vector2(2.09285, -8.9537)
+rotation = -0.0160442
 scale = Vector2(0.999999, 0.999999)
 texture = ExtResource("7_6oesl")
 centered = false
@@ -1604,7 +1604,7 @@ region_rect = Rect2(48, 40, 5, 8)
 metadata/_edit_lock_ = true
 
 [node name="Pelvis" type="Sprite2D" parent="Body/Sprites" index="6"]
-position = Vector2(0.123269, -7.93853)
+position = Vector2(0.0928519, -7.9537)
 texture = ExtResource("7_6oesl")
 centered = false
 offset = Vector2(-5, -5)
@@ -1613,8 +1613,8 @@ region_rect = Rect2(0, 49, 9, 7)
 metadata/_edit_lock_ = true
 
 [node name="FootR" type="Sprite2D" parent="Body/Sprites" index="7"]
-position = Vector2(-2.00978, -1.98354)
-rotation = 0.00597216
+position = Vector2(-2.00737, -1.98514)
+rotation = 0.0044985
 scale = Vector2(1.00002, 1.00002)
 texture = ExtResource("7_6oesl")
 centered = false
@@ -1624,9 +1624,9 @@ region_rect = Rect2(0, 57, 5, 4)
 metadata/_edit_lock_ = true
 
 [node name="ShinR" type="Sprite2D" parent="Body/Sprites" index="8"]
-position = Vector2(-1.7502, -4.97231)
-rotation = 0.0866328
-scale = Vector2(1, 1)
+position = Vector2(-1.81174, -4.97878)
+rotation = 0.0652557
+scale = Vector2(0.999999, 0.999999)
 texture = ExtResource("7_6oesl")
 centered = false
 offset = Vector2(-3, -1)
@@ -1635,9 +1635,9 @@ region_rect = Rect2(48, 49, 4, 6)
 metadata/_edit_lock_ = true
 
 [node name="ThighR" type="Sprite2D" parent="Body/Sprites" index="9"]
-position = Vector2(-2.87673, -8.93853)
-rotation = -0.0317653
-scale = Vector2(1, 1)
+position = Vector2(-2.90715, -8.9537)
+rotation = -0.023927
+scale = Vector2(0.999999, 0.999999)
 texture = ExtResource("7_6oesl")
 centered = false
 offset = Vector2(-2, -2)
@@ -1646,8 +1646,8 @@ region_rect = Rect2(48, 32, 4, 7)
 metadata/_edit_lock_ = true
 
 [node name="Chest" type="Sprite2D" parent="Body/Sprites" index="10"]
-position = Vector2(0.123269, -10.9385)
-rotation = 0.0203544
+position = Vector2(0.0928519, -10.9537)
+rotation = 0.0295505
 scale = Vector2(1, 1)
 texture = ExtResource("7_6oesl")
 centered = false
@@ -1657,8 +1657,8 @@ region_rect = Rect2(0, 34, 14, 14)
 metadata/_edit_lock_ = true
 
 [node name="Head" type="Sprite2D" parent="Body/Sprites" index="11"]
-position = Vector2(1.53887, -21.0489)
-rotation = 0.0651177
+position = Vector2(1.65319, -21.0396)
+rotation = 0.0894319
 scale = Vector2(1, 1)
 texture = ExtResource("7_6oesl")
 centered = false
@@ -1668,8 +1668,8 @@ region_rect = Rect2(0, 0, 15, 16)
 metadata/_edit_lock_ = true
 
 [node name="ArmUpperR" type="Sprite2D" parent="Body/Sprites" index="12"]
-position = Vector2(-4.77393, -16.0393)
-rotation = 0.0493503
+position = Vector2(-4.75723, -16.0992)
+rotation = 0.0714976
 scale = Vector2(0.999998, 0.999998)
 texture = ExtResource("7_6oesl")
 centered = false
@@ -1679,9 +1679,9 @@ region_rect = Rect2(48, 0, 5, 7)
 metadata/_edit_lock_ = true
 
 [node name="ArmForeR" type="Sprite2D" parent="Body/Sprites" index="13"]
-position = Vector2(-5.02058, -11.0454)
-rotation = -0.222282
-scale = Vector2(0.999998, 0.999998)
+position = Vector2(-5.11442, -11.112)
+rotation = -0.0611219
+scale = Vector2(0.999997, 0.999997)
 texture = ExtResource("7_6oesl")
 centered = false
 offset = Vector2(-2, -1.00001)
@@ -1690,9 +1690,9 @@ region_rect = Rect2(48, 16, 4, 7)
 metadata/_edit_lock_ = true
 
 [node name="HandR" type="Sprite2D" parent="Body/Sprites" index="14"]
-position = Vector2(-4.8937, -5.94793)
-rotation = -0.703907
-scale = Vector2(0.999991, 0.999991)
+position = Vector2(-5.80713, -6.0603)
+rotation = -0.317645
+scale = Vector2(0.99999, 0.99999)
 texture = ExtResource("7_6oesl")
 centered = false
 offset = Vector2(-3, -1.00001)
@@ -1722,7 +1722,6 @@ editor_settings/show_bone_gizmo = false
 
 [node name="bFootL" type="Bone2D" parent="Body/Skeleton/bPelvis/bThighL/bShinL" index="0"]
 position = Vector2(0, 3)
-scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, 0, 3)
 auto_calculate_length_and_angle = false
 length = 2.0
@@ -1751,7 +1750,6 @@ editor_settings/show_bone_gizmo = false
 
 [node name="bShinR" type="Bone2D" parent="Body/Skeleton/bPelvis/bThighR" index="0"]
 position = Vector2(1, 4)
-scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, 1, 4)
 editor_settings/show_bone_gizmo = false
 
@@ -1786,7 +1784,6 @@ editor_settings/show_bone_gizmo = false
 
 [node name="bHead" type="Bone2D" parent="Body/Skeleton/bPelvis/bChest" index="0"]
 position = Vector2(1, -11)
-scale = Vector2(1, 1)
 rest = Transform2D(1, 0, 0, 1, 1, -11)
 auto_calculate_length_and_angle = false
 length = 5.0

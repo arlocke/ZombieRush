@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cd0hqgmodhmvh"]
+
+[ext_resource type="Script" path="res://Scripts/Iteraction/StructureFloorEntrance.cs" id="1_56803"]
+[ext_resource type="Texture2D" uid="uid://ra317kf13kyh" path="res://Sprites/Environment/StructureEntrances/Door_OuterGlassCorporate1.png" id="2_ceued"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g3yko"]
+size = Vector2(32, 6)
+
+[node name="StructureEntrance" type="Area2D"]
+script = ExtResource("1_56803")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ceued")
+centered = false
+offset = Vector2(0, -64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(16, 3)
+shape = SubResource("RectangleShape2D_g3yko")

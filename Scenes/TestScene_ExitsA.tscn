@@ -23,6 +23,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(66, -12, 2109, -13, 210
 
 [node name="Room" type="Node2D" groups=["Rooms"]]
 script = ExtResource("1")
+type = 1
 
 [node name="TestCity" parent="." instance=ExtResource("16")]
 position = Vector2(0, 32)

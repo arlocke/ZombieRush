@@ -465,7 +465,7 @@ state = 5
 y_sort_enabled = true
 
 [node name="PlayerBusinessGuy" parent="Navigation2D/MasterYSort/Players" instance=ExtResource("1")]
-position = Vector2(353, 230)
+position = Vector2(400, 346)
 teamFaction = 1
 
 [node name="PlayerYui" parent="Navigation2D/MasterYSort/Players" instance=ExtResource("13")]
